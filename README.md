@@ -44,7 +44,7 @@ All three are implemented in `src/lib/docExporter.js`:
 
 | Export | Output |
 | --- | --- |
-| **Word (.docx)** | A real OOXML document. Fragments are regrouped into lines and paragraphs by geometry, headings are inferred from relative font size, and bold/italic/colour carry over. |
+| **Word (.docx)** | A real OOXML document that keeps the page's layout. Forms and invoices come back as real Word tables with borders; prose comes back as paragraphs. See [Layout-preserving Word export](#layout-preserving-word-export). |
 | **Plain text** | UTF-8 text, blank line between paragraphs, form feed between pages. |
 | **Images (PNG)** | One PNG per page — a plain file for a single page, a zip for several. |
 
@@ -258,6 +258,46 @@ The browser-only implementation can be excellent for simple and moderately compl
 - [ ] **Advanced** - Background reconstruction by rendering pages with target text objects removed
 
 ---
+
+## Layout-preserving Word export
+
+A first version of the Word export produced only flowing text. For an invoice
+or an air waybill that is close to useless: every box, border and column
+disappears and what is left is a wall of words in roughly the right order.
+
+PDF has no table object. A form is just text sitting on top of a few hundred
+thin rectangles, so the structure has to be recovered from the geometry. The
+approach is the one [pdf2docx](https://github.com/ArtifexSoftware/pdf2docx)
+uses for bordered tables:
+
+1. **Read the vector content.** PDF.js exposes text and images but not
+   graphics, so `pdfVectorExtract.js` walks the page's operator list directly,
+   tracking the transformation matrix through `save`/`restore`/`transform` and
+   decomposing each path into its own subpaths. Using a path's bounding box
+   instead would merge unrelated lines into one huge rectangle.
+2. **Filter out bar graphics.** A barcode is dozens of thin parallel bars.
+   Treated as rules, each bar becomes a grid line and the table shatters into
+   sliver rows. Two properties identify one: the bars are packed within a few
+   points of each other, and they all span the same short stretch. Density
+   alone is not enough — it eats legitimate rows on a dense form.
+3. **Snap rules into a grid.** Nearby coordinates collapse into single grid
+   lines, since forms draw one visual rule as several abutting segments.
+4. **Merge cells.** Every rectangle between adjacent grid lines is a candidate
+   cell, and cells merge across any edge where no rule was actually drawn.
+   Merged regions therefore fall out of the geometry rather than being guessed.
+5. **Place the text** in the cell that contains its centre point, and emit a
+   Word table with per-edge borders, column widths and row heights.
+
+A page with no usable grid skips all of this and converts to flowing
+paragraphs, so prose documents are not forced into a table. Each PDF page
+becomes its own Word section at the original page size.
+
+Measured on an 8-page air waybill: 2,320 table cells, all of them carrying
+real Word borders, with the field boxes landing where they do on the original.
+
+Row heights use `ATLEAST` rather than `EXACT`. Matching the PDF exactly would
+clip any line that reflows slightly wider in Word, and silently losing text is
+worse than a row growing a point or two.
 
 ## Deploying
 

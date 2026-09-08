@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
-import { docxText, download, editTextBlock, fixture, inspectPdf, openEditor, zipEntries } from './helpers.js'
+import { docxStructure, docxText, download, editTextBlock, fixture, inspectPdf, openEditor, zipEntries } from './helpers.js'
+import { unzipSync, strFromU8 } from 'fflate'
 
 test.describe('PDF export', () => {
   test('opens a PDF and shows its text as editable blocks', async ({ page }) => {
@@ -161,5 +162,73 @@ test.describe('Document export', () => {
     const text = Buffer.from(bytes).toString('utf8')
     expect(text).toContain('Page 1 of the long document')
     expect(text).toContain('Page 60 of the long document')
+  })
+})
+
+test.describe('DOCX layout fidelity', () => {
+  /**
+   * The complaint this addresses: a converted form used to arrive as bare
+   * text, with every box and border gone. A form must come back as a real
+   * Word table.
+   */
+  test('rebuilds a bordered form as a Word table, not loose text', async ({ page }) => {
+    await openEditor(page, 'form.pdf')
+
+    const { bytes } = await download(page, () =>
+      page.locator('[data-testid="export-docx"]').click(),
+    )
+    const s = docxStructure(bytes)
+
+    expect(s.tables, 'the form should become a table').toBeGreaterThanOrEqual(1)
+    expect(s.cells).toBeGreaterThan(10)
+    expect(s.drawnBorders, 'cells should carry real Word borders').toBeGreaterThan(20)
+    // Boxes that span several grid columns or rows must come back merged.
+    expect(s.columnSpans + s.verticalMerges).toBeGreaterThan(0)
+
+    // And the content is still all there.
+    expect(s.text).toContain('Shipper Name and Address')
+    expect(s.text).toContain('ACME FREIGHT LTD')
+    expect(s.text).toContain('LONDON HEATHROW')
+    expect(s.text).toContain('Total Charges Due Carrier')
+  })
+
+  test('keeps a barcode from shattering the table into sliver rows', async ({ page }) => {
+    await openEditor(page, 'form.pdf')
+
+    const { bytes } = await download(page, () =>
+      page.locator('[data-testid="export-docx"]').click(),
+    )
+    const s = docxStructure(bytes)
+
+    // The fixture's barcode is 40 tightly spaced bars. Treated as rules they
+    // would each add a row; the form itself has only five.
+    expect(s.rows, 'barcode bars must not become table rows').toBeLessThan(20)
+  })
+
+  test('still uses flowing paragraphs for a page with no table structure', async ({ page }) => {
+    await openEditor(page, 'sample.pdf')
+
+    const { bytes } = await download(page, () =>
+      page.locator('[data-testid="export-docx"]').click(),
+    )
+    const s = docxStructure(bytes)
+
+    // sample.pdf is prose with a single tinted band — no grid to recover, so
+    // forcing it into a table would be worse than leaving it as paragraphs.
+    expect(s.tables).toBe(0)
+    expect(s.text).toContain('Invoice 1000')
+  })
+
+  test('gives each page its own section at the original page size', async ({ page }) => {
+    await openEditor(page, 'form.pdf')
+
+    const { bytes } = await download(page, () =>
+      page.locator('[data-testid="export-docx"]').click(),
+    )
+    const files = unzipSync(new Uint8Array(bytes))
+    const xml = strFromU8(files['word/document.xml'])
+    // A4 is 595.28 x 841.89pt, which is 11906 x 16838 twips.
+    expect(xml).toMatch(/w:w="119\d\d"/)
+    expect(xml).toMatch(/w:h="168\d\d"/)
   })
 })
