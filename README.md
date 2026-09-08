@@ -259,6 +259,24 @@ The browser-only implementation can be excellent for simple and moderately compl
 
 ---
 
+## Deploying
+
+`vercel.json` pins the build settings, so a Vercel project does not need any
+dashboard configuration:
+
+```json
+{ "framework": "vite", "buildCommand": "npm run build", "outputDirectory": "dist" }
+```
+
+The `framework` field matters. A project that was previously created for a
+different framework keeps that preset in its settings, and the build fails with
+`No Next.js version detected` even though the code is a perfectly good Vite app.
+Setting it here overrides the dashboard preset and keeps the setting in version
+control.
+
+The `rewrites` entry sends every path to `index.html`, which the client-side
+router needs so that `/editor` and `/tools` work on a hard refresh.
+
 ## Tests
 
 ```bash
