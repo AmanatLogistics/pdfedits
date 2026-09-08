@@ -45,9 +45,22 @@ export default function PropertiesPanel() {
     }
   }
 
+  // 'exact' reproduces the page; 'flow' rebuilds it as reflowable paragraphs
+  // and tables. Forms want the first, prose wants the second.
   const handleDocxExport = () => runExport('docx', 'Word document', async () => {
-    const blob = await exportDocx(pageCount, extractedEdits, editLayers, { title: baseName })
+    const blob = await exportDocx(pageCount, extractedEdits, editLayers, {
+      title: baseName,
+      mode: 'exact',
+    })
     downloadFile(blob, `${baseName}.docx`, MIME.docx)
+  })
+
+  const handleDocxFlowExport = () => runExport('docxflow', 'Reflowable Word document', async () => {
+    const blob = await exportDocx(pageCount, extractedEdits, editLayers, {
+      title: baseName,
+      mode: 'flow',
+    })
+    downloadFile(blob, `${baseName}-reflowable.docx`, MIME.docx)
   })
 
   const handleImageExport = () => runExport('png', 'Page images', async () => {
@@ -229,7 +242,16 @@ export default function PropertiesPanel() {
             disabled={!file || Boolean(busyFormat)}
             onClick={handleDocxExport}
           >
-            📄 {busyFormat === 'docx' ? 'Exporting…' : 'Word (.docx)'}
+            📄 {busyFormat === 'docx' ? 'Exporting…' : 'Word — same layout'}
+          </button>
+          <button
+            className={styles.actionBtn}
+            data-testid="export-docx-flow"
+            disabled={!file || Boolean(busyFormat)}
+            title="Rebuilds the page as normal Word paragraphs and tables. Text reflows when edited, but the layout will not match the PDF exactly."
+            onClick={handleDocxFlowExport}
+          >
+            📝 {busyFormat === 'docxflow' ? 'Exporting…' : 'Word — reflowable'}
           </button>
           <button
             className={styles.actionBtn}

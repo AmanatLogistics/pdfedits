@@ -149,6 +149,21 @@ export async function extractVectorGeometry(page, viewport) {
   }
 
   let lineWidth = 1
+  let fillColor = '#000000'
+  let strokeColor = '#000000'
+  const shapes = []
+
+  // PDF.js hands colour components over as a typed array, not a plain Array,
+  // so an Array.isArray check here silently turns every shape black.
+  const toHex = (rgb) => {
+    if (!rgb || typeof rgb.length !== 'number' || rgb.length < 3) return '#000000'
+    const part = (v) => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0')
+    return `#${part(rgb[0])}${part(rgb[1])}${part(rgb[2])}`
+  }
+  const grayHex = (g) => {
+    const v = Math.round(Math.max(0, Math.min(1, g)) * 255)
+    return toHex([v, v, v])
+  }
 
   for (let i = 0; i < list.fnArray.length; i++) {
     const fn = list.fnArray[i]
@@ -168,6 +183,22 @@ export async function extractVectorGeometry(page, viewport) {
     }
     if (fn === OPS.setLineWidth) {
       lineWidth = args[0]
+      continue
+    }
+    if (fn === OPS.setFillRGBColor) {
+      fillColor = toHex(args)
+      continue
+    }
+    if (fn === OPS.setStrokeRGBColor) {
+      strokeColor = toHex(args)
+      continue
+    }
+    if (fn === OPS.setFillGray) {
+      fillColor = grayHex(args[0])
+      continue
+    }
+    if (fn === OPS.setStrokeGray) {
+      strokeColor = grayHex(args[0])
       continue
     }
     if (fn !== OPS.constructPath) continue
@@ -191,7 +222,29 @@ export async function extractVectorGeometry(page, viewport) {
     const strokeThickness = Math.max(lineWidth * scale, 0.5)
 
     if (isStroke || isBoth) {
-      for (const seg of decoded.segments) addSegment(seg.a, seg.b, strokeThickness)
+      for (const seg of decoded.segments) {
+        addSegment(seg.a, seg.b, strokeThickness)
+
+        // Keep the drawn geometry too, so a fixed-layout export can reproduce
+        // the page exactly instead of inferring a table from it. Only
+        // axis-aligned segments though: a diagonal's bounding box is a large
+        // rectangle, and filling it paints a black block over the page where
+        // the original has a thin tick.
+        const dx = Math.abs(seg.a.x - seg.b.x)
+        const dy = Math.abs(seg.a.y - seg.b.y)
+        if (dx > AXIS_TOLERANCE && dy > AXIS_TOLERANCE) continue
+
+        const half = strokeThickness / 2
+        shapes.push({
+          // Give the thin axis its stroke width, since a zero-height rule
+          // would otherwise vanish.
+          x0: Math.min(seg.a.x, seg.b.x) - (dx <= AXIS_TOLERANCE ? half : 0),
+          x1: Math.max(seg.a.x, seg.b.x) + (dx <= AXIS_TOLERANCE ? half : 0),
+          y0: Math.min(seg.a.y, seg.b.y) - (dy <= AXIS_TOLERANCE ? half : 0),
+          y1: Math.max(seg.a.y, seg.b.y) + (dy <= AXIS_TOLERANCE ? half : 0),
+          fill: strokeColor,
+        })
+      }
     }
 
     if (isFill || isBoth) {
@@ -217,12 +270,13 @@ export async function extractVectorGeometry(page, viewport) {
           })
         }
       } else if (long >= MIN_RULE_LENGTH) {
-        blocks.push(bounds)
+        blocks.push({ ...bounds, fill: fillColor })
       }
+      shapes.push({ ...bounds, fill: fillColor })
     }
   }
 
-  return { hRules, vRules, blocks }
+  return { hRules, vRules, blocks, shapes }
 }
 
 /**

@@ -44,7 +44,8 @@ All three are implemented in `src/lib/docExporter.js`:
 
 | Export | Output |
 | --- | --- |
-| **Word (.docx)** | A real OOXML document that keeps the page's layout. Forms and invoices come back as real Word tables with borders; prose comes back as paragraphs. See [Layout-preserving Word export](#layout-preserving-word-export). |
+| **Word — same layout** | Reproduces the page. Every run of text and every rule is placed at its exact PDF coordinate, so a form looks like the form. |
+| **Word — reflowable** | Rebuilds the page as ordinary Word paragraphs and tables. Text reflows when edited, at the cost of not matching the page exactly. |
 | **Plain text** | UTF-8 text, blank line between paragraphs, form feed between pages. |
 | **Images (PNG)** | One PNG per page — a plain file for a single page, a zip for several. |
 
@@ -259,16 +260,33 @@ The browser-only implementation can be excellent for simple and moderately compl
 
 ---
 
-## Layout-preserving Word export
+## Word export: two modes
 
-A first version of the Word export produced only flowing text. For an invoice
-or an air waybill that is close to useless: every box, border and column
-disappears and what is left is a wall of words in roughly the right order.
+PDF and Word disagree about what a document is. A PDF places every glyph and
+every line at an absolute coordinate. Word flows content — text wraps, tables
+grow, paragraphs reflow. There is no conversion that is both a perfect visual
+match and naturally editable as prose, so this offers both and lets you pick.
 
-PDF has no table object. A form is just text sitting on top of a few hundred
-thin rectangles, so the structure has to be recovered from the geometry. The
-approach is the one [pdf2docx](https://github.com/ArtifexSoftware/pdf2docx)
-uses for bordered tables:
+### Word — same layout (the default)
+
+Every text run and every rule becomes its own frame anchored to an exact page
+position (`w:framePr` with `hAnchor`/`vAnchor` set to `page`), on a page sized
+to the PDF's own page with zero margins. Word honours those coordinates, so the
+result matches the original. This is the route LibreOffice's PDF import and
+most "keep layout" converters take.
+
+You can click any piece of text and edit it in place. What you cannot do is
+retype a paragraph and have it reflow, because there are no paragraphs — there
+are positioned boxes.
+
+Rules are reproduced as thin filled rectangles, which is exactly how the PDF
+draws them, so borders are reproduced rather than approximated.
+
+### Word — reflowable
+
+Rebuilds the page structure instead of its coordinates, following what
+[pdf2docx](https://github.com/ArtifexSoftware/pdf2docx) does for bordered
+tables:
 
 1. **Read the vector content.** PDF.js exposes text and images but not
    graphics, so `pdfVectorExtract.js` walks the page's operator list directly,
@@ -280,24 +298,24 @@ uses for bordered tables:
    sliver rows. Two properties identify one: the bars are packed within a few
    points of each other, and they all span the same short stretch. Density
    alone is not enough — it eats legitimate rows on a dense form.
-3. **Snap rules into a grid.** Nearby coordinates collapse into single grid
-   lines, since forms draw one visual rule as several abutting segments.
-4. **Merge cells.** Every rectangle between adjacent grid lines is a candidate
-   cell, and cells merge across any edge where no rule was actually drawn.
-   Merged regions therefore fall out of the geometry rather than being guessed.
-5. **Place the text** in the cell that contains its centre point, and emit a
-   Word table with per-edge borders, column widths and row heights.
+3. **Snap rules into a grid**, since forms draw one visual rule as several
+   abutting segments.
+4. **Merge cells** across any edge where no rule was actually drawn, so merged
+   regions fall out of the geometry rather than being guessed.
+5. **Place the text** in the cell containing its centre, and emit a Word table
+   with per-edge borders, column widths and row heights.
 
-A page with no usable grid skips all of this and converts to flowing
-paragraphs, so prose documents are not forced into a table. Each PDF page
-becomes its own Word section at the original page size.
+A page with no usable grid converts to flowing paragraphs, so prose is not
+forced into a table. Row heights use `ATLEAST` rather than `EXACT`: matching the
+PDF exactly would clip any line that reflows wider in Word, and silently losing
+text is worse than a row growing a point or two.
 
-Measured on an 8-page air waybill: 2,320 table cells, all of them carrying
-real Word borders, with the field boxes landing where they do on the original.
+### A note on colour
 
-Row heights use `ATLEAST` rather than `EXACT`. Matching the PDF exactly would
-clip any line that reflows slightly wider in Word, and silently losing text is
-worse than a row growing a point or two.
+PDF.js hands colour components over as a typed array rather than a plain Array.
+An `Array.isArray` check on that path silently turns every shape black, which is
+worth knowing because the failure looks like a rendering bug rather than a type
+bug — a page of solid black boxes where the original had pale green shading.
 
 ## Deploying
 
