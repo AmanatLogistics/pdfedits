@@ -16,12 +16,16 @@ import {
   Document,
   HeadingLevel,
   PageBreak,
+  PageOrientation,
   Packer,
   Paragraph,
   TextRun,
 } from 'docx'
 import { zipSync, strToU8 } from 'fflate'
-import { BASE_SCALE, extractTextItems, renderPage } from './pdfRenderer.js'
+import { BASE_SCALE, extractTextItems, getPdfDocument, renderPage } from './pdfRenderer.js'
+import { extractVectorGeometry, mergeRules, separateBarGraphics } from './pdfVectorExtract.js'
+import { assignTextToCells, buildGrid } from './tableReconstruct.js'
+import { gridToTable, looseParagraphs, toTwips } from './docxLayout.js'
 
 /** Fragments whose baselines differ by less than this are on the same line. */
 const LINE_TOLERANCE_RATIO = 0.5
@@ -203,51 +207,145 @@ function dominantFontSize(pages) {
 }
 
 /**
+ * Reads one page's geometry: its size, its table grid (if it has one), and the
+ * text placed into that grid.
+ */
+async function analysePage(pageNum, extractedEdits, editLayers) {
+  const pdf = getPdfDocument()
+  const page = await pdf.getPage(pageNum)
+  // Work at scale 1 so every measurement is already in PDF points.
+  const viewport = page.getViewport({ scale: 1 })
+
+  const rawItems = await extractTextItems(pageNum)
+  const edited = applyEdits(rawItems, extractedEdits?.[pageNum], editLayers?.[pageNum])
+  // extractTextItems reports in BASE_SCALE canvas units; the rules are in
+  // points, so bring the text into the same space before matching them up.
+  const items = edited.map((item) => ({
+    ...item,
+    x: item.x / BASE_SCALE,
+    y: item.y / BASE_SCALE,
+    width: (item.width || 0) / BASE_SCALE,
+    height: (item.height || 0) / BASE_SCALE,
+    fontSize: (item.fontSize || 12) / BASE_SCALE,
+  }))
+
+  let grid = null
+  let blocks = []
+  let graphics = []
+  try {
+    const geometry = await extractVectorGeometry(page, viewport)
+    blocks = geometry.blocks
+
+    // Barcodes and similar bar graphics must come out of the ruling set before
+    // the grid is built, or every bar becomes a grid line.
+    const h = separateBarGraphics(mergeRules(geometry.hRules, 'h'), 'h')
+    const v = separateBarGraphics(mergeRules(geometry.vRules, 'v'), 'v')
+    graphics = [...h.graphics, ...v.graphics]
+    grid = buildGrid(h.rules, v.rules)
+  } catch (err) {
+    // A page whose vector content cannot be read still converts as flowing text.
+    console.warn(`Could not read vector geometry on page ${pageNum}`, err)
+  }
+
+  return { pageNum, width: viewport.width, height: viewport.height, items, grid, blocks, graphics }
+}
+
+/** Flowing-paragraph rendering, for pages with no table structure. */
+function flowingParagraphs(items, bodySize) {
+  const paragraphs = groupIntoParagraphs(groupIntoLines(items))
+  return paragraphs.map((paragraph) => {
+    const source = paragraph.first || {}
+    const heading = headingFor(paragraph.maxFontSize, bodySize)
+    return new Paragraph({
+      heading,
+      alignment: AlignmentType.LEFT,
+      spacing: { after: 120 },
+      children: paragraph.lines.map(
+        (line, lineIndex) =>
+          new TextRun({
+            text: line,
+            break: lineIndex > 0 ? 1 : 0,
+            bold: Boolean(source.fontBold),
+            italics: Boolean(source.fontItalic),
+            color: String(source.color || '#000000').replace('#', '').toUpperCase() || '000000',
+            size: heading ? undefined : Math.max(2, Math.round((paragraph.maxFontSize || bodySize) * 2)),
+          }),
+      ),
+    })
+  })
+}
+
+/**
  * Builds a Word document from the PDF.
+ *
+ * Each page is converted in whichever way suits it. A page with ruling lines —
+ * an invoice, an air waybill, any form — is rebuilt as a real Word table so its
+ * boxes and borders survive and stay editable. A page of prose has no grid to
+ * recover, so it converts to flowing paragraphs instead. Word sections are
+ * created per page so each keeps the original page size and orientation.
+ *
  * @returns {Promise<Blob>} the .docx file
  */
 export async function exportDocx(pageCount, extractedEdits, editLayers, options = {}) {
-  const pages = await extractDocumentContent(pageCount, extractedEdits, editLayers)
-  const bodySize = dominantFontSize(pages)
-  const children = []
+  const preserveLayout = options.preserveLayout !== false
 
-  pages.forEach((page, pageIndex) => {
-    if (pageIndex > 0) {
-      // Keep the PDF's pagination visible in Word.
-      children.push(new Paragraph({ children: [new PageBreak()] }))
+  const analysed = []
+  for (let pageNum = 1; pageNum <= pageCount; pageNum++) {
+    try {
+      analysed.push(await analysePage(pageNum, extractedEdits, editLayers))
+    } catch (err) {
+      console.warn(`Could not analyse page ${pageNum}`, err)
+      analysed.push({ pageNum, width: 595.28, height: 841.89, items: [], grid: null, blocks: [] })
+    }
+  }
+
+  // Body size is measured from the flowing pages, where headings are meaningful.
+  const bodySize = dominantFontSize(
+    analysed.map((p) => ({ paragraphs: groupIntoParagraphs(groupIntoLines(p.items)) })),
+  )
+
+  const sections = analysed.map((page) => {
+    const useTable = preserveLayout && page.grid
+    const children = []
+
+    if (useTable) {
+      const { assignments, outside } = assignTextToCells(page.grid, page.items)
+      // Anything above the grid keeps its place ahead of the table.
+      const above = outside.filter((i) => i.y < page.grid.bounds.y0)
+      const below = outside.filter((i) => i.y >= page.grid.bounds.y0)
+      children.push(...looseParagraphs(above))
+      children.push(gridToTable(page.grid, assignments, page.blocks))
+      children.push(...looseParagraphs(below))
+    } else {
+      children.push(...flowingParagraphs(page.items, bodySize))
     }
 
-    for (const paragraph of page.paragraphs) {
-      const source = paragraph.first || {}
-      // PDF sizes are in canvas units scaled by BASE_SCALE; Word wants
-      // half-points, so points * 2.
-      const points = (paragraph.maxFontSize || bodySize) / BASE_SCALE
-      const heading = headingFor(paragraph.maxFontSize, bodySize)
+    if (children.length === 0) children.push(new Paragraph({ children: [] }))
 
-      children.push(
-        new Paragraph({
-          heading,
-          alignment: AlignmentType.LEFT,
-          spacing: { after: 120 },
-          children: paragraph.lines.map(
-            (line, lineIndex) =>
-              new TextRun({
-                text: line,
-                // Lines within a paragraph were separate lines in the PDF.
-                break: lineIndex > 0 ? 1 : 0,
-                bold: Boolean(source.fontBold),
-                italics: Boolean(source.fontItalic),
-                color: toDocxColor(source.color),
-                // Headings carry their own sizing from the Word style.
-                size: heading ? undefined : Math.max(8, Math.round(points * 2)),
-              }),
-          ),
-        }),
-      )
-    }
+    // Margins align the table with where the content sat on the PDF page.
+    const bounds = useTable ? page.grid.bounds : null
+    const margin = bounds
+      ? {
+          top: toTwips(Math.max(bounds.y0, 0)),
+          left: toTwips(Math.max(bounds.x0, 0)),
+          right: toTwips(Math.max(page.width - bounds.x1, 0)),
+          bottom: toTwips(Math.max(page.height - bounds.y1, 0)),
+        }
+      : { top: 720, left: 720, right: 720, bottom: 720 }
 
-    if (page.paragraphs.length === 0) {
-      children.push(new Paragraph({ children: [new TextRun({ text: '' })] }))
+    return {
+      properties: {
+        page: {
+          size: {
+            width: toTwips(page.width),
+            height: toTwips(page.height),
+            orientation:
+              page.width > page.height ? PageOrientation.LANDSCAPE : PageOrientation.PORTRAIT,
+          },
+          margin,
+        },
+      },
+      children,
     }
   })
 
@@ -255,7 +353,7 @@ export async function exportDocx(pageCount, extractedEdits, editLayers, options 
     creator: 'PDFZero',
     title: options.title || 'Converted PDF',
     description: 'Converted from PDF by PDFZero',
-    sections: [{ properties: {}, children }],
+    sections,
   })
 
   // toBlob is the browser-safe packer; toBuffer would need a Buffer polyfill.
