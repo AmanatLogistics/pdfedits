@@ -1,153 +1,309 @@
-# Browser PDF Editor
+![cover](public/demos/cover.png)
 
-A PDF editor that runs entirely in the browser. Open a PDF, edit the text that
-is already in it, add images, shapes, highlights, drawings and signatures,
-reorganise the pages, and download the result.
+# 📄PDFZero - Free Open-Source PDF Editor. 
 
-**Nothing is uploaded.** The file is read with `FileReader`, rendered with
-PDF.js, and rewritten with pdf-lib — all in the tab. There is no backend, no
-API key, and no external service.
+> Edit PDFs without uploading anywhere. No task limits. No sign-up. Free.
 
-## Running it
+[![Open Source](https://img.shields.io/badge/open%20source-yes-brightgreen)]()
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Privacy First](https://img.shields.io/badge/privacy-100%25%20local-success)]()
+[![Offline Ready](https://img.shields.io/badge/offline-ready-blueviolet)]()
+[![Built with React](https://img.shields.io/badge/built%20with-React-61DAFB?logo=react&logoColor=white)]()
+[![PDF.js](https://img.shields.io/badge/PDF.js-Mozilla-orange)]()
+[![pdf-lib](https://img.shields.io/badge/pdf--lib-core-red)]()
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-pink.svg)]()
 
-```bash
-npm install
-npm run dev          # http://localhost:3000
+---  
+
+## About this fork
+
+This is a fork of [bevinkatti/pdfzero](https://github.com/bevinkatti/pdfzero) (MIT).
+Upstream's editor is good; its export was not. This fork fixes that.
+
+**1. Edited pages are no longer flattened into images.**
+Upstream's `exportPdf` tried a "visual" exporter first, which re-rendered every
+edited page to a PNG at 3x and embedded that. The page stopped being a
+document: no selectable text, nothing searchable or copyable, blurry on zoom,
+and roughly 20x the file size. On a three-page sample, editing one heading
+turned page 1 into a single image and grew the file from 2 KB to 42 KB.
+
+The text-preserving vector exporter is now the default. The same edit now
+produces a 2.5 KB file where page 1 still contains real text, with the
+replacement drawn at the original position and size. Flattening is still
+available as an explicit **Flattened PDF (image)** button for when an exact
+pixel match with the preview matters more than keeping the text.
+
+**2. The document export buttons now do something.**
+Word, Images and Plain text were placeholders that showed a "— v1.1" toast:
+
+```jsx
+<button onClick={() => toast('DOCX export — v1.1')}>Word (.docx)</button>
 ```
 
-```bash
-npm run build && npm run start   # production
-npm test                         # lint, typecheck, coordinate tests, e2e tests
-```
+All three are implemented in `src/lib/docExporter.js`:
 
-`npm install` and `npm run dev`/`build` copy the PDF.js worker, cmaps and
-standard-font data into `public/pdfjs/` via `scripts/copy-pdfjs-assets.mjs`.
-That directory is generated, and git-ignored.
-
-## What it does
-
-| Area | Details |
+| Export | Output |
 | --- | --- |
-| Text already in the PDF | Click it and type. Detects the font family, weight, slant and size from the document. |
-| New text | Font size, family (Helvetica / Times / Courier), bold, italic, alignment, line height, colour. |
-| Images | PNG and JPEG embed directly; WebP, GIF, BMP and AVIF are converted to PNG first. |
-| Shapes | Rectangle, ellipse, line, arrow — stroke colour and width, optional fill, opacity. |
-| Highlight | Drawn with a multiply blend, so the text underneath stays readable. |
-| Freehand and signatures | Captured as vector strokes, not bitmaps, so they stay sharp at any zoom. |
-| Pages | Reorder by dragging a thumbnail, rotate, duplicate, delete. |
-| History | Undo/redo with related edits coalesced into single steps. |
-| Zoom | 10%–600% plus fit-width. |
+| **Word (.docx)** | A real OOXML document. Fragments are regrouped into lines and paragraphs by geometry, headings are inferred from relative font size, and bold/italic/colour carry over. |
+| **Plain text** | UTF-8 text, blank line between paragraphs, form feed between pages. |
+| **Images (PNG)** | One PNG per page — a plain file for a single page, a zip for several. |
 
-Keyboard: `V` select, `T` text, `I` image, `D` draw, `H` highlight, `R`
-rectangle, `O` ellipse, `L` line, `A` arrow, `S` signature; `Ctrl/Cmd+Z` and
-`Ctrl/Cmd+Shift+Z` for history, `Ctrl/Cmd +/-/0` for zoom, arrow keys to nudge
-(hold `Shift` for 10pt steps), `Delete` to remove, `Esc` to deselect.
+All three apply the user's edits, so exporting after changing text gives the
+edited wording, not the original.
 
-## How it fits together
+**3. Smaller fixes.**
+- `npm run lint` was configured but had no ESLint config, so it always errored.
+  There is one now, and the source passes with no errors.
+- Downloads append the anchor to the DOM before clicking, which Firefox
+  requires; upstream's did not.
+- The vector exporter copies the source buffer before handing it to pdf-lib.
+  PDF.js detaches any buffer it is given, and the same buffer is reused between
+  renders and exports.
+- Reordered two effects in `TextBlock.jsx` that called `startEdit`/`doCommit`
+  before those callbacks were declared.
 
+**4. Tests.** Upstream had none. There is now a Playwright suite that drives the
+real app and verifies the exported files — including asserting that an edited
+page comes back with text and *no* page-sized image, which is the regression
+that motivated this fork.
+
+---
+
+## Why PDFZero?
+
+Many PDF tools charge monthly, cap file sizes, or limit what you can do on free plans. PDFZero keeps the core workflow simple: edit locally, keep your files on-device, and use the important tools without a paywall.  
+
+## Demo  
+![demo](public/demos/demo.gif)  
+  
+## 🌐 Try PDFZero Live
+
+🔗 **https://pdfzero-editor.vercel.app**  
+Edit, organize, secure, and optimize PDFs directly in your browser - all FREE while keeping your files on your device.  
+  
+
+---  
+---
+
+| Feature | Other PDF tools | **PDFZero** |
+|---|---|---|
+| Edit existing PDF text | Often paid or limited | **Free** |
+| File size limits | Often capped | **No file size limit** |
+| Daily task limits | Free plans may stop after a few tasks | **No task limits** |
+| File privacy | Files may be uploaded to a server | **100% local** |
+| Offline use | Usually browser or cloud-based | **Works offline** |
+| Open source | Rare | **MIT** |
+| OCR for scanned PDFs | Often paid | **Free** |
+| e-Sign PDFs | Often paid | **Free** |
+| Cost | Many plans charge monthly | **Free** |
+
+---
+
+## Features
+
+### Edit
+- **Edit existing PDF text** - click any text block, edit in-place, and auto-detect the original font
+- Add new text boxes anywhere on the page
+- Change font family, size, color, bold, and italic
+- Add, replace, and remove images
+
+### Organize
+- Merge multiple PDFs with drag-to-reorder
+- Split PDF by page range
+- Reorder pages via drag-and-drop
+- Rotate individual pages
+- Extract specific pages
+
+### Optimize
+- Compress PDF with browser-native object stream compression
+- PDF/A compliance check
+
+### Secure
+- Password protect with AES-256
+- Remove existing passwords
+- Redact sensitive content permanently
+- Add text watermarks
+
+### Smart
+- OCR for scanned and image PDFs with Tesseract.js, running offline
+- AI font matching to keep text edits visually consistent
+
+---
+
+## Tech Stack
+
+| Library | Purpose |
+|---|---|
+| [pdf-lib](https://pdf-lib.js.org/) | PDF creation, modification, export |
+| [PDF.js](https://mozilla.github.io/pdf.js/) | PDF rendering and text extraction |
+| [Tesseract.js](https://tesseract.projectnaptha.com/) | OCR for scanned PDFs |
+| [React](https://react.dev/) | UI framework |
+| [Zustand](https://zustand-demo.pmnd.rs/) | State management |
+| [Vite](https://vitejs.dev/) | Build tool |
+
+**Zero backend. Zero tracking. Zero analytics. 100% browser-native.**
+
+---
+
+## Getting Started
+
+```bash
+git clone https://github.com/bevinkatti/pdfzero.git
+cd pdfzero
+npm install
+npm run dev
+npm run build
 ```
-src/lib/          the parts that have nothing to do with React
-  types.ts        the document model
-  geometry.ts     affine transforms, hit testing, rotation
-  fonts.ts        pdf-lib standard-font metrics, WinAnsi encodability
-  textLayout.ts   word wrap and alignment, shared by preview and export
-  textExtract.ts  turns PDF.js text items into editable runs
-  colors.ts       colour conversion, page-background sampling
-  elements.ts     element factories and defaults
-  assets.ts       image decoding and transcoding
-  export.ts       writes the PDF with pdf-lib
-  store.ts        reducer, selection, undo/redo
-  pdfjs.ts        PDF.js loading and error translation
-src/components/   the UI
+
+---
+
+## Architecture
+
+```text
+src/
+  components/
+    editor/          # PdfCanvas, TextBlock, AnnotationLayer, Toolbars
+    layout/          # Navbar
+    ui/              # DropZone, shared components
+  lib/
+    pdfRenderer.js   # PDF.js wrapper - render pages, extract text
+    pdfExporter.js   # pdf-lib wrapper - export, merge, split, etc.
+    docExporter.js   # Word (.docx), plain text and PNG export
+  pages/
+    Landing.jsx      # Marketing landing page
+    Editor.jsx       # Main PDF editor
+    Tools.jsx        # Individual tool UIs
+  store/
+    pdfStore.js      # Zustand global state
+  styles/
+    globals.css      # Design system tokens
 ```
 
-### One coordinate system
+### Text editing architecture
 
-Every element stores its geometry in **view space**: PDF points, origin at the
-top-left of the page *as displayed* (the page's own `/Rotate` already applied),
-y increasing downwards. The renderer multiplies by the zoom factor; the
-exporter maps back into PDF user space using the inverse of the PDF.js viewport
-matrix, captured once per page at load.
+PDFZero uses a layered editing model:
 
-That inverse matrix is also what makes rotated pages work. pdf-lib's
-`drawSvgPath` emits `translate(x, y) · rotate(θ) · scale(1, -1)`, and view space
-is always user space flipped in y and rotated by `/Rotate` — so a single angle,
-recovered with `atan2` from the matrix, positions text, images, shapes and ink
-alike. No special cases per rotation. `tests/coords.test.mts` checks the round
-trip against all four page rotations to three decimal places.
+```text
+PDF bytes
+  -> PDF.js render + text extraction
+  -> canonical text run metadata
+  -> browser overlay editor
+  -> layout-fit/export planner
+  -> pdf-lib browser export
+  -> future PDFium/MuPDF advanced engine
+```
 
-Rotation applied *in the editor* is a page property, not an element one:
-elements stay in the unrotated view space and the exporter calls
-`setRotation`, so annotations rotate with the content they were placed on.
+Current browser path:
 
-### Text that matches on export
+1. **Render** - PDF.js renders each page to a high-resolution canvas.
+2. **Extract** - PDF.js extracts text runs, transforms, font ids, approximate font names, color, baseline, ascent/descent, and edit boxes.
+3. **Model** - PDFZero stores original run metadata: text, bbox, baseline, font fallback, color, line height, estimated glyph advances, and max edit dimensions.
+4. **Overlay** - Editable DOM text is positioned over the PDF raster and uses local background sampling to hide the original text while editing.
+5. **Fit** - On export, edited text is laid out line-by-line and fit back to the original run width using conservative character spacing and small size adjustment.
+6. **Export** - pdf-lib writes background patches, replacement text, annotations, page operations, and document tools.
 
-Preview and export measure with the **same pdf-lib `PDFFont` objects** and run
-the same `layoutText`, so line breaks, alignment and baselines are identical in
-the editor and in the downloaded file. The CSS stacks are metric-compatible
-with the PDF standard fonts (Arial/Helvetica and Courier New/Courier share
-width tables), so the rasterised preview agrees too.
+This is not yet full Acrobat/Foxit-style object editing. The current path is an overlay-and-repair browser exporter. The production-grade target is an advanced engine that can inspect and rewrite PDF page objects directly:
 
-### Editing text that is already in the PDF
+```text
+src/pdf/
+  engines/
+    pdfjsEngine.ts       # Browser render/extract fallback
+    pdfiumEngine.ts      # Planned object-level editor
+    mupdfEngine.ts       # Optional native/WASM alternative
+  model/
+    TextRun.ts           # glyphs, fonts, colors, matrices, resources
+    FontResource.ts
+    EditOperation.ts
+  layout/
+    glyphMetrics.ts
+    fitText.ts
+    paragraphReflow.ts
+  background/
+    renderWithoutText.ts
+    inpaintPatch.ts
+  export/
+    exportPlanner.ts
+    pdfLibOverlayExporter.ts
+    objectRewriteExporter.ts
+  repair/
+    visualDiff.ts
+    autoFitRepair.ts
+```
 
-A PDF's glyphs are drawing instructions in a content stream; they cannot be
-edited in place, and pdf-lib cannot remove them. So the editor does what PDF
-editors generally do:
+The browser-only implementation can be excellent for simple and moderately complex PDFs. True high-level editing for embedded subset fonts, object removal, kerning-preserving replacement, complex scripts, and image/gradient background reconstruction requires PDFium, MuPDF, or another real PDF content engine.
 
-1. `getTextContent()` gives per-fragment transforms, which are stitched back
-   into whole lines (PDF.js splits a sentence across many items).
-2. Clicking a run samples the rendered page for the dominant colour in a ring
-   around the glyphs — white paper, a tinted table row, a coloured callout.
-3. A patch rectangle in that colour is painted over the original text, and the
-   new text is drawn on top. The editor paints the same patch, so the preview
-   and the export agree.
+---
 
-Elements derived this way are marked **from PDF** in the properties panel, and
-the patch colour is editable if the sampled colour is wrong.
+## Roadmap
 
-## Known limits
+- [x] PDF rendering and text extraction overlay
+- [x] Add new text boxes
+- [x] Drag-and-drop text positioning
+- [x] Annotations (highlight, redact, shapes)
+- [x] Merge, split, compress tools
+- [x] Watermark, rotate, page management
+- [x] Preserve richer original text-run metadata for export fitting
+- [x] Fit edited text back to the original run width during pdf-lib export
+- [ ] **v1.1** - OCR via Tesseract.js with searchable text layer
+- [ ] **v1.1** - Visual export diff for edited regions
+- [ ] **v1.1** - Packaged fallback font registry with width-vector matching
+- [ ] **v1.1** - Image add/replace/remove
+- [ ] **v1.1** - e-Sign with canvas signature pad
+- [ ] **v1.2** - Paragraph grouping and multi-line reflow
+- [x] **v1.2** - PDF to Word/DOCX export *(done in this fork)*
+- [ ] **v1.2** - Form filling and flattening
+- [ ] **v1.2** - Batch processing
+- [ ] **Advanced** - PDFium/MuPDF object-level text replacement
+- [ ] **Advanced** - Embedded font reuse and kerning-preserving export
+- [ ] **Advanced** - Background reconstruction by rendering pages with target text objects removed
 
-- **Non-Latin text.** Only PDF's built-in fonts are embedded, which are limited
-  to WinAnsi. Cyrillic, Greek, CJK, and characters such as `→` cannot be
-  encoded; they are flagged in the properties panel as you type, exported as
-  `?`, and listed after download. Lifting this means embedding a Unicode TTF
-  with `@pdf-lib/fontkit` — `fonts.ts` is where that would go.
-- **Rotated and sheared original text** is not offered for inline editing (the
-  hit-test rejects it), because a horizontal editing box would misrepresent it.
-  It still renders and exports untouched.
-- **Scanned PDFs** have no text layer, so there is nothing to click; annotation
-  tools work normally.
-- Text is patched, not removed, so the original glyphs remain in the file
-  underneath the patch. This is not a redaction tool.
+---
 
 ## Tests
 
-`tests/coords.test.mts` (Node) checks the view↔user round trip across all four
-page rotations, editor-applied rotation, and that a duplicated page gets an
-independent content stream rather than a second reference to the first.
-
-`tests/e2e/` (Playwright) drives the real app: upload → edit → export →
-**re-open the exported PDF and verify it**. Text is checked by position and
-size; shapes, highlights, ink and images have no text items, so those are
-verified by rendering the exported PDF and sampling pixels where each element
-was drawn. It also covers the invalid-file path, a 150-page document, page
-reordering/rotation/duplication/deletion, and that preview and export wrap long
-text into the same lines.
-
 ```bash
-npm run test:coords
-npm run test:e2e
+npm run fixtures     # generate the sample PDFs
+npm run test:e2e     # drive the app and check the exported files
+npm test             # lint + end-to-end
 ```
 
-## A note on the canvas layer
+The suite opens a PDF, edits text, exports, and then reads the exported file
+back. The load-bearing assertion is that an edited page comes back with real
+text items and zero page-sized images — the check that would have caught the
+flattening regression. The .docx is unzipped and its `word/document.xml`
+inspected directly, so a "successful" export that produces an unreadable file
+cannot pass.
 
-The brief suggested Fabric.js or Konva for the editing layer. This uses
-positioned DOM elements with inline SVG for vector content instead, because the
-hard requirement here is that the export matches the preview: both are driven
-by the same view-space model and the same font metrics, and an SVG path string
-is handed to `drawSvgPath` unchanged. Routing geometry through a canvas
-library's own model would add a translation step between what is shown and what
-is written, which is exactly where fidelity is lost. It also means text editing
-uses a real `<textarea>`, so caret movement, selection, IME and clipboard
-behave natively. `ElementView.tsx` is the single place a new element type needs
-rendering, next to `export.ts` for its drawing.
+## Known limits
+
+- Replaced text is covered with a patch in the sampled background colour and
+  redrawn on top; the original glyphs remain in the file underneath. This is
+  how pdf-lib overlay editing works — **it is not redaction**. Use the redact
+  tool for content that must actually be removed.
+- The Word export reconstructs paragraphs from glyph positions, because PDF
+  has no paragraph concept. Multi-column layouts and complex tables will not
+  round-trip faithfully.
+- Scanned PDFs have no text layer, so Word and Plain text exports come back
+  empty. Run OCR first, or use the PNG export.
+- `npm run lint` still reports pre-existing warnings inherited from upstream
+  (unused variables, exhaustive-deps). They are warnings, not errors, and were
+  left alone rather than mass-refactored.
+
+## Contributing
+
+PRs are very welcome. Please open an issue first for major changes.
+
+```bash
+npm install
+npm run dev
+```
+
+
+---
+
+## License
+
+MIT Copyright PDFZero contributors 
+  
+  ---  
+If you find PDFZero useful, consider giving a ⭐.
