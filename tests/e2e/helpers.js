@@ -145,6 +145,55 @@ export function docxStructure(bytes) {
   }
 }
 
+/**
+ * Reads the absolutely positioned frames out of a fixed-layout .docx.
+ *
+ * Positions are what "same layout" means, so the layout tests assert on these
+ * coordinates directly rather than on a rendering.
+ */
+export function docxFrames(bytes) {
+  const files = unzipSync(new Uint8Array(bytes))
+  const xml = strFromU8(files['word/document.xml'])
+  const pgSz = xml.match(/<w:pgSz w:w="(\d+)" w:h="(\d+)"/)
+
+  const frames = []
+  for (const m of xml.matchAll(/<w:p>[\s\S]*?<\/w:p>/g)) {
+    const p = m[0]
+    const fp = p.match(/<w:framePr([^>]*)\/>/)
+    if (!fp) continue
+    const attr = (name) => {
+      const found = fp[1].match(new RegExp(`w:${name}="(-?\\d+)"`))
+      // Twips back to points, which is the unit the PDF is measured in.
+      return found ? Number(found[1]) / 20 : 0
+    }
+    const shade = p.match(/<w:shd[^>]*w:fill="([0-9A-Fa-f]{6})"/)
+    const text = [...p.matchAll(/<w:t(?: [^>]*)?>([^<]*)<\/w:t>/g)]
+      .map((t) => t[1])
+      .join('')
+      .replace(/&apos;/g, "'")
+      .replace(/&amp;/g, '&')
+    const size = p.match(/<w:sz w:val="(\d+)"/)
+    frames.push({
+      x: attr('x'),
+      y: attr('y'),
+      width: attr('w'),
+      height: attr('h'),
+      fill: shade ? `#${shade[1].toLowerCase()}` : null,
+      text,
+      fontSize: size ? Number(size[1]) / 2 : null,
+    })
+  }
+
+  return {
+    pageWidth: pgSz ? Number(pgSz[1]) / 20 : 0,
+    pageHeight: pgSz ? Number(pgSz[2]) / 20 : 0,
+    zeroMargins: /<w:pgMar w:top="0"[^>]*w:left="0"/.test(xml),
+    frames,
+    shapes: frames.filter((f) => f.fill && !f.text.trim()),
+    texts: frames.filter((f) => f.text.trim()),
+  }
+}
+
 /** Returns the entry names inside a zip. */
 export function zipEntries(bytes) {
   return Object.keys(unzipSync(new Uint8Array(bytes)))

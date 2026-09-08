@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { docxStructure, docxText, download, editTextBlock, fixture, inspectPdf, openEditor, zipEntries } from './helpers.js'
+import { docxFrames, docxStructure, docxText, download, editTextBlock, fixture, inspectPdf, openEditor, zipEntries } from './helpers.js'
 import { unzipSync, strFromU8 } from 'fflate'
 
 test.describe('PDF export', () => {
@@ -171,11 +171,11 @@ test.describe('DOCX layout fidelity', () => {
    * text, with every box and border gone. A form must come back as a real
    * Word table.
    */
-  test('rebuilds a bordered form as a Word table, not loose text', async ({ page }) => {
+  test('rebuilds a bordered form as a Word table in reflowable mode', async ({ page }) => {
     await openEditor(page, 'form.pdf')
 
     const { bytes } = await download(page, () =>
-      page.locator('[data-testid="export-docx"]').click(),
+      page.locator('[data-testid="export-docx-flow"]').click(),
     )
     const s = docxStructure(bytes)
 
@@ -196,7 +196,7 @@ test.describe('DOCX layout fidelity', () => {
     await openEditor(page, 'form.pdf')
 
     const { bytes } = await download(page, () =>
-      page.locator('[data-testid="export-docx"]').click(),
+      page.locator('[data-testid="export-docx-flow"]').click(),
     )
     const s = docxStructure(bytes)
 
@@ -209,7 +209,7 @@ test.describe('DOCX layout fidelity', () => {
     await openEditor(page, 'sample.pdf')
 
     const { bytes } = await download(page, () =>
-      page.locator('[data-testid="export-docx"]').click(),
+      page.locator('[data-testid="export-docx-flow"]').click(),
     )
     const s = docxStructure(bytes)
 
@@ -223,12 +223,82 @@ test.describe('DOCX layout fidelity', () => {
     await openEditor(page, 'form.pdf')
 
     const { bytes } = await download(page, () =>
-      page.locator('[data-testid="export-docx"]').click(),
+      page.locator('[data-testid="export-docx-flow"]').click(),
     )
     const files = unzipSync(new Uint8Array(bytes))
     const xml = strFromU8(files['word/document.xml'])
     // A4 is 595.28 x 841.89pt, which is 11906 x 16838 twips.
     expect(xml).toMatch(/w:w="119\d\d"/)
     expect(xml).toMatch(/w:h="168\d\d"/)
+  })
+})
+
+test.describe('DOCX same-layout export', () => {
+  /**
+   * The default Word export reproduces the page rather than reflowing it, so
+   * the assertions are on coordinates: every run and rule is placed at the
+   * point the PDF drew it.
+   */
+  test('places text and rules at their exact PDF coordinates', async ({ page }) => {
+    await openEditor(page, 'form.pdf')
+
+    const { bytes } = await download(page, () =>
+      page.locator('[data-testid="export-docx"]').click(),
+    )
+    const d = docxFrames(bytes)
+
+    // The page must be the PDF's own size with no margins, or every absolute
+    // position would be offset.
+    expect(d.pageWidth).toBeCloseTo(595.28, 0)
+    expect(d.pageHeight).toBeCloseTo(841.89, 0)
+    expect(d.zeroMargins).toBe(true)
+
+    expect(d.texts.length).toBeGreaterThan(10)
+    expect(d.shapes.length).toBeGreaterThan(10)
+
+    // The fixture draws this at x=66 with the baseline at y=752 from the
+    // bottom of an A4 page, so the frame's top sits just above 89.9 from the top.
+    const heading = d.texts.find((f) => f.text.includes('ACME FREIGHT LTD'))
+    expect(heading, 'heading should be present').toBeTruthy()
+    expect(heading.x).toBeCloseTo(66, 0)
+    expect(heading.y).toBeGreaterThan(78)
+    expect(heading.y).toBeLessThan(90)
+    expect(heading.fontSize).toBeCloseTo(10, 0)
+
+    // A label drawn at x=346 must not drift to the left margin.
+    const label = d.texts.find((f) => f.text.includes('Declared Value'))
+    expect(label).toBeTruthy()
+    expect(label.x).toBeCloseTo(346, 0)
+  })
+
+  test('reproduces rules as thin filled shapes rather than dropping them', async ({ page }) => {
+    await openEditor(page, 'form.pdf')
+
+    const { bytes } = await download(page, () =>
+      page.locator('[data-testid="export-docx"]').click(),
+    )
+    const d = docxFrames(bytes)
+
+    // The fixture's rules run from x=60 to x=540; at least one full-width rule
+    // must survive with its real thickness.
+    const wide = d.shapes.filter((s) => s.width > 400 && s.height < 4)
+    expect(wide.length, 'horizontal rules should be present').toBeGreaterThan(2)
+
+    // And the verticals, which are what close the boxes.
+    const tall = d.shapes.filter((s) => s.height > 100 && s.width < 4)
+    expect(tall.length, 'vertical rules should be present').toBeGreaterThan(1)
+  })
+
+  test('keeps every page at its own size in a multi-page document', async ({ page }) => {
+    await openEditor(page, 'sample.pdf')
+
+    const { bytes } = await download(page, () =>
+      page.locator('[data-testid="export-docx"]').click(),
+    )
+    const d = docxFrames(bytes)
+    expect(d.pageWidth).toBeCloseTo(595.28, 0)
+    // All three pages' content is present as positioned frames.
+    expect(d.texts.some((f) => f.text.includes('Invoice 1000'))).toBe(true)
+    expect(d.texts.some((f) => f.text.includes('Invoice 1002'))).toBe(true)
   })
 })

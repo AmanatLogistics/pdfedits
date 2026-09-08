@@ -26,6 +26,7 @@ import { BASE_SCALE, extractTextItems, getPdfDocument, renderPage } from './pdfR
 import { extractVectorGeometry, mergeRules, separateBarGraphics } from './pdfVectorExtract.js'
 import { assignTextToCells, buildGrid } from './tableReconstruct.js'
 import { gridToTable, looseParagraphs, toTwips } from './docxLayout.js'
+import { buildFixedLayoutDocx } from './docxFixedLayout.js'
 
 /** Fragments whose baselines differ by less than this are on the same line. */
 const LINE_TOLERANCE_RATIO = 0.5
@@ -232,9 +233,11 @@ async function analysePage(pageNum, extractedEdits, editLayers) {
   let grid = null
   let blocks = []
   let graphics = []
+  let shapes = []
   try {
     const geometry = await extractVectorGeometry(page, viewport)
     blocks = geometry.blocks
+    shapes = geometry.shapes || []
 
     // Barcodes and similar bar graphics must come out of the ruling set before
     // the grid is built, or every bar becomes a grid line.
@@ -247,7 +250,16 @@ async function analysePage(pageNum, extractedEdits, editLayers) {
     console.warn(`Could not read vector geometry on page ${pageNum}`, err)
   }
 
-  return { pageNum, width: viewport.width, height: viewport.height, items, grid, blocks, graphics }
+  return {
+    pageNum,
+    width: viewport.width,
+    height: viewport.height,
+    items,
+    grid,
+    blocks,
+    graphics,
+    shapes,
+  }
 }
 
 /** Flowing-paragraph rendering, for pages with no table structure. */
@@ -287,7 +299,11 @@ function flowingParagraphs(items, bodySize) {
  * @returns {Promise<Blob>} the .docx file
  */
 export async function exportDocx(pageCount, extractedEdits, editLayers, options = {}) {
-  const preserveLayout = options.preserveLayout !== false
+  // 'exact'  — every run and rule placed at its PDF coordinate. Looks like the
+  //            original; each piece of text is edited in place.
+  // 'flow'   — tables and paragraphs reconstructed. Reflows like a normal Word
+  //            document, at the cost of matching the page exactly.
+  const mode = options.mode || 'exact'
 
   const analysed = []
   for (let pageNum = 1; pageNum <= pageCount; pageNum++) {
@@ -299,13 +315,25 @@ export async function exportDocx(pageCount, extractedEdits, editLayers, options 
     }
   }
 
+  if (mode === 'exact') {
+    return await buildFixedLayoutDocx(
+      analysed.map((page) => ({
+        width: page.width,
+        height: page.height,
+        items: page.items,
+        shapes: page.shapes,
+      })),
+      { title: options.title },
+    )
+  }
+
   // Body size is measured from the flowing pages, where headings are meaningful.
   const bodySize = dominantFontSize(
     analysed.map((p) => ({ paragraphs: groupIntoParagraphs(groupIntoLines(p.items)) })),
   )
 
   const sections = analysed.map((page) => {
-    const useTable = preserveLayout && page.grid
+    const useTable = Boolean(page.grid)
     const children = []
 
     if (useTable) {
