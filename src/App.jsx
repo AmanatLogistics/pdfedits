@@ -1,35 +1,40 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import { Toaster } from 'react-hot-toast'
+import { useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
-import Landing from './pages/Landing.jsx'
-import Editor from './pages/Editor.jsx'
-import Tools from './pages/Tools.jsx'
+import Navbar from './components/Navbar.jsx'
+import Hero from './components/Hero.jsx'
+import Stats from './components/Stats.jsx'
+import About from './components/About.jsx'
+import Products from './components/Products.jsx'
+import Trade from './components/Trade.jsx'
+import Process from './components/Process.jsx'
+import Partnership from './components/Partnership.jsx'
+import Contact from './components/Contact.jsx'
+import Footer from './components/Footer.jsx'
 
 export default function App() {
+  // Filled in when a visitor clicks "Inquire" on a product card, so the
+  // contact form opens with that product already selected.
+  const [inquiry, setInquiry] = useState({ product: '', type: 'general' })
+
+  const startInquiry = (next) => {
+    setInquiry((prev) => ({ ...prev, ...next }))
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/editor" element={<Editor />} />
-        <Route path="/tools" element={<Tools />} />
-        <Route path="/tools/:toolId" element={<Tools />} />
-      </Routes>
-      <Toaster
-        position="bottom-center"
-        toastOptions={{
-          style: {
-            background: '#1e1e22',
-            color: '#f0f0f4',
-            border: '1px solid rgba(255,255,255,0.1)',
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: '13px',
-            borderRadius: '8px',
-          },
-          success: { iconTheme: { primary: '#10b981', secondary: '#1e1e22' } },
-          error:   { iconTheme: { primary: '#e84545', secondary: '#1e1e22' } },
-        }}
-      />
+      <Navbar />
+      <main>
+        <Hero onPartner={() => startInquiry({ type: 'partnership' })} />
+        <Stats />
+        <About />
+        <Products onInquire={(product) => startInquiry({ product, type: 'order' })} />
+        <Trade />
+        <Process />
+        <Partnership onPartner={() => startInquiry({ type: 'partnership' })} />
+        <Contact inquiry={inquiry} setInquiry={setInquiry} />
+      </main>
+      <Footer />
       <Analytics />
     </>
   )
