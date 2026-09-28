@@ -1,47 +1,40 @@
+import { Check } from 'lucide-react'
 import { company, photos } from '../data/site.js'
 import Photo from './Photo.jsx'
 
 const POINTS = [
-  { emoji: '🌱', title: 'Straight from the source', text: 'We buy directly from farms and processors where each fruit grows best.', tone: 'pistachio' },
-  { emoji: '⭐', title: 'Graded for quality', text: 'Every lot is sorted by size and grade and checked before it ships.', tone: 'mango' },
-  { emoji: '⚖️', title: 'Honest weights', text: 'The weight on the invoice is the weight in the box.', tone: 'berry' },
-  { emoji: '📄', title: 'Paperwork handled', text: 'Invoices, certificates of origin, phytosanitary papers and customs.', tone: 'sky' },
+  'Direct sourcing from growers and processors',
+  'Every lot sorted, graded and quality checked',
+  'Accurate weights and transparent pricing',
+  'Bulk and custom packing to buyer specification',
 ]
 
 export default function About() {
   return (
-    <section className="section about" id="about">
-      <div className="container about__grid">
-        <div className="about__photos">
-          <Photo photo={photos.bazaar} className="about__photo about__photo--big" sizes="(max-width: 900px) 90vw, 440px" />
-          <Photo photo={photos.truck} className="about__photo about__photo--small" sizes="240px" />
-          <div className="about__badge">
+    <section className="section" id="about">
+      <div className="container about">
+        <div className="about__media">
+          <Photo photo={photos.bazaar} className="about__img" sizes="(max-width: 900px) 100vw, 560px" />
+          <div className="about__years">
             <strong>{new Date().getFullYear() - company.since}+</strong>
-            <span>years of trading</span>
+            <span>Years in the<br />fruit trade</span>
           </div>
         </div>
-        <div>
-          <span className="tag tag--pistachio">👋 About us</span>
-          <h2>From the farm to your warehouse</h2>
+        <div className="about__text">
+          <p className="eyebrow">About Us</p>
+          <h2>A Trusted Name in Dry Fruit &amp; Fresh Fruit Trade</h2>
           <p className="lead">
-            {company.name} is an import and export company for dry fruits and fresh fruits. India is at the heart of
-            everything we do: we bring in the finest nuts and dried fruits, and send out India’s best fresh fruit.
+            {company.name} is an import and export company specialising in dry fruits and fresh fruits. From our base in
+            {' '}{company.city}, we supply wholesalers, retailers, food manufacturers and distributors in India and overseas.
           </p>
           <p>
-            Wholesalers, shops, supermarkets, sweet makers and food companies work with us for steady supply,
-            fair prices and quality they can count on.
+            We bring premium almonds, pistachios, walnuts, dates and raisins into India, and export Indian mangoes,
+            pomegranates, grapes and cashews to markets across the Middle East, Asia and Europe.
           </p>
-          <div className="points">
-            {POINTS.map((p) => (
-              <div className={`point point--${p.tone}`} key={p.title}>
-                <span className="point__emoji" aria-hidden="true">{p.emoji}</span>
-                <div>
-                  <h3>{p.title}</h3>
-                  <p>{p.text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ul className="checklist">
+            {POINTS.map((p) => <li key={p}><Check size={18} /> {p}</li>)}
+          </ul>
+          <a href="#contact" className="btn btn--dark">Contact Our Team</a>
         </div>
       </div>
     </section>

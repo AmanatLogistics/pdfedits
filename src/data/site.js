@@ -18,12 +18,12 @@ export const company = {
   hours: 'Monday to Saturday, 9 am – 7 pm IST',
 }
 
-// Headline figures. `tone` picks the card colour.
+// Headline figures shown under the hero.
 export const stats = [
-  { key: 'imported', label: 'Tonnes imported', value: 12500, suffix: '+', emoji: '🚢', tone: 'mango' },
-  { key: 'exported', label: 'Tonnes exported', value: 9800, suffix: '+', emoji: '✈️', tone: 'pistachio' },
-  { key: 'orders', label: 'Orders completed', value: 3450, suffix: '+', emoji: '📦', tone: 'berry' },
-  { key: 'countries', label: 'Countries we trade with', value: 18, suffix: '', emoji: '🌍', tone: 'sky' },
+  { key: 'imported', label: 'Tonnes imported', value: 12500, suffix: '+' },
+  { key: 'exported', label: 'Tonnes exported', value: 9800, suffix: '+' },
+  { key: 'orders', label: 'Orders completed', value: 3450, suffix: '+' },
+  { key: 'countries', label: 'Countries served', value: 18, suffix: '' },
 ]
 
 // Year-by-year volumes in tonnes.

@@ -1,6 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-  <circle cx="24" cy="24" r="24" fill="#e0a526"/>
-  <path d="M24 9c8 5 12 13 10.5 21.5C33 37 28.5 40 24 40s-9-3-10.5-9.5C12 22 16 14 24 9z" fill="#7a3d12"/>
-  <path d="M24 14v22" stroke="#e0a526" stroke-width="2.4" stroke-linecap="round"/>
-  <path d="M24 22l5-4M24 28l-5-4" stroke="#e0a526" stroke-width="2" stroke-linecap="round"/>
+  <rect width="48" height="48" rx="6" fill="#6b3a1a"/>
+  <text x="24" y="31" text-anchor="middle" font-family="Montserrat, Arial, sans-serif" font-size="19" font-weight="700" fill="#c9962b">FF</text>
 </svg>

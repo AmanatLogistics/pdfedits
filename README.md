@@ -3,17 +3,19 @@
 Website for **Faiz Fayez**, importers and exporters of dry fruits and fresh fruits,
 trading mainly with India.
 
-A bright, friendly design: white pages, rounded photos and cards, colourful fruit-toned highlights, and brown & gold as the brand colours. Fonts are Baloo 2 (headings) and Nunito (text), self-hosted.
+A professional B2B trading-company layout: top contact bar, full-width photo hero, key figures band, services, trade performance chart, global reach, partnership and quote request. Brand colours are brown and gold; fonts are Montserrat (headings) and Open Sans (text), self-hosted.
 
 ## Sections
 
-1. **Hero**: headline, "Send inquiry" and "Partner with us" buttons, round fruit photos
-2. **Our numbers**: tonnes imported, tonnes exported, orders completed, countries, and an imports vs exports chart by year
-3. **About us**: who we are and how we work
-4. **Gallery**: photos of the dry fruits and fresh fruits we trade
-5. **Where we trade**: what we import into India and export from India
-6. **Partner with us**: for distributors, wholesalers, shops, food companies and overseas traders
-7. **Contact**: inquiry and partnership emails, phone and WhatsApp, and an inquiry form that opens the visitor's email app with the message ready
+1. **Hero**: headline, "Request a Quote" and "Become a Partner", key figures (imported, exported, orders, countries)
+2. **About Us**
+3. **Services**: import, export, sourcing, quality control, packing, documentation & logistics
+4. **Trade Performance**: imports vs exports chart by year
+5. **Global Reach**: what we import into India and export from India
+6. **What We Trade**: photos of the produce
+7. **Why Choose Us**
+8. **Business Partnership**
+9. **Contact**: inquiry and partnership emails, phone, WhatsApp and a quote request form that opens the visitor's email app
 
 ## Editing the content
 
