@@ -1,40 +1,40 @@
-import { company, ledger, photos } from '../data/site.js'
+import { company, plates } from '../data/site.js'
 import Photo from './Photo.jsx'
-import Stamp from './Stamp.jsx'
 
-const fig = (key) => ledger.find((l) => l.key === key)
+const byName = (n) => plates.find((p) => p.name === n)
 
 export default function Hero({ onPartner }) {
   return (
     <section className="hero" id="top">
       <div className="container hero__grid">
         <div className="hero__text">
-          <p className="kicker">Import &amp; export house · {company.city}</p>
+          <span className="tag">🌍 Import &amp; export since {company.since}</span>
           <h1>
-            Dry fruits and fresh fruits, traded <em>honestly</em> between India and the world.
+            Fresh fruits &amp; dry fruits, <span className="hl">delivered worldwide</span>
           </h1>
           <p className="hero__lede">
-            {company.name} buys almonds, pistachios, dates and raisins where they grow best and brings them
-            to India, and sends India’s mangoes, pomegranates, grapes and cashews to buyers abroad.
+            {company.name} brings the world’s best almonds, pistachios, dates and raisins to India, and takes India’s
+            mangoes, pomegranates, grapes and cashews to buyers across the globe.
           </p>
           <div className="hero__actions">
-            <a href="#enquiry" className="button">Send an enquiry</a>
-            <button type="button" className="textlink" onClick={onPartner}>Business partnership →</button>
+            <a href="#contact" className="pill pill--brown pill--lg">Send inquiry</a>
+            <button type="button" className="pill pill--outline pill--lg" onClick={onPartner}>Partner with us</button>
           </div>
-          <dl className="hero__figures">
-            {['imported', 'exported', 'orders'].map((k) => (
-              <div key={k}>
-                <dt>{fig(k).label}</dt>
-                <dd>{fig(k).value.toLocaleString('en-IN')}<small>{fig(k).unit === 'tonnes' ? ' t' : ''}</small></dd>
-              </div>
-            ))}
-          </dl>
+          <ul className="hero__chips" aria-label="Some of what we trade">
+            <li className="chip chip--mango">🥭 Mangoes</li>
+            <li className="chip chip--berry">🍎 Apples</li>
+            <li className="chip chip--pistachio">🥜 Nuts</li>
+            <li className="chip chip--sky">🍇 Grapes</li>
+          </ul>
         </div>
-        <figure className="hero__figure">
-          <Photo photo={photos.hero} eager sizes="(max-width: 900px) 100vw, 45vw" />
-          <Stamp className="hero__stamp" text="IMPORT · EXPORT · INDIA · WORLDWIDE · " center={[company.since, 'ESTD.']} />
-          <figcaption>Pl. I — Dried fruit on a market stall</figcaption>
-        </figure>
+        <div className="hero__art">
+          <div className="hero__blob" aria-hidden="true" />
+          <Photo photo={byName('Mangoes')} eager className="hero__main" sizes="(max-width: 900px) 80vw, 480px" />
+          <Photo photo={byName('Almonds')} eager className="hero__small hero__small--a" sizes="200px" />
+          <Photo photo={byName('Pomegranates')} eager className="hero__small hero__small--b" sizes="200px" />
+          <span className="sticker sticker--a">🌰 Premium dry fruits</span>
+          <span className="sticker sticker--b">🍊 Fresh every season</span>
+        </div>
       </div>
     </section>
   )

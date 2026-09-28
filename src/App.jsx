@@ -1,34 +1,32 @@
 import { useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
-import Header from './components/Header.jsx'
+import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
-import Ledger from './components/Ledger.jsx'
-import Harvest from './components/Harvest.jsx'
-import Lanes from './components/Lanes.jsx'
-import House from './components/House.jsx'
-import Partnership from './components/Partnership.jsx'
-import Enquiry from './components/Enquiry.jsx'
+import Numbers from './components/Numbers.jsx'
+import About from './components/About.jsx'
+import Gallery from './components/Gallery.jsx'
+import Trade from './components/Trade.jsx'
+import Partner from './components/Partner.jsx'
+import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
 
 export default function App() {
   const [type, setType] = useState('general')
-
-  const propose = () => {
+  const partner = () => {
     setType('partnership')
-    document.getElementById('enquiry')?.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
   }
-
   return (
     <>
-      <Header />
+      <Navbar />
       <main>
-        <Hero onPartner={propose} />
-        <Ledger />
-        <Harvest />
-        <Lanes />
-        <House />
-        <Partnership onPartner={propose} />
-        <Enquiry type={type} setType={setType} />
+        <Hero onPartner={partner} />
+        <Numbers />
+        <About />
+        <Gallery />
+        <Trade />
+        <Partner onPartner={partner} />
+        <Contact type={type} setType={setType} />
       </main>
       <Footer />
       <Analytics />

@@ -11,9 +11,8 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@fontsource/hind": "^5.3.0",
-    "@fontsource/ibm-plex-mono": "^5.3.0",
-    "@fontsource/rozha-one": "^5.3.0",
+    "@fontsource/baloo-2": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
     "@vercel/analytics": "^2.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

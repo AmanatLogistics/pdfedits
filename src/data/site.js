@@ -18,12 +18,12 @@ export const company = {
   hours: 'Monday to Saturday, 9 am – 7 pm IST',
 }
 
-// Headline figures shown in "The Ledger".
-export const ledger = [
-  { key: 'imported', label: 'Imported', value: 12500, unit: 'tonnes' },
-  { key: 'exported', label: 'Exported', value: 9800, unit: 'tonnes' },
-  { key: 'orders', label: 'Orders completed', value: 3450, unit: 'orders' },
-  { key: 'countries', label: 'Countries traded with', value: 18, unit: 'countries' },
+// Headline figures. `tone` picks the card colour.
+export const stats = [
+  { key: 'imported', label: 'Tonnes imported', value: 12500, suffix: '+', emoji: '🚢', tone: 'mango' },
+  { key: 'exported', label: 'Tonnes exported', value: 9800, suffix: '+', emoji: '✈️', tone: 'pistachio' },
+  { key: 'orders', label: 'Orders completed', value: 3450, suffix: '+', emoji: '📦', tone: 'berry' },
+  { key: 'countries', label: 'Countries we trade with', value: 18, suffix: '', emoji: '🌍', tone: 'sky' },
 ]
 
 // Year-by-year volumes in tonnes.
