@@ -1,38 +1,34 @@
 import { useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
-import Navbar from './components/Navbar.jsx'
+import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
-import Stats from './components/Stats.jsx'
-import About from './components/About.jsx'
-import Products from './components/Products.jsx'
-import Trade from './components/Trade.jsx'
-import Process from './components/Process.jsx'
+import Ledger from './components/Ledger.jsx'
+import Harvest from './components/Harvest.jsx'
+import Lanes from './components/Lanes.jsx'
+import House from './components/House.jsx'
 import Partnership from './components/Partnership.jsx'
-import Contact from './components/Contact.jsx'
+import Enquiry from './components/Enquiry.jsx'
 import Footer from './components/Footer.jsx'
 
 export default function App() {
-  // Filled in when a visitor clicks "Inquire" on a product card, so the
-  // contact form opens with that product already selected.
-  const [inquiry, setInquiry] = useState({ product: '', type: 'general' })
+  const [type, setType] = useState('general')
 
-  const startInquiry = (next) => {
-    setInquiry((prev) => ({ ...prev, ...next }))
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+  const propose = () => {
+    setType('partnership')
+    document.getElementById('enquiry')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
     <>
-      <Navbar />
+      <Header />
       <main>
-        <Hero onPartner={() => startInquiry({ type: 'partnership' })} />
-        <Stats />
-        <About />
-        <Products onInquire={(product) => startInquiry({ product, type: 'order' })} />
-        <Trade />
-        <Process />
-        <Partnership onPartner={() => startInquiry({ type: 'partnership' })} />
-        <Contact inquiry={inquiry} setInquiry={setInquiry} />
+        <Hero onPartner={propose} />
+        <Ledger />
+        <Harvest />
+        <Lanes />
+        <House />
+        <Partnership onPartner={propose} />
+        <Enquiry type={type} setType={setType} />
       </main>
       <Footer />
       <Analytics />

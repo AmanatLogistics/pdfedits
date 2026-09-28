@@ -3,39 +3,42 @@
 Website for **Faiz Fayez**, importers and exporters of dry fruits and fresh fruits,
 trading mainly with India.
 
-## What's on the site
+The design takes its cues from the trade itself: the red cloth *bahi-khata* ledger
+used by Indian traders, cream ruled paper, blue and red ledger inks, customs stamps,
+and real photographs presented as numbered plates. Type is Rozha One and Hind (both
+by the Indian Type Foundry) with IBM Plex Mono for figures, all self-hosted.
 
-- **Hero**: headline, "Send an Inquiry" and "Become a Partner" buttons, and a mixed dry-fruit bowl
-- **Our trade in numbers**: tonnes imported, tonnes exported, orders completed and countries served (animated counters), plus a year-by-year import vs export chart
-- **About**: who we are and how we work
-- **Products**: dry fruits and fresh fruits, each with a picture and an "Inquire" button
-- **Where we trade**: India at the centre, with import and export routes to partner countries
-- **How it works**: the ordering process
-- **Business partnership**: section for distributors, wholesalers and bulk buyers
-- **Contact**: separate emails for inquiries and partnerships, plus an inquiry form that opens the visitor's email app with the message already written
+## Sections
+
+1. **Hero**: headline, enquiry and partnership actions, headline figures
+2. **The ledger**: tonnes imported, tonnes exported, orders completed, countries, and a year-by-year table with bars
+3. **From the orchard to the crate**: photographs of the dry fruits and fresh fruits we trade
+4. **Trade lanes**: import and export routes, with India at one end of each
+5. **The house**: who we are and how we work
+6. **Partnership**: for distributors, wholesalers, retailers, manufacturers and overseas traders
+7. **Write to us**: inquiry and partnership emails, plus an enquiry slip that opens the visitor's email app with the message written out and addressed to the right inbox
 
 ## Editing the content
 
-All business details are in **`src/data/site.js`**:
+Everything is in **`src/data/site.js`**:
 
 | What | Where |
 |---|---|
-| Company name, emails, phone, WhatsApp, address | `company` |
-| Imported / exported / orders / countries figures | `stats` |
-| Yearly import vs export chart | `tradeByYear` |
-| Dry fruits and fresh fruits | `dryFruits`, `freshFruits` |
-| Trade partner countries | `countries` |
+| Name, emails, phone, WhatsApp, city, hours | `company` |
+| Imported / exported / orders / countries | `ledger` |
+| Year-by-year table | `tradeByYear` |
+| Trade lanes | `lanes` |
+| Photographs | `photos`, `plates` |
 
-> The emails, phone number and trade figures are **placeholders**. Replace them with your real details before going live.
+> The emails, phone number and all figures are **placeholders**. Replace them with the real ones before going live.
 
-### Adding real product photos
+### Photographs
 
-Every product has a built-in illustration. To show a real photo instead, put the image in
-`public/images/` (for example `public/images/almonds.jpg`) and set that product's `photo`
-field in `src/data/site.js`:
+The photos are free-licence images served from Pexels. To use your own, put the file in
+`public/images/` and give that entry a `src`:
 
 ```js
-{ name: 'Almonds', art: 'almond', ..., photo: '/images/almonds.jpg' },
+{ name: 'Almonds', alt: 'Almonds in a bowl', src: '/images/almonds.jpg' },
 ```
 
 ## Running locally
@@ -46,4 +49,4 @@ npm run dev      # development server
 npm run build    # production build in dist/
 ```
 
-The site deploys to Vercel as a static Vite app (see `vercel.json`).
+Deploys to Vercel as a static Vite app (see `vercel.json`).

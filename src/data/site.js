@@ -1,81 +1,70 @@
 // ---------------------------------------------------------------------------
-// All of the business details shown on the website live in this one file.
-// Update the emails, phone numbers and figures below and the whole site
-// follows. The trade figures are PLACEHOLDERS – replace them with real numbers.
+// Everything the website says about the business lives in this file.
+// Emails, phone numbers and trade figures below are PLACEHOLDERS:
+// replace them with the real ones before the site goes live.
 // ---------------------------------------------------------------------------
 
 export const company = {
   name: 'Faiz Fayez',
-  tagline: 'Dry Fruits & Fresh Fruits · Import & Export',
   since: 2014,
-  // General customer / product / order inquiries
+  city: 'New Delhi, India',
+  // Prices, availability, orders, shipping
   email: 'info@faizfayez.com',
-  // Business partnerships, distributors, wholesale & bulk buyers
+  // Distributors, wholesale, bulk contracts, private label
   partnershipEmail: 'partners@faizfayez.com',
   phone: '+91 00000 00000',
-  // Digits only, with country code – used for the WhatsApp link
+  // Digits only, with country code, for the WhatsApp link
   whatsapp: '910000000000',
-  address: 'Head Office · New Delhi, India',
-  hours: 'Mon – Sat · 9:00 AM – 7:00 PM (IST)',
+  hours: 'Monday to Saturday, 9 am – 7 pm IST',
 }
 
-// Headline counters in the "Our trade in numbers" section.
-export const stats = [
-  { key: 'imported', label: 'Tonnes imported', value: 12500, suffix: '+', note: 'Dry & fresh fruits brought in' },
-  { key: 'exported', label: 'Tonnes exported', value: 9800, suffix: '+', note: 'Shipped to buyers abroad' },
-  { key: 'orders', label: 'Orders completed', value: 3450, suffix: '+', note: 'Delivered on time, as agreed' },
-  { key: 'countries', label: 'Countries served', value: 18, suffix: '', note: 'With India as our biggest market' },
+// Headline figures shown in "The Ledger".
+export const ledger = [
+  { key: 'imported', label: 'Imported', value: 12500, unit: 'tonnes' },
+  { key: 'exported', label: 'Exported', value: 9800, unit: 'tonnes' },
+  { key: 'orders', label: 'Orders completed', value: 3450, unit: 'orders' },
+  { key: 'countries', label: 'Countries traded with', value: 18, unit: 'countries' },
 ]
 
-// Year-by-year volumes (tonnes) for the import vs export chart.
+// Year-by-year volumes in tonnes.
 export const tradeByYear = [
-  { year: '2021', imported: 1650, exported: 1200 },
-  { year: '2022', imported: 2100, exported: 1550 },
-  { year: '2023', imported: 2550, exported: 1950 },
-  { year: '2024', imported: 2900, exported: 2300 },
-  { year: '2025', imported: 3300, exported: 2800 },
+  { year: 2021, imported: 1650, exported: 1200 },
+  { year: 2022, imported: 2100, exported: 1550 },
+  { year: 2023, imported: 2550, exported: 1950 },
+  { year: 2024, imported: 2900, exported: 2300 },
+  { year: 2025, imported: 3300, exported: 2800 },
 ]
 
-// `art` picks the built-in illustration. To use a real photo instead, put the
-// file in /public/images and set `photo: '/images/your-file.jpg'`.
-export const dryFruits = [
-  { name: 'Almonds', art: 'almond', origin: 'California · Afghanistan', desc: 'Mamra, Gurbandi and California almonds — crunchy, sweet and graded by size.', photo: null },
-  { name: 'Cashews', art: 'cashew', origin: 'India · Africa', desc: 'W180, W240 and W320 whole cashews, plus splits and pieces for industry.', photo: null },
-  { name: 'Pistachios', art: 'pistachio', origin: 'Iran · USA', desc: 'Naturally opened, roasted and salted or raw kernels in bulk packs.', photo: null },
-  { name: 'Walnuts', art: 'walnut', origin: 'Kashmir · Chile', desc: 'In-shell and light-halves walnut kernels with rich, buttery taste.', photo: null },
-  { name: 'Raisins', art: 'raisin', origin: 'India · Afghanistan', desc: 'Golden, green and black raisins — cleaned, sorted and ready to pack.', photo: null },
-  { name: 'Dates', art: 'date', origin: 'Saudi Arabia · UAE · Iran', desc: 'Medjool, Ajwa, Kimia and Safawi dates, fresh from the harvest.', photo: null },
-  { name: 'Dried Apricots', art: 'apricot', origin: 'Turkey · Afghanistan', desc: 'Soft Turkish apricots and sun-dried Afghan khubani.', photo: null },
-  { name: 'Dried Figs', art: 'fig', origin: 'Afghanistan · Turkey', desc: 'Naturally sweet anjeer, hand-picked and carefully dried.', photo: null },
+// Main trade lanes, India at one end of almost every one.
+export const lanes = [
+  { from: 'Afghanistan', to: 'India', dir: 'Import', goods: 'Almonds, raisins, figs, apricots' },
+  { from: 'Iran', to: 'India', dir: 'Import', goods: 'Pistachios, dates, raisins' },
+  { from: 'USA', to: 'India', dir: 'Import', goods: 'California almonds, walnuts' },
+  { from: 'Gulf states', to: 'India', dir: 'Import', goods: 'Dates' },
+  { from: 'India', to: 'Gulf states', dir: 'Export', goods: 'Mangoes, pomegranates, grapes, cashews' },
+  { from: 'India', to: 'United Kingdom', dir: 'Export', goods: 'Alphonso & Kesar mangoes' },
+  { from: 'India', to: 'Bangladesh · Nepal', dir: 'Export', goods: 'Apples, kinnow, grapes' },
+  { from: 'India', to: 'South-East Asia', dir: 'Export', goods: 'Pomegranates, cashews, raisins' },
 ]
 
-export const freshFruits = [
-  { name: 'Mangoes', art: 'mango', origin: 'India', desc: 'Alphonso, Kesar, Banganapalli and Dasheri — India’s pride, exported in season.', photo: null },
-  { name: 'Pomegranates', art: 'pomegranate', origin: 'India · Afghanistan', desc: 'Bhagwa and Kandahari pomegranates with deep red, juicy arils.', photo: null },
-  { name: 'Apples', art: 'apple', origin: 'Kashmir · Himachal · Iran', desc: 'Crisp Kashmiri and Himachali apples, plus imported varieties.', photo: null },
-  { name: 'Grapes', art: 'grape', origin: 'India (Nashik)', desc: 'Thompson Seedless and black grapes, cold-chain packed for export.', photo: null },
-  { name: 'Oranges & Kinnow', art: 'orange', origin: 'India · Egypt', desc: 'Punjab kinnow and Nagpur oranges — sweet, juicy and easy to peel.', photo: null },
-  { name: 'Bananas', art: 'banana', origin: 'India', desc: 'Cavendish (G9) bananas, harvested at the right stage for shipping.', photo: null },
-]
+// Real photographs, served from Pexels (free licence, no attribution needed).
+// To use your own photo instead, put it in /public/images and set `src`,
+// e.g. src: '/images/almonds.jpg'.
+export const photos = {
+  hero: { pexels: 5332498, alt: 'Dried fruits heaped on trays at a market stall' },
+  bazaar: { pexels: 17870116, alt: 'Sacks of spices and dry goods at a New Delhi bazaar' },
+  ship: { pexels: 2231744, alt: 'Aerial view of a cargo ship beside stacked containers' },
+  truck: { pexels: 15733306, alt: 'A truck loaded with sacks on an Indian road' },
+}
 
-// Trade partners. `primary` highlights India as the main market.
-export const countries = [
-  { name: 'India', flows: ['Import', 'Export'], primary: true },
-  { name: 'Afghanistan', flows: ['Import'] },
-  { name: 'UAE', flows: ['Import', 'Export'] },
-  { name: 'Iran', flows: ['Import'] },
-  { name: 'Saudi Arabia', flows: ['Import', 'Export'] },
-  { name: 'Turkey', flows: ['Import'] },
-  { name: 'USA', flows: ['Import'] },
-  { name: 'United Kingdom', flows: ['Export'] },
-  { name: 'Bangladesh', flows: ['Export'] },
-  { name: 'Nepal', flows: ['Export'] },
-  { name: 'Sri Lanka', flows: ['Export'] },
-  { name: 'Qatar', flows: ['Export'] },
-  { name: 'Kuwait', flows: ['Export'] },
-  { name: 'Oman', flows: ['Export'] },
-  { name: 'Malaysia', flows: ['Export'] },
-  { name: 'Singapore', flows: ['Export'] },
-  { name: 'Chile', flows: ['Import'] },
-  { name: 'Uzbekistan', flows: ['Import'] },
+export const plates = [
+  { pexels: 57042, name: 'Almonds', alt: 'Almonds in a white bowl' },
+  { pexels: 12326584, name: 'Cashews', alt: 'Cashew nuts in a bowl' },
+  { pexels: 634650, name: 'Pistachios', alt: 'A heap of pistachios in their shells' },
+  { pexels: 1489291, name: 'Walnuts', alt: 'A pile of walnuts' },
+  { pexels: 3993529, name: 'Dates', alt: 'Close-up of date fruits' },
+  { pexels: 29060107, name: 'Dried apricots', alt: 'Dried apricots at a market' },
+  { pexels: 6085951, name: 'Raisins', alt: 'Close-up of raisins' },
+  { pexels: 30643513, name: 'Mangoes', alt: 'Ripe mangoes stacked at a market' },
+  { pexels: 18523341, name: 'Pomegranates', alt: 'Red pomegranates piled at a market' },
 ]

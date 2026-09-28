@@ -1,37 +1,27 @@
-import { Building2, Handshake, Mail, Store, Factory, Warehouse } from 'lucide-react'
 import { company } from '../data/site.js'
 
-const WHO = [
-  { icon: Warehouse, label: 'Wholesalers & distributors' },
-  { icon: Store, label: 'Retailers & supermarkets' },
-  { icon: Factory, label: 'Food & sweet manufacturers' },
-  { icon: Building2, label: 'Importers & exporters abroad' },
-]
+const WHO = ['Wholesalers and distributors', 'Supermarkets and retail chains', 'Sweet makers and food manufacturers', 'Importers and exporters abroad', 'Private-label and bulk contracts']
 
 export default function Partnership({ onPartner }) {
   return (
-    <section className="section partnership" id="partnership">
-      <div className="container partnership__card">
+    <section className="partner" id="partnership">
+      <div className="container partner__grid">
         <div>
-          <p className="eyebrow eyebrow--light">Business partnership</p>
-          <h2>Let’s grow together</h2>
-          <p className="section__lead">
-            Looking for a dependable supplier or buyer for dry fruits and fresh fruits? We welcome long-term
-            partnerships, distributorships, private-label packing and bulk supply contracts.
+          <span className="sec-num">§ 5</span>
+          <h2>Trade with us, not just buy from us.</h2>
+          <p>
+            We are looking for long-term partners: businesses that need a steady supply of dry fruits or fresh fruits,
+            and growers and exporters who want a reliable buyer in India.
           </p>
-          <div className="partnership__cta">
-            <button type="button" className="btn btn--gold" onClick={onPartner}>
-              <Handshake size={18} /> Propose a partnership
-            </button>
-            <a className="btn btn--ghost" href={`mailto:${company.partnershipEmail}?subject=${encodeURIComponent(`Business partnership with ${company.name}`)}`}>
-              <Mail size={18} /> {company.partnershipEmail}
+          <div className="partner__actions">
+            <button type="button" className="button button--paper" onClick={onPartner}>Propose a partnership</button>
+            <a className="partner__mail" href={`mailto:${company.partnershipEmail}?subject=${encodeURIComponent(`Business partnership with ${company.name}`)}`}>
+              {company.partnershipEmail}
             </a>
           </div>
         </div>
-        <ul className="who">
-          {WHO.map(({ icon: Icon, label }) => (
-            <li key={label}><Icon size={22} /> {label}</li>
-          ))}
+        <ul className="partner__who">
+          {WHO.map((w) => <li key={w}>{w}</li>)}
         </ul>
       </div>
     </section>
