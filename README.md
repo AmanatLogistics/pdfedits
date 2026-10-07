@@ -21,7 +21,7 @@ banner at the top and a closing “Request a Quote” banner:
 | Contact | `/contact` | Inquiry form, partnership banner, emails, phone and WhatsApp |
 
 Clicking a product on any page opens the inquiry form with that product filled in.
-The logo is a Kandahar pomegranate with the “FF” monogram, drawn in the brand colours
+The logo is an “FF” monogram in a framed square, drawn in the brand colours
 (it is also the browser-tab icon); an uploaded logo image replaces it.
 
 Every number on the site is worked out from the **trade records** entered in the admin panel,

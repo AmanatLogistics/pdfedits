@@ -3,6 +3,7 @@ import { fontsHref, themeCss } from './theme.js'
 import { scrollToForm, useReveal } from './hooks.js'
 import { tradeSummary } from './trade.js'
 import { PAGES, pageOfSection } from './pages.js'
+import { navigate } from './router.js'
 import Header from './sections/Header.jsx'
 import Hero from './sections/Hero.jsx'
 import PageHero from './sections/PageHero.jsx'
@@ -51,7 +52,7 @@ export function livePages(content, trade = tradeSummary(content)) {
     .map((p) => ({ ...p, ...(content.pages?.[p.id] || {}), id: p.id, path: p.path, sections: p.sections }))
 }
 
-export default function Site({ content, page = 'home' }) {
+export default function Site({ content, page = 'home', moved = false }) {
   const [request, setRequest] = useState(null)
   const trade = useMemo(() => tradeSummary(content), [content])
   const pages = useMemo(() => livePages(content, trade), [content, trade])
@@ -73,7 +74,7 @@ export default function Site({ content, page = 'home' }) {
     if (!hasContact && contactPath) {
       if (new URLSearchParams(window.location.search).has('preview')) return
       const q = req.partnership ? 'partner=1' : req.product ? `product=${encodeURIComponent(req.product)}` : ''
-      window.location.href = `${contactPath}${q ? `?${q}` : ''}#contact`
+      navigate(`${contactPath}${q ? `?${q}` : ''}#contact`)
       return
     }
     setRequest({ ...req, at: Date.now() })
@@ -88,7 +89,7 @@ export default function Site({ content, page = 'home' }) {
       <style dangerouslySetInnerHTML={{ __html: themeCss(content.theme) }} />
       {href && <link rel="stylesheet" href={href} />}
       <Header content={content} pages={pages} current={page} />
-      <main>
+      <main key={page} className={moved ? 'page-in' : undefined}>
         {current
           ? <PageHero content={content} page={current} trade={trade} />
           : <Hero content={content} trade={trade} contactHref={hasContact ? '#contact' : contactPath} onPartner={() => goToContact({ partnership: true })} />}

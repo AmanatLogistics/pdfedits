@@ -76,7 +76,9 @@ function Breakdown({ rows, unit, thumbs, limit = 6 }) {
     <ul className="bars">
       {list.map((r, i) => (
         <li key={r.name} className={r.other ? 'is-other' : ''} style={{ '--i': i }}>
-          {thumbs && <Photo image={{ src: thumbs[r.name], alt: '' }} className="bars__thumb" plain width="36" height="36" />}
+          {thumbs && (thumbs[r.name]
+            ? <Photo image={{ src: thumbs[r.name], alt: '' }} className="bars__thumb" plain width="36" height="36" />
+            : <span className="bars__thumb bars__thumb--icon" aria-hidden="true"><Package size={18} weight="duotone" /></span>)}
           <div className="bars__main">
             <div className="bars__row"><span className="bars__name">{r.name}</span><span className="bars__val">{fmtNum(r.tonnes)} {unit} <small>{r.share < 0.005 ? '<1' : Math.round(r.share * 100)}%</small></span></div>
             <span className="bars__track"><span style={{ width: `${Math.max(2, (r.tonnes / max) * 100)}%` }} /></span>

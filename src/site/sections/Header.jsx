@@ -2,6 +2,7 @@ import { useEffect, useState } from 'preact/hooks'
 import { Clock, EnvelopeSimple, List, Phone, X } from '../ph.jsx'
 import Logo from '../Logo.jsx'
 import { telHref } from '../hooks.js'
+import { onNavigate } from '../router.js'
 
 export default function Header({ content, pages, current }) {
   const { company, hero } = content
@@ -14,6 +15,9 @@ export default function Header({ content, pages, current }) {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // Close the phone menu when a link in it opens another page.
+  useEffect(() => onNavigate(() => setOpen(false)), [])
 
   useEffect(() => {
     if (!open) return

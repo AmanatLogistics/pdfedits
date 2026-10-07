@@ -50,7 +50,7 @@ export const PAGES = [
     fields: [
       { path: 'company.name', type: 'text', label: 'Company name', required: true },
       { path: 'company.tagline', type: 'text', label: 'Line under the name', help: 'For example “Dry & Fresh Fruit Traders”. “LTD” at the end of the name is shown smaller, next to it.' },
-      { path: 'company.logo', type: 'imageSrc', label: 'Logo image', help: 'Optional. Without a logo image, the Faiz Fayez pomegranate emblem is shown next to the name.' },
+      { path: 'company.logo', type: 'imageSrc', label: 'Logo image', help: 'Optional. Without a logo image, the Faiz Fayez “FF” monogram is shown next to the name.' },
       { path: 'company.since', type: 'number', label: 'Year established' },
       { path: 'company.email', type: 'email', label: 'Inquiry email', help: 'Price requests, orders and general inquiries go here.' },
       { path: 'company.partnershipEmail', type: 'email', label: 'Partnership email', help: 'Business partnership proposals go here.' },

@@ -2,8 +2,23 @@ import { EnvelopeSimple, MapPin, Phone } from '../ph.jsx'
 import Logo from '../Logo.jsx'
 import { telHref } from '../hooks.js'
 
+// Photos used under a licence that asks for a credit carry one (image.credit).
+function photoCredits(content) {
+  const found = new Map()
+  const walk = (v) => {
+    if (Array.isArray(v)) v.forEach(walk)
+    else if (v && typeof v === 'object') {
+      if (v.src && v.credit && !found.has(v.credit)) found.set(v.credit, v.creditUrl || '')
+      Object.values(v).forEach(walk)
+    }
+  }
+  walk(content)
+  return [...found]
+}
+
 export default function Footer({ content, pages }) {
   const { company, footer } = content
+  const credits = photoCredits(content)
   return (
     <footer className="footer" id="footer">
       <div className="container footer__grid">
@@ -26,6 +41,11 @@ export default function Footer({ content, pages }) {
       </div>
       <div className="container footer__bottom">
         <span suppressHydrationWarning>© {new Date().getFullYear()} {company.name}. {footer.copyright}</span>
+        {credits.length > 0 && (
+          <span className="footer__credits">Photos: {credits.map(([text, url], i) => (
+            <span key={text}>{i > 0 && ' · '}{url ? <a href={url} target="_blank" rel="noreferrer">{text}</a> : text}</span>
+          ))}</span>
+        )}
       </div>
     </footer>
   )
