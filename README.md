@@ -57,6 +57,11 @@ and rebuilds the website, which takes about **1–2 minutes**. Every publish is 
 entry in the GitHub history, so any earlier version can be recovered.
 
 Photos are resized in the browser before upload, so phone photos of any size can be used.
+Instead of uploading, you can also **paste a photo link** into any photo box: a direct image
+address from any website (in Google Images, open the photo, right-click it and choose “Copy
+image address”), or a link to a photo page on Pexels or Unsplash, which is converted to the
+photo itself. The admin panel warns when a link does not show a picture or the picture is too
+small to look sharp.
 
 ## One-time setup on Vercel
 

@@ -1,11 +1,11 @@
 import { ArrowRight } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
 import Photo from '../Photo.jsx'
+import { thumbOf } from '../images.js'
 import { TRANSPORT } from '../icons.jsx'
 import { fmtDate, fmtNum, unitOf } from '../trade.js'
 import { freightName, label } from '../labels.js'
 
-const thumbOf = (src) => (src && /^https:\/\/images\.pexels\.com\//.test(src) ? src.replace(/([?&])w=\d+/, '$1w=120') : src)
 
 export default function Shipments({ content, trade, tone, full, more }) {
   const { shipments: S, destinations, products } = content
@@ -14,7 +14,7 @@ export default function Shipments({ content, trade, tone, full, more }) {
   const unit = unitOf(content)
   if (!list.length) return null
   const hub = destinations?.hub || 'Kandahar'
-  const thumbs = Object.fromEntries((products?.items || []).map((p) => [p.title, thumbOf(p.image?.src)]))
+  const thumbs = Object.fromEntries((products?.items || []).map((p) => [p.title, thumbOf(p.image?.src, 120)]))
   return (
     <section className={`section section--${tone}`} id="shipments">
       <div className="container">

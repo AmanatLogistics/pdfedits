@@ -33,12 +33,12 @@ export default function Products({ content, trade, tone, onAsk, more }) {
         <div className="products">
           {items.map((p, i) => (
             <button type="button" className="product reveal" style={{ '--i': i % 4 }} key={p.title} onClick={() => onAsk(p.title)}>
-              <Photo image={p.image} className="product__img" sizes="(max-width: 700px) 50vw, 300px" />
+              <span className="product__media">
+                <Photo image={p.image} className="product__img" sizes="(max-width: 700px) 50vw, (max-width: 1020px) 33vw, 300px" />
+                {p.tag && <span className="product__tag">{p.tag}</span>}
+              </span>
               <span className="product__body">
-                <span className="product__top">
-                  <span className="product__title">{p.title}</span>
-                  {p.tag && <span className="product__tag">{p.tag}</span>}
-                </span>
+                <span className="product__title">{p.title}</span>
                 <span className="product__meta">
                   {amount(p.title) && <span><Package size={16} weight="duotone" /> {amount(p.title)}</span>}
                   {p.season && <span><CalendarBlank size={16} weight="duotone" /> {p.season}</span>}

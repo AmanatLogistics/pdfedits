@@ -1,5 +1,6 @@
 import { createContext, useContext, useId, useRef, useState } from 'react'
 import { ArrowDown, ArrowUp, ChevronDown, ImagePlus, Link2, Loader2, Plus, Trash2, X } from 'lucide-react'
+import { IMAGE_LINK_HELP, normalizeImageLink } from './imageLinks.js'
 
 // Shared by every field: image upload and showing not-yet-deployed uploads.
 export const AdminContext = createContext({ uploadImage: async () => '', resolveImage: (s) => s })
@@ -122,30 +123,75 @@ const newPhoto = (img, patch) => {
   return next
 }
 
+// The box for pasting a photo link, with page links (Pexels, Unsplash,
+// Google Images) converted to the photo itself.
+function LinkBox({ value, onApply }) {
+  const shown = value && !/^\/uploads\//.test(value) ? value : ''
+  const [draft, setDraft] = useState(shown)
+  const [last, setLast] = useState(shown)
+  const [msg, setMsg] = useState(null)
+  if (shown !== last) { setLast(shown); setDraft(shown); setMsg(null) }
+  const apply = (text) => {
+    setDraft(text)
+    const r = normalizeImageLink(text)
+    if (r.error) { setMsg({ type: 'error', text: r.error }); return }
+    setMsg(r.note ? { type: 'note', text: r.note } : null)
+    if (r.src !== value) { setLast(r.src); onApply(r.src) }
+    if (r.src !== text) setDraft(r.src)
+  }
+  return (
+    <>
+      <input className="input input--sm" placeholder="Paste a photo link: https://…" value={draft} aria-label="Photo link"
+        onChange={(e) => apply(e.target.value)} />
+      {msg && <p className={msg.type === 'error' ? 'f__error' : 'f__help'}>{msg.text}</p>}
+    </>
+  )
+}
+
+// The thumbnail, which also notices links that do not show a picture and
+// pictures that are too small to look sharp (see PhotoStatus).
+function usePhotoStatus(src) {
+  const [state, setState] = useState({ src: '', status: '' })
+  return [state.src === src ? state.status : '', (status) => setState({ src, status })]
+}
+
+function Thumb({ src, empty, busy, contain, onStatus }) {
+  const { resolveImage } = useContext(AdminContext)
+  return (
+    <div className="img__thumb">
+      {src ? <img src={resolveImage(src)} alt="" style={contain ? { objectFit: 'contain' } : undefined}
+        onLoad={(e) => onStatus(e.currentTarget.naturalWidth < 800 && !contain ? `small:${e.currentTarget.naturalWidth}` : 'ok')}
+        onError={() => onStatus('error')} /> : <span>{empty}</span>}
+      {busy && <span className="img__busy"><Loader2 className="spin" size={22} /></span>}
+    </div>
+  )
+}
+
+function PhotoStatus({ status }) {
+  if (status === 'error') return <p className="f__error">This link does not show a picture (the website may block it). Use “Copy image address” on the photo, or upload it.</p>
+  if (status.startsWith('small:')) return <p className="f__help img__warn">This picture is small ({status.slice(6)} px wide) and may look blurry in large spaces. A photo at least 1200 px wide works best.</p>
+  return null
+}
+
 // An image with alt text: { src, alt } (plus an optional credit for photos that need one).
 export function ImageInput({ label, help, value, onChange }) {
-  const { resolveImage } = useContext(AdminContext)
   const img = value && typeof value === 'object' ? value : { src: '', alt: '' }
-  const [showUrl, setShowUrl] = useState(false)
   const up = useUpload((path, file) => onChange(newPhoto(img, { src: path, alt: img.alt || file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ') })))
+  const [status, setStatus] = usePhotoStatus(img.src)
   return (
     <Field label={label} help={help}>
       <div className="img">
-        <div className="img__thumb">
-          {img.src ? <img src={resolveImage(img.src)} alt="" /> : <span>No image</span>}
-          {up.busy && <span className="img__busy"><Loader2 className="spin" size={22} /></span>}
-        </div>
+        <div className="img__left"><Thumb src={img.src} empty="No photo" busy={up.busy} onStatus={setStatus} /></div>
         <div className="img__side">
           <div className="img__buttons">
-            <button type="button" className="b b--soft" onClick={up.pick} disabled={up.busy}><ImagePlus size={16} /> {img.src ? 'Replace' : 'Upload'}</button>
-            <button type="button" className="b b--ghost" onClick={() => setShowUrl((s) => !s)}><Link2 size={16} /> Link</button>
-            {img.src && <button type="button" className="b b--ghost b--danger" onClick={() => onChange(newPhoto(img, { src: '' }))} aria-label="Remove image"><X size={16} /></button>}
+            <button type="button" className="b b--soft" onClick={up.pick} disabled={up.busy}><ImagePlus size={16} /> {img.src ? 'Upload a new photo' : 'Upload a photo'}</button>
+            {img.src && <button type="button" className="b b--ghost b--danger" onClick={() => onChange(newPhoto(img, { src: '' }))} aria-label="Remove photo"><X size={16} /></button>}
           </div>
-          {showUrl && (
-            <input className="input input--sm" placeholder="https://…" value={img.src} onChange={(e) => onChange(newPhoto(img, { src: e.target.value.trim() }))} aria-label="Image link" />
-          )}
+          <LinkBox value={img.src} onApply={(src) => onChange(newPhoto(img, { src }))} />
+          <PhotoStatus status={status} />
+          <p className="f__help"><Link2 size={13} /> {IMAGE_LINK_HELP}</p>
           <input className="input input--sm" placeholder="Describe the photo (for Google and screen readers)" value={img.alt ?? ''}
-            onChange={(e) => onChange({ ...img, alt: e.target.value })} aria-label="Image description" />
+            onChange={(e) => onChange({ ...img, alt: e.target.value })} aria-label="Photo description" />
           {img.credit && <p className="f__help">Photo: {img.credit} (credited in the footer)</p>}
           {up.error && <p className="f__error">{up.error}</p>}
         </div>
@@ -157,21 +203,19 @@ export function ImageInput({ label, help, value, onChange }) {
 
 // A single image address (logo, share picture).
 export function ImageSrcInput({ label, help, value, onChange }) {
-  const { resolveImage } = useContext(AdminContext)
   const up = useUpload((path) => onChange(path))
+  const [status, setStatus] = usePhotoStatus(value)
   return (
     <Field label={label} help={help}>
       <div className="img img--small">
-        <div className="img__thumb">
-          {value ? <img src={resolveImage(value)} alt="" /> : <span>None</span>}
-          {up.busy && <span className="img__busy"><Loader2 className="spin" size={20} /></span>}
-        </div>
+        <div className="img__left"><Thumb src={value} empty="None" busy={up.busy} contain onStatus={setStatus} /></div>
         <div className="img__side">
           <div className="img__buttons">
-            <button type="button" className="b b--soft" onClick={up.pick} disabled={up.busy}><ImagePlus size={16} /> {value ? 'Replace' : 'Upload'}</button>
+            <button type="button" className="b b--soft" onClick={up.pick} disabled={up.busy}><ImagePlus size={16} /> {value ? 'Upload a new one' : 'Upload'}</button>
             {value && <button type="button" className="b b--ghost b--danger" onClick={() => onChange('')}><X size={16} /> Remove</button>}
           </div>
-          <input className="input input--sm" placeholder="or paste an image link: https://…" value={value ?? ''} onChange={(e) => onChange(e.target.value.trim())} aria-label="Image link" />
+          <LinkBox value={value} onApply={onChange} />
+          <PhotoStatus status={status} />
           {up.error && <p className="f__error">{up.error}</p>}
         </div>
         {up.input}

@@ -9,6 +9,9 @@ import { scrollToForm } from './site/hooks.js'
 import initialContent from './content/site.json'
 import './site/site.css'
 
+// Lets the stylesheet fade photos in only when scripts are running.
+document.documentElement.classList.add('js')
+
 const isPreview = new URLSearchParams(window.location.search).has('preview') && window.parent !== window
 
 // scrollIntoView would also scroll the admin panel around the preview, so
