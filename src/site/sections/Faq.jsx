@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react'
+import { Plus } from '../ph.jsx'
 
 export default function Faq({ content, tone }) {
   const { faq } = content
@@ -14,7 +14,7 @@ export default function Faq({ content, tone }) {
         <div className="faq__list reveal">
           {faq.items.map((f, i) => (
             <details key={i} className="faq__item">
-              <summary><span>{f.q}</span><Plus size={20} aria-hidden="true" /></summary>
+              <summary><span>{f.q}</span><Plus size={18} weight="bold" aria-hidden="true" /></summary>
               <p>{f.a}</p>
             </details>
           ))}

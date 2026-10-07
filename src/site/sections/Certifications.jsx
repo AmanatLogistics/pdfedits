@@ -1,4 +1,4 @@
-import { BadgeCheck } from 'lucide-react'
+import { SealCheck } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
 
 export default function Certifications({ content, tone }) {
@@ -12,7 +12,7 @@ export default function Certifications({ content, tone }) {
           {c.items.map((it, i) => {
             const body = (
               <>
-                {it.image?.src ? <img src={it.image.src} alt={it.image.alt || it.name} loading="lazy" /> : <BadgeCheck size={36} strokeWidth={1.6} />}
+                {it.image?.src ? <img src={it.image.src} alt={it.image.alt || it.name} loading="lazy" /> : <SealCheck size={40} weight="duotone" />}
                 <strong>{it.name}</strong>
                 {it.number && <span>{it.number}</span>}
               </>

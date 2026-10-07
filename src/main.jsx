@@ -1,6 +1,7 @@
-import { StrictMode, useEffect, useState } from 'react'
-import { createRoot, hydrateRoot } from 'react-dom/client'
-import { Analytics } from '@vercel/analytics/react'
+import { hydrate, render } from 'preact'
+import { useEffect, useState } from 'preact/hooks'
+import { inject } from '@vercel/analytics'
+import '@fontsource-variable/manrope'
 import Site from './site/Site.jsx'
 import initialContent from './content/site.json'
 import './site/site.css'
@@ -25,16 +26,10 @@ function PreviewSite() {
 }
 
 const root = document.getElementById('root')
-const app = isPreview
-  ? <PreviewSite />
-  : (
-    <StrictMode>
-      <Site content={initialContent} />
-      <Analytics />
-    </StrictMode>
-  )
-
-// (In development, editing content can re-run this file; reuse the root then.)
-if (root.__faizRoot) root.__faizRoot.render(app)
-else if (!isPreview && root.hasChildNodes()) root.__faizRoot = hydrateRoot(root, app)
-else (root.__faizRoot = createRoot(root)).render(app)
+if (isPreview) {
+  render(<PreviewSite />, root)
+} else {
+  // The page arrives fully rendered; this only attaches the interactive parts.
+  (root.hasChildNodes() ? hydrate : render)(<Site content={initialContent} />, root)
+  if (import.meta.env.PROD) inject()
+}

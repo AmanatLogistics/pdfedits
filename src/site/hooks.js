@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'preact/hooks'
 
 // Counts up to `value` when the element scrolls into view. The first render
 // (and the prerendered HTML) shows the real number, so nothing reads "0" if

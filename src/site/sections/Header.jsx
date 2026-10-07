@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Clock, Mail, Menu, Phone, X } from 'lucide-react'
+import { useEffect, useState } from 'preact/hooks'
+import { Clock, EnvelopeSimple, List, Phone, X } from '../ph.jsx'
 import Logo from '../Logo.jsx'
 import { telHref } from '../hooks.js'
 
@@ -34,34 +34,35 @@ export default function Header({ content, navSections }) {
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
   }, [open])
 
+  const close = () => setOpen(false)
   return (
     <header className={`header ${solid || open ? 'header--solid' : ''}`}>
       <div className="topbar">
         <div className="container topbar__inner">
           <div className="topbar__links">
-            {company.phone && <a href={telHref(company.phone)}><Phone size={14} /> {company.phone}</a>}
-            {company.email && <a href={`mailto:${company.email}`}><Mail size={14} /> {company.email}</a>}
+            {company.phone && <a href={telHref(company.phone)}><Phone size={15} weight="duotone" /> {company.phone}</a>}
+            {company.email && <a href={`mailto:${company.email}`}><EnvelopeSimple size={15} weight="duotone" /> {company.email}</a>}
           </div>
-          {company.hours && <span className="topbar__hours"><Clock size={14} /> {company.hours}</span>}
+          {company.hours && <span className="topbar__hours"><Clock size={15} weight="duotone" /> {company.hours}</span>}
         </div>
       </div>
       <div className="container header__bar">
-        <a href="#top" className="header__brand" aria-label={`${company.name}, back to top`}>
+        <a href="#top" className="header__brand">
           <Logo company={company} light={!solid && !open} />
         </a>
         <nav id="site-nav" className={`nav ${open ? 'is-open' : ''}`} aria-label="Main">
           {navSections.map((s) => (
-            <a key={s.id} href={`#${s.id}`} className={active === s.id ? 'is-active' : ''} onClick={() => setOpen(false)}>{s.label}</a>
+            <a key={s.id} href={`#${s.id}`} className={active === s.id ? 'is-active' : ''} onClick={close}>{s.label}</a>
           ))}
-          <a href="#contact" className="btn btn--accent nav__cta" onClick={() => setOpen(false)}>{hero.primaryButton || 'Request a Quote'}</a>
+          <a href="#contact" className="btn btn--accent nav__cta" onClick={close}>{hero.primaryButton || 'Request a Quote'}</a>
           <div className="nav__contact">
-            {company.phone && <a href={telHref(company.phone)}><Phone size={16} /> {company.phone}</a>}
-            {company.email && <a href={`mailto:${company.email}`}><Mail size={16} /> {company.email}</a>}
+            {company.phone && <a href={telHref(company.phone)}><Phone size={18} weight="duotone" /> {company.phone}</a>}
+            {company.email && <a href={`mailto:${company.email}`}><EnvelopeSimple size={18} weight="duotone" /> {company.email}</a>}
           </div>
         </nav>
         <button type="button" className="header__toggle" aria-controls="site-nav" aria-expanded={open}
           aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen((o) => !o)}>
-          {open ? <X size={24} /> : <Menu size={24} />}
+          {open ? <X size={22} weight="bold" /> : <List size={22} weight="bold" />}
         </button>
       </div>
     </header>

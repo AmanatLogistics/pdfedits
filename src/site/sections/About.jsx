@@ -1,5 +1,5 @@
-import { Check } from 'lucide-react'
 import Photo from '../Photo.jsx'
+import { Icon } from '../icons.jsx'
 
 export default function About({ content, tone }) {
   const { about, company } = content
@@ -23,13 +23,24 @@ export default function About({ content, tone }) {
           {about.lead && <p className="lead">{about.lead}</p>}
           {about.text && <p>{about.text}</p>}
           {about.points?.length > 0 && (
-            <ul className="checklist">
-              {about.points.filter(Boolean).map((p, i) => <li key={i}><Check size={16} strokeWidth={3} /> {p}</li>)}
+            <ul className="features">
+              {about.points.map((p, i) => (
+                <li key={i}>
+                  <span className="features__icon"><Icon name={p.icon} size={26} /></span>
+                  <div><h3>{p.title}</h3><p>{p.text}</p></div>
+                </li>
+              ))}
             </ul>
           )}
-          {about.button && <a href="#contact" className="btn btn--primary">{about.button}</a>}
         </div>
       </div>
+      {about.steps?.length > 0 && (
+        <div className="container">
+          <ol className="steps reveal" style={{ '--n': about.steps.length }}>
+            {about.steps.filter(Boolean).map((s, i) => <li key={i}><span>{i + 1}</span>{s}</li>)}
+          </ol>
+        </div>
+      )}
     </section>
   )
 }

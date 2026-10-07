@@ -1,19 +1,7 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState } from 'preact/hooks'
+import { responsiveSet } from './images.js'
 
-// Pexels images can be requested at any width, so offer the browser a range.
-function pexelsSet(src) {
-  if (!/^https:\/\/images\.pexels\.com\//.test(src)) return null
-  const at = (w) => {
-    const u = new URL(src)
-    u.searchParams.set('auto', 'compress')
-    u.searchParams.set('cs', 'tinysrgb')
-    u.searchParams.set('w', String(w))
-    return u.toString()
-  }
-  return { src: at(1200), srcSet: [480, 800, 1200, 1800, 2400].map((w) => `${at(w)} ${w}w`).join(', ') }
-}
-
-export default function Photo({ image, className = '', sizes = '100vw', eager = false }) {
+export default function Photo({ image, className = '', sizes = '100vw', eager = false, plain = false, width, height }) {
   const [failed, setFailed] = useState(false)
   // A prerendered image can fail before scripts start, when React's onError
   // is not attached yet, so check again once the element is in place.
@@ -22,7 +10,7 @@ export default function Photo({ image, className = '', sizes = '100vw', eager = 
   }, [])
   const src = image?.src
   if (!src || failed) return <div className={`photo photo--empty ${className}`} role="presentation" />
-  const set = pexelsSet(src)
+  const set = plain ? null : responsiveSet(src)
   return (
     <div className={`photo ${className}`}>
       <img
@@ -31,6 +19,8 @@ export default function Photo({ image, className = '', sizes = '100vw', eager = 
         srcSet={set?.srcSet}
         sizes={set ? sizes : undefined}
         alt={image.alt || ''}
+        width={width}
+        height={height}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"
         onError={() => setFailed(true)}

@@ -1,4 +1,4 @@
-import { Quote } from 'lucide-react'
+import { Quotes } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
 
 export default function Testimonials({ content, tone }) {
@@ -11,7 +11,7 @@ export default function Testimonials({ content, tone }) {
         <div className="quotes">
           {t.items.map((q, i) => (
             <figure className="quote reveal" key={i}>
-              <Quote size={28} aria-hidden="true" />
+              <Quotes size={32} weight="duotone" aria-hidden="true" />
               <blockquote>{q.quote}</blockquote>
               <figcaption><strong>{q.name}</strong>{(q.role || q.company) && <span>{[q.role, q.company].filter(Boolean).join(', ')}</span>}</figcaption>
             </figure>

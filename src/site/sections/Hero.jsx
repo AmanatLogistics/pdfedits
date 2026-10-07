@@ -1,44 +1,65 @@
-import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, CheckCircle, TrendUp } from '../ph.jsx'
 import Photo from '../Photo.jsx'
-import { useCountUp, fmt } from '../hooks.js'
+import { useCountUp } from '../hooks.js'
+import { fmtNum } from '../trade.js'
 
-function Stat({ stat }) {
-  const [ref, shown] = useCountUp(Number(stat.value) || 0)
+function Sparkline({ years }) {
+  if (years.length < 2) return null
+  const totals = years.map((y) => y.exported + y.imported)
+  const max = Math.max(...totals) || 1
+  const pts = totals.map((t, i) => [(i / (totals.length - 1)) * 100, 34 - (t / max) * 30])
+  const line = pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ')
   return (
-    <div className="hero-stat" ref={ref}>
-      <strong>{fmt(shown)}{stat.suffix}</strong>
-      <span>{stat.label}</span>
-    </div>
+    <svg className="spark" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true">
+      <polygon points={`0,36 ${line} 100,36`} className="spark__area" />
+      <polyline points={line} className="spark__line" vectorEffect="non-scaling-stroke" />
+    </svg>
   )
 }
 
-export default function Hero({ content, onPartner }) {
-  const { hero, stats } = content
+function Big({ value }) {
+  const [ref, shown] = useCountUp(value)
+  return <strong ref={ref} className="hero-card__big">{fmtNum(shown)}</strong>
+}
+
+export default function Hero({ content, trade, onPartner }) {
+  const { hero, statLabels: L, company } = content
+  const first = trade.byYear[0]?.year
   return (
     <section className="hero" id="top">
       <Photo image={hero.image} eager className="hero__bg" sizes="100vw" />
       <div className="hero__shade" aria-hidden="true" />
-      <div className="container hero__content">
-        {hero.eyebrow && <p className="hero__eyebrow"><span aria-hidden="true" />{hero.eyebrow}</p>}
-        <h1>{hero.title}</h1>
-        {hero.text && <p className="hero__text">{hero.text}</p>}
-        <div className="hero__actions">
-          {hero.primaryButton && <a href="#contact" className="btn btn--accent btn--lg">{hero.primaryButton} <ArrowRight size={18} /></a>}
-          {hero.secondaryButton && <button type="button" className="btn btn--ghost btn--lg" onClick={onPartner}>{hero.secondaryButton}</button>}
+      <div className="container hero__grid">
+        <div className="hero__copy">
+          {hero.eyebrow && <p className="hero__eyebrow"><span aria-hidden="true" />{hero.eyebrow}</p>}
+          <h1>{hero.title}</h1>
+          {hero.text && <p className="hero__text">{hero.text}</p>}
+          <div className="hero__actions">
+            {hero.primaryButton && <a href="#contact" className="btn btn--accent btn--lg">{hero.primaryButton} <ArrowRight size={18} weight="bold" /></a>}
+            {hero.secondaryButton && <button type="button" className="btn btn--ghost btn--lg" onClick={onPartner}>{hero.secondaryButton}</button>}
+          </div>
+          {hero.trustPoints?.length > 0 && (
+            <ul className="hero__trust">
+              {hero.trustPoints.filter(Boolean).map((t, i) => <li key={i}><CheckCircle size={20} weight="duotone" /> {t}</li>)}
+            </ul>
+          )}
         </div>
-        {hero.trustPoints?.length > 0 && (
-          <ul className="hero__trust">
-            {hero.trustPoints.filter(Boolean).map((t, i) => <li key={i}><CheckCircle2 size={18} /> {t}</li>)}
-          </ul>
+        {trade.shipped > 0 && (
+          <aside className="hero-card" aria-label="Trade record summary">
+            <p className="hero-card__label">{hero.cardTitle || `Total shipped since ${company.since}`}</p>
+            <div className="hero-card__total"><Big value={trade.shipped} /><span>tonnes</span></div>
+            <Sparkline years={trade.byYear.filter((y) => !y.partial)} />
+            {first && <p className="hero-card__range">{first} – {trade.byYear[trade.byYear.length - 1].year}{trade.growth && trade.growth.pct > 0 && <span><TrendUp size={15} weight="bold" /> +{trade.growth.pct}% in {trade.growth.to}</span>}</p>}
+            <dl className="hero-card__stats">
+              <div><dt>{L.exported}</dt><dd>{fmtNum(trade.exported)}</dd></div>
+              <div><dt>{L.imported}</dt><dd>{fmtNum(trade.imported)}</dd></div>
+              <div><dt>{L.orders}</dt><dd>{fmtNum(trade.orders)}</dd></div>
+              <div><dt>{L.countries}</dt><dd>{fmtNum(trade.countries)}</dd></div>
+            </dl>
+            <a href="#record" className="hero-card__link">See the full record <ArrowRight size={15} weight="bold" /></a>
+          </aside>
         )}
       </div>
-      {hero.showStats && stats?.length > 0 && (
-        <div className="container hero__stats-wrap">
-          <div className="hero__stats" style={{ '--cols': Math.min(stats.length, 4) }}>
-            {stats.map((s, i) => <Stat key={i} stat={s} />)}
-          </div>
-        </div>
-      )}
     </section>
   )
 }

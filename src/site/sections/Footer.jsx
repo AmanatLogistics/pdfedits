@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone } from 'lucide-react'
+import { EnvelopeSimple, MapPin, Phone } from '../ph.jsx'
 import Logo from '../Logo.jsx'
 import { telHref } from '../hooks.js'
 
@@ -18,10 +18,10 @@ export default function Footer({ content, navSections }) {
         </div>
         <div>
           <h4>Get in touch</h4>
-          {company.email && <a href={`mailto:${company.email}`}><Mail size={15} /> {company.email}</a>}
-          {company.partnershipEmail && <a href={`mailto:${company.partnershipEmail}`}><Mail size={15} /> {company.partnershipEmail}</a>}
-          {company.phone && <a href={telHref(company.phone)}><Phone size={15} /> {company.phone}</a>}
-          {company.address && <span><MapPin size={15} /> {company.address}</span>}
+          {company.email && <a href={`mailto:${company.email}`}><EnvelopeSimple size={17} weight="duotone" /> {company.email}</a>}
+          {company.partnershipEmail && <a href={`mailto:${company.partnershipEmail}`}><EnvelopeSimple size={17} weight="duotone" /> {company.partnershipEmail}</a>}
+          {company.phone && <a href={telHref(company.phone)}><Phone size={17} weight="duotone" /> {company.phone}</a>}
+          {company.address && <span><MapPin size={17} weight="duotone" /> {company.address}</span>}
         </div>
       </div>
       <div className="container footer__bottom">

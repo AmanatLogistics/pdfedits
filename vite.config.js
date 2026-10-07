@@ -1,14 +1,14 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import preact from '@preact/preset-vite'
 
-// In `npm run dev` the /api routes run inside Vite and save edits straight into
-// the project folder, so the admin panel can be tried without GitHub.
+// In `npm run dev` the /api routes run inside Vite. Without a GitHub token,
+// edits are saved straight into the project folder, so the admin panel can be
+// tried without GitHub.
 function devApi() {
   return {
     name: 'faiz-dev-api',
     apply: 'serve',
     configureServer(server) {
-      // Without a GitHub token, edits are written to the local files instead.
       if (!process.env.GITHUB_TOKEN) process.env.FAIZ_LOCAL_STORAGE = '1'
       if (!process.env.ADMIN_PASSWORD) {
         process.env.ADMIN_PASSWORD = 'admin'
@@ -30,7 +30,10 @@ function devApi() {
 }
 
 export default defineConfig(({ isSsrBuild }) => ({
-  plugins: [react(), devApi()],
+  plugins: [preact(), devApi()],
+  // Bundle everything into the prerender build so React-style imports in
+  // dependencies resolve to Preact there too.
+  ssr: { noExternal: true },
   build: isSsrBuild
     ? {}
     : { rollupOptions: { input: { main: 'index.html', admin: 'admin/index.html' } } },

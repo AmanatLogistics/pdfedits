@@ -33,7 +33,7 @@ test('publishing commits the content and used uploads in one commit, even if som
   assert.match(up.data.path, /^\/uploads\/mango-crate-[a-z0-9]+\.jpg$/)
 
   const next = structuredClone(got.data.content)
-  next.stats[0].value = 20000
+  next.records[0].tonnes = 20000
   next.hero.image.src = up.data.path
   mock.race.once = true
   const pub = await call(h.content, 'POST', {
@@ -47,7 +47,7 @@ test('publishing commits the content and used uploads in one commit, even if som
   assert.ok(tree.has(`public/uploads/${up.data.name}`))
   assert.ok(!tree.has('public/uploads/unused-1.jpg'))
   const saved = JSON.parse(mock.blobs.get(tree.get('src/content/site.json')).toString())
-  assert.equal(saved.stats[0].value, 20000)
+  assert.equal(saved.records[0].tonnes, 20000)
   assert.deepEqual(mock.problems, [])
 
   const stale = await call(h.content, 'POST', { content: got.data.content, version: got.data.version }, token)
@@ -85,4 +85,35 @@ test('inquiries are emailed to the right inbox when email is set up', async () =
     globalThis.fetch = realFetch
     delete process.env.RESEND_API_KEY
   }
+})
+
+test('trade figures are worked out from the records', async () => {
+  const { tradeSummary } = await import('../src/site/trade.js')
+  const t = tradeSummary({
+    history: { exported: 100, orders: 5 },
+    records: [
+      { date: '2025', product: 'Raisins', country: 'India', direction: 'export', tonnes: 800, orders: 30 },
+      { date: '2024', product: 'Raisins', country: 'India', direction: 'export', tonnes: 600, orders: 20 },
+      { date: '2025', product: 'Mangoes', country: 'India', direction: 'import', tonnes: 50, orders: 2 },
+      { date: '2026-03', product: 'Figs', country: 'Russia', direction: 'export', tonnes: 20, orders: 1 },
+      { date: '2026-01', product: 'Figs', country: 'Russia', direction: 'export', tonnes: 0, orders: 1 },
+    ],
+  })
+  assert.equal(t.exported, 1520)
+  assert.equal(t.imported, 50)
+  assert.equal(t.orders, 58)
+  assert.equal(t.countries, 2)
+  assert.deepEqual(t.byYear.map((y) => [y.year, y.exported, y.imported, y.partial]), [[2024, 600, 0, false], [2025, 800, 50, false], [2026, 20, 0, true]])
+  assert.equal(t.byProduct[0].name, 'Raisins')
+  assert.deepEqual(t.growth, { from: 2024, to: 2025, pct: 42 })
+  assert.equal(t.recent.length, 1)
+})
+
+test('rows pasted from Excel are understood', async () => {
+  const { parseRows, toCsv } = await import('../src/admin/records.js')
+  const rows = parseRows('Date\tProduct\tCountry\tType\tTonnes\tOrders\tTransport\nSep 2026\tPomegranates\tUAE\tExport\t1,200 t\t3\tAir cargo')
+  assert.deepEqual(rows[0], { date: '2026-09', product: 'Pomegranates', country: 'United Arab Emirates', direction: 'export', tonnes: 1200, orders: 3, transport: 'air' })
+  const csv = 'Date,Product,Country,Direction,Tonnes,Orders,Transport\n2025,Raisins,India,import,820,37,road'
+  assert.deepEqual(parseRows(csv)[0], { date: '2025', product: 'Raisins', country: 'India', direction: 'import', tonnes: 820, orders: 37, transport: 'road' })
+  assert.equal(toCsv(parseRows(csv)), csv)
 })

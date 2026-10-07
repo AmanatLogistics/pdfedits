@@ -1,8 +1,10 @@
-// Approximate map positions [latitude, longitude] for countries and regions that
-// can be picked in the admin panel. Positions sit near each country's main
-// trading city so routes on the map land somewhere recognisable.
+// Approximate map positions [latitude, longitude] for the places that can be
+// picked in the admin panel. Each country sits near its main trading city
+// (India at Delhi, Pakistan at Karachi) so routes land somewhere recognisable.
 export const COUNTRIES = {
   Afghanistan: [34.5, 69.2],
+  Kandahar: [31.6, 65.7],
+  Kabul: [34.5, 69.2],
   Algeria: [36.7, 3.1],
   Argentina: [-34.6, -58.4],
   Australia: [-33.9, 151.2],
@@ -23,7 +25,7 @@ export const COUNTRIES = {
   Ghana: [5.6, -0.2],
   Greece: [38.0, 23.7],
   'Hong Kong': [22.3, 114.2],
-  India: [19.1, 72.9],
+  India: [28.6, 77.2],
   Indonesia: [-6.2, 106.8],
   Iran: [35.7, 51.4],
   Iraq: [33.3, 44.4],

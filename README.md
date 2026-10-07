@@ -1,30 +1,40 @@
 # Faiz Fayez – Dry Fruits & Fresh Fruits Import / Export
 
-Business website for **Faiz Fayez**, with an **admin panel** at `/admin` for editing
-everything on the site without touching code.
+Business website for **Faiz Fayez**, a dry fruit and fresh fruit trading company in
+**Kandahar, Afghanistan**. Its main job is to show buyers and partners the company’s trade
+record: how many tonnes were exported and imported, how many orders were completed, and
+where the goods went. There is an **admin panel** at `/admin` for editing everything
+without touching code.
 
 ## The website
 
-- **Top banner**: full-width photo, headline, “Request a Quote” and “Become a Partner”, key numbers (imported, exported, orders, countries)
-- **About**, **Services**, **What we trade** (photo cards, click to ask for a quote)
-- **Trade numbers chart**: imports vs exports by year, with totals and growth worked out automatically
-- **Global reach map**: a world map with routes between India and every import and export country
-- **How we work**, **Why choose us**, **Questions & answers**
-- **Certifications** and **Testimonials** (hidden until you add real ones)
-- **Partnership banner** and **Contact / inquiry form**, plus a floating WhatsApp button
+- **Top banner**: headline, “Request a Quote” / “Become a Partner”, and a card with the total tonnes shipped, the yearly trend and growth
+- **Track record**: totals, tonnes shipped per year (exported vs imported), and the split by product and by country
+- **Recent shipments**: the latest consignments, with date, product, tonnes, route and transport
+- **What we trade**: product photos with tonnes shipped and season; click one to ask for a price
+- **Where we ship**: a map of the routes from Kandahar, the top destinations, and air / road / sea / rail
+- **About**, **Questions & answers**, **Certifications** and **Testimonials** (hidden until you add real ones)
+- **Partnership banner** and **inquiry form**, plus a floating WhatsApp button
 
-The page is pre-rendered at build time, so it loads fast, is fully readable by Google, and
-shows the right title, description and picture when the link is shared on WhatsApp or LinkedIn.
+Every number on the site is worked out from the **trade records** entered in the admin panel,
+so the totals, chart, map and “recent shipments” always agree with each other. While the
+example records are still in place, the site shows a small “example figures” note.
+
+The page is pre-rendered at build time and kept light (about 100 KB in total, self-hosted
+font, no large libraries), so it loads quickly on slow mobile connections, is fully readable
+by Google, and shows the right title and picture when the link is shared on WhatsApp.
 
 ## The admin panel (`/admin`)
 
-Everything on the website can be changed from the admin panel:
-
-- **Company & contact**: name, logo, emails, phone, WhatsApp, address, hours, map
-- **Colours & fonts**
-- **Sections & menu**: show/hide any section, change the order, choose what is in the top menu
-- Every section’s **texts, photos, lists and numbers** (add, remove and reorder items)
-- **Google & sharing** settings, and **Backup** (download or restore all content)
+- **Dashboard**: the current totals and one-click shortcuts (add a shipment, paste from Excel, change photos, …)
+- **Trade records**: one row per shipment (date like `2026-09`) or per yearly total (date like `2025`).
+  Add rows one by one, or **paste many rows from Excel / Google Sheets** in the order
+  Date, Product, Country, Export/Import, Tonnes, Orders, Transport. Rows can be searched,
+  filtered by year and **downloaded as a CSV** file for Excel. Totals from before the
+  records can be added in **Totals from before these records**.
+- **Products**, **Company & contact** (name, logo, emails, phone, WhatsApp, address, hours)
+- Every section’s **texts, photos and lists**, including the map’s home city and shipping methods
+- **Sections & menu** (show/hide and reorder), **Colours & fonts**, **Google & sharing**, and **Backup** (download or restore all content)
 
 Changes show in a **live preview** (desktop and phone) as you type. Nothing goes live until
 you press **Publish**. Unpublished edits are kept in your browser if you close the tab.
@@ -77,8 +87,12 @@ npm install
 npm run dev      # website on http://localhost:5173, admin on /admin/ (password: admin)
 npm run build    # production build in dist/
 npm run lint
-npm test         # admin API and inquiry form tests (no real GitHub needed)
+npm test         # admin API, inquiry form and trade-figure tests (no real GitHub needed)
 ```
+
+The site is built with Preact. Icons come from Phosphor and are generated into
+`src/site/ph.jsx` by `node scripts/build-icons.mjs`; add a name to the lists in that script
+to use another icon.
 
 In `npm run dev` the admin panel saves straight into the project files, so it can be tried
 without GitHub. The default photos are free images from Pexels; replace them with your own

@@ -4,6 +4,8 @@ import {
   Monitor, RotateCcw, Smartphone, Upload, X,
 } from 'lucide-react'
 import { PAGES } from './schema.js'
+import Dashboard from './Dashboard.jsx'
+import RecordsEditor from './RecordsEditor.jsx'
 import { AdminContext, FieldFor, Toggle } from './fields.jsx'
 import { ApiError, api, getToken, setToken } from './api.js'
 import { prepareImage } from './image.js'
@@ -12,7 +14,10 @@ import { getAt, mapImages, setAt } from './util.js'
 const DRAFT_KEY = 'faiz-admin-draft'
 const readDraft = () => { try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null') } catch { return null } }
 const writeDraft = (d) => { try { d ? localStorage.setItem(DRAFT_KEY, JSON.stringify(d)) : localStorage.removeItem(DRAFT_KEY) } catch { /* storage full or blocked */ } }
-const SECTION_NAMES = Object.fromEntries(PAGES.filter((p) => p.preview && p.preview !== 'top').map((p) => [p.preview, p.title]))
+const SECTION_NAMES = {
+  record: 'Track record', shipments: 'Recent shipments', products: 'Products', destinations: 'Destinations map', about: 'About us',
+  certifications: 'Certifications', testimonials: 'Testimonials', faq: 'Questions & answers', contact: 'Contact & partnership',
+}
 
 /* ---------------- Login ---------------- */
 
@@ -233,7 +238,8 @@ export default function AdminApp() {
   const [version, setVersion] = useState('')
   const [uploads, setUploads] = useState([])
   const [previewMap, setPreviewMap] = useState({})
-  const [pageId, setPageId] = useState('company')
+  const [pageId, setPageId] = useState('dashboard')
+  const [pasting, setPasting] = useState(false)
   const [device, setDevice] = useState('desktop')
   const [showPreview, setShowPreview] = useState(() => window.innerWidth > 1180)
   const [navOpen, setNavOpen] = useState(false)
@@ -310,6 +316,19 @@ export default function AdminApp() {
     }
   }
 
+  const goTo = (page, action) => {
+    if (action === 'add') {
+      setContent((c) => {
+        const last = c.records?.[0] || {}
+        const row = { date: new Date().toISOString().slice(0, 7), product: last.product || c.products?.items?.[0]?.title || '', country: last.country || 'India', direction: last.direction || 'export', tonnes: 0, orders: 1, transport: last.transport || 'road' }
+        return { ...c, records: [row, ...(c.records || [])] }
+      })
+    }
+    setPasting(action === 'paste')
+    setPageId(page)
+    document.querySelector('.editor')?.scrollTo(0, 0)
+  }
+
   const discard = () => {
     if (!window.confirm('Discard all changes that have not been published?')) return
     setContent(JSON.parse(published))
@@ -344,7 +363,7 @@ export default function AdminApp() {
 
   return (
     <AdminContext.Provider value={ctx}>
-      <div className={`admin ${showPreview ? 'with-preview' : ''}`}>
+      <div className={`admin ${showPreview ? 'with-preview' : ''} ${page.special === 'records' || page.special === 'dashboard' ? 'is-wide' : ''}`}>
         <header className="topbar-a">
           <button type="button" className="icon-b topbar-a__menu" onClick={() => setNavOpen((o) => !o)} aria-label="Menu"><MenuIcon size={18} /></button>
           <div className="topbar-a__brand"><span className="login__mark">FF</span><strong>Website admin</strong></div>
@@ -389,7 +408,7 @@ export default function AdminApp() {
                 const idx = p.preview ? sectionIndex(p.preview) : -1
                 const hidden = idx >= 0 && !content.sections[idx].visible
                 return (
-                  <button type="button" key={p.id} className={`side__item ${p.id === pageId ? 'is-on' : ''}`} onClick={() => { setPageId(p.id); setNavOpen(false) }}>
+                  <button type="button" key={p.id} className={`side__item ${p.id === pageId ? 'is-on' : ''}`} onClick={() => { goTo(p.id); setNavOpen(false) }}>
                     <p.icon size={17} /> <span>{p.title}</span>{hidden && <EyeOff size={14} className="side__hidden" aria-label="hidden" />}
                   </button>
                 )
@@ -403,7 +422,9 @@ export default function AdminApp() {
             <h1>{page.title}</h1>
             {page.intro && <p>{page.intro}</p>}
           </div>
-          <div className="editor__body">
+          <div className={`editor__body ${page.special === 'records' || page.special === 'dashboard' ? 'editor__body--wide' : ''}`}>
+            {page.special === 'dashboard' && <Dashboard content={content} status={status} dirty={dirty} goTo={goTo} />}
+            {page.special === 'records' && <RecordsEditor content={content} setContent={setContent} pasting={pasting} setPasting={setPasting} />}
             {page.special === 'sections' && <SectionsEditor content={content} setContent={setContent} />}
             {page.special === 'backup' && <BackupEditor content={content} setContent={setContent} />}
             {page.fields?.map((field, i) => {

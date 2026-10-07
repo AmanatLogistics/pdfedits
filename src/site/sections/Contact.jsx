@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { CheckCircle2, Clock, Copy, Handshake, Mail, MapPin, MessageCircle, Phone, Send } from 'lucide-react'
+import { useState } from 'preact/hooks'
+import { CheckCircle, Clock, Copy, EnvelopeSimple, Handshake, MapPin, PaperPlaneTilt, Phone, WhatsappLogo } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
 import { telHref, waHref } from '../hooks.js'
 
@@ -13,7 +13,9 @@ function buildMailto(to, typeLabel, f) {
   return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 }
 
-export default function Contact({ content, tone, request }) {
+export default function Contact({ content, tone, request: outside }) {
+  const [local, setRequest] = useState(null)
+  const request = !outside ? local : !local ? outside : local.at > outside.at ? local : outside
   const { contact, company, products } = content
   const types = contact.inquiryTypes?.length ? contact.inquiryTypes : [{ label: 'General inquiry', partnership: false }]
   const [typeIndex, setTypeIndex] = useState(0)
@@ -75,48 +77,58 @@ export default function Contact({ content, tone, request }) {
   return (
     <section className={`section section--${tone}`} id="contact">
       <div className="container">
+        {contact.partnerTitle && (
+          <div className="partner-band reveal">
+            <span className="partner-band__icon"><Handshake size={30} weight="duotone" /></span>
+            <div>
+              <h3>{contact.partnerTitle}</h3>
+              {contact.partnerText && <p>{contact.partnerText}</p>}
+            </div>
+            <button type="button" className="btn btn--accent" onClick={() => { setRequest({ partnership: true, at: Date.now() }); document.querySelector('#contact form')?.scrollIntoView({ behavior: 'smooth', block: 'center' }) }}>{contact.partnerButton || 'Become a partner'}</button>
+          </div>
+        )}
         <SectionHead eyebrow={contact.eyebrow} title={contact.title} text={contact.text} />
         <div className="contact">
           <aside className="contact__info reveal">
             {company.email && (
               <div className="cinfo">
-                <span className="cinfo__icon"><Mail size={20} /></span>
+                <span className="cinfo__icon"><EnvelopeSimple size={22} weight="duotone" /></span>
                 <div><h3>Orders &amp; inquiries</h3><a href={`mailto:${company.email}`}>{company.email}</a></div>
                 <button type="button" className="cinfo__copy" onClick={() => copy(company.email)} aria-label="Copy email address">
-                  {copied === company.email ? <CheckCircle2 size={16} /> : <Copy size={16} />}
+                  {copied === company.email ? <CheckCircle size={16} weight="bold" /> : <Copy size={16} />}
                 </button>
               </div>
             )}
             {company.partnershipEmail && (
               <div className="cinfo">
-                <span className="cinfo__icon"><Handshake size={20} /></span>
+                <span className="cinfo__icon"><Handshake size={22} weight="duotone" /></span>
                 <div><h3>Business partnerships</h3><a href={`mailto:${company.partnershipEmail}`}>{company.partnershipEmail}</a></div>
                 <button type="button" className="cinfo__copy" onClick={() => copy(company.partnershipEmail)} aria-label="Copy partnership email address">
-                  {copied === company.partnershipEmail ? <CheckCircle2 size={16} /> : <Copy size={16} />}
+                  {copied === company.partnershipEmail ? <CheckCircle size={16} weight="bold" /> : <Copy size={16} />}
                 </button>
               </div>
             )}
             {company.phone && (
               <div className="cinfo">
-                <span className="cinfo__icon"><Phone size={20} /></span>
+                <span className="cinfo__icon"><Phone size={22} weight="duotone" /></span>
                 <div><h3>Phone</h3><a href={telHref(company.phone)}>{company.phone}</a></div>
               </div>
             )}
             {company.whatsapp && (
               <div className="cinfo">
-                <span className="cinfo__icon cinfo__icon--wa"><MessageCircle size={20} /></span>
+                <span className="cinfo__icon cinfo__icon--wa"><WhatsappLogo size={22} weight="duotone" /></span>
                 <div><h3>WhatsApp</h3><a href={waHref(company.whatsapp)} target="_blank" rel="noreferrer">Chat with our team</a></div>
               </div>
             )}
             {company.address && (
               <div className="cinfo">
-                <span className="cinfo__icon"><MapPin size={20} /></span>
+                <span className="cinfo__icon"><MapPin size={22} weight="duotone" /></span>
                 <div><h3>Office</h3><span>{company.address}</span></div>
               </div>
             )}
             {company.hours && (
               <div className="cinfo">
-                <span className="cinfo__icon"><Clock size={20} /></span>
+                <span className="cinfo__icon"><Clock size={22} weight="duotone" /></span>
                 <div><h3>Business hours</h3><span>{company.hours}</span></div>
               </div>
             )}
@@ -128,7 +140,7 @@ export default function Contact({ content, tone, request }) {
           <form className="form reveal" onSubmit={submit} noValidate={false}>
             {state.status === 'sent' ? (
               <div className="form__done" role="status">
-                <CheckCircle2 size={44} />
+                <CheckCircle size={48} weight="duotone" />
                 <h3>Inquiry sent</h3>
                 <p>{state.message}</p>
                 <button type="button" className="btn btn--primary" onClick={() => setState({ status: 'idle', message: '' })}>Send another inquiry</button>
@@ -163,7 +175,7 @@ export default function Contact({ content, tone, request }) {
                 </div>
                 <div className="form__foot">
                   <button type="submit" className="btn btn--accent btn--lg" disabled={state.status === 'sending'}>
-                    {state.status === 'sending' ? 'Sending…' : contact.submitLabel || 'Send Inquiry'} <Send size={17} />
+                    {state.status === 'sending' ? 'Sending…' : contact.submitLabel || 'Send Inquiry'} <PaperPlaneTilt size={18} weight="bold" />
                   </button>
                   <p className="form__note" role="status">
                     {state.status === 'error' && <span className="form__error">{state.message}</span>}
