@@ -24,7 +24,10 @@ function Big({ value }) {
 
 export default function Hero({ content, trade, contactHref = '#contact', onPartner }) {
   const { hero, statLabels: L, company } = content
-  const first = trade.byYear[0]?.year
+  // The trend line covers full years only, so the label does too.
+  const full = trade.byYear.filter((y) => !y.partial)
+  const first = full[0]?.year
+  const last = full[full.length - 1]?.year
   const unit = unitOf(content)
   const many = trade.countries > 1
   return (
@@ -50,8 +53,8 @@ export default function Hero({ content, trade, contactHref = '#contact', onPartn
           <aside className="hero-card" aria-label="Trade record summary">
             <p className="hero-card__label">{hero.cardTitle || `Total shipped since ${company.since}`}</p>
             <div className="hero-card__total"><Big value={trade.shipped} /><span>{unit}</span></div>
-            <Sparkline years={trade.byYear.filter((y) => !y.partial)} />
-            {first && <p className="hero-card__range">{first} – {trade.byYear[trade.byYear.length - 1].year}{trade.growth && trade.growth.pct > 0 && <span><TrendUp size={15} weight="bold" /> +{trade.growth.pct}% in {trade.growth.to}</span>}</p>}
+            <Sparkline years={full} />
+            {first && <p className="hero-card__range">{first === last ? first : `${first} – ${last}`}{trade.growth && trade.growth.pct > 0 && <span><TrendUp size={15} weight="bold" /> +{trade.growth.pct}% in {trade.growth.to}</span>}</p>}
             <dl className="hero-card__stats">
               <div><dt>{L.exported}</dt><dd>{fmtNum(trade.exported)}</dd></div>
               <div><dt>{L.imported}</dt><dd>{fmtNum(trade.imported)}</dd></div>

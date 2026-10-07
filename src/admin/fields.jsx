@@ -113,12 +113,21 @@ function useUpload(onDone) {
   return { busy, error, pick, input }
 }
 
-// An image with alt text: { src, alt }.
+// A backup address and photographer credit belong to one photo, so they are dropped when it changes.
+const newPhoto = (img, patch) => {
+  const next = { ...img, ...patch }
+  delete next.fallback
+  delete next.credit
+  delete next.creditUrl
+  return next
+}
+
+// An image with alt text: { src, alt } (plus an optional credit for photos that need one).
 export function ImageInput({ label, help, value, onChange }) {
   const { resolveImage } = useContext(AdminContext)
   const img = value && typeof value === 'object' ? value : { src: '', alt: '' }
   const [showUrl, setShowUrl] = useState(false)
-  const up = useUpload((path, file) => onChange({ ...img, src: path, alt: img.alt || file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ') }))
+  const up = useUpload((path, file) => onChange(newPhoto(img, { src: path, alt: img.alt || file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ') })))
   return (
     <Field label={label} help={help}>
       <div className="img">
@@ -130,13 +139,14 @@ export function ImageInput({ label, help, value, onChange }) {
           <div className="img__buttons">
             <button type="button" className="b b--soft" onClick={up.pick} disabled={up.busy}><ImagePlus size={16} /> {img.src ? 'Replace' : 'Upload'}</button>
             <button type="button" className="b b--ghost" onClick={() => setShowUrl((s) => !s)}><Link2 size={16} /> Link</button>
-            {img.src && <button type="button" className="b b--ghost b--danger" onClick={() => onChange({ ...img, src: '' })} aria-label="Remove image"><X size={16} /></button>}
+            {img.src && <button type="button" className="b b--ghost b--danger" onClick={() => onChange(newPhoto(img, { src: '' }))} aria-label="Remove image"><X size={16} /></button>}
           </div>
           {showUrl && (
-            <input className="input input--sm" placeholder="https://…" value={img.src} onChange={(e) => onChange({ ...img, src: e.target.value.trim() })} aria-label="Image link" />
+            <input className="input input--sm" placeholder="https://…" value={img.src} onChange={(e) => onChange(newPhoto(img, { src: e.target.value.trim() }))} aria-label="Image link" />
           )}
           <input className="input input--sm" placeholder="Describe the photo (for Google and screen readers)" value={img.alt ?? ''}
             onChange={(e) => onChange({ ...img, alt: e.target.value })} aria-label="Image description" />
+          {img.credit && <p className="f__help">Photo: {img.credit} (credited in the footer)</p>}
           {up.error && <p className="f__error">{up.error}</p>}
         </div>
         {up.input}

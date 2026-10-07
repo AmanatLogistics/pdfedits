@@ -108,8 +108,8 @@
       "title": "Shipping & logistics",
       "text": "Air, road and sea freight from Kandahar, with every document arranged for you.",
       "image": {
-        "src": "https://images.pexels.com/photos/15733306/pexels-photo-15733306.jpeg?auto=compress&cs=tinysrgb&w=1600",
-        "alt": "A truck loaded with sacks"
+        "src": "https://images.pexels.com/photos/17358983/pexels-photo-17358983.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "alt": "Bags of cargo loaded on a truck"
       }
     },
     "about": {
@@ -118,8 +118,8 @@
       "title": "About Faiz Fayez LTD",
       "text": "A Kandahar trading house supplying dry fruits and fresh fruits since 2014.",
       "image": {
-        "src": "https://images.pexels.com/photos/25067701/pexels-photo-25067701.jpeg?auto=compress&cs=tinysrgb&w=1600",
-        "alt": "Sacks of nuts and dried fruit at a bazaar"
+        "src": "https://images.pexels.com/photos/18523341/pexels-photo-18523341.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "alt": "Fresh red pomegranates piled at a market"
       }
     },
     "contact": {
@@ -682,8 +682,11 @@
         "tag": "Dry fruit",
         "season": "All year",
         "image": {
-          "src": "https://images.pexels.com/photos/9762169/pexels-photo-9762169.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "A plate of dried figs and dates"
+          "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Dried_Figs_(1).jpg/960px-Dried_Figs_(1).jpg",
+          "fallback": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Dried_Figs_(1).jpg",
+          "alt": "A pile of dried figs",
+          "credit": "Dried figs by Chefallen, CC BY-SA 3.0",
+          "creditUrl": "https://commons.wikimedia.org/wiki/File:Dried_Figs_(1).jpg"
         }
       },
       {
@@ -731,17 +734,20 @@
     "items": [
       {
         "image": {
+          "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Dried_Figs_(1).jpg/960px-Dried_Figs_(1).jpg",
+          "fallback": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Dried_Figs_(1).jpg",
+          "alt": "A pile of dried figs",
+          "credit": "Dried figs by Chefallen, CC BY-SA 3.0",
+          "creditUrl": "https://commons.wikimedia.org/wiki/File:Dried_Figs_(1).jpg"
+        },
+        "caption": "Dried figs"
+      },
+      {
+        "image": {
           "src": "https://images.pexels.com/photos/25067701/pexels-photo-25067701.jpeg?auto=compress&cs=tinysrgb&w=1200",
           "alt": "Sacks of nuts and dried fruit at a bazaar"
         },
         "caption": "Dry fruits at the bazaar"
-      },
-      {
-        "image": {
-          "src": "https://images.pexels.com/photos/9762169/pexels-photo-9762169.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "A plate of dried figs and dates"
-        },
-        "caption": "Dried figs"
       },
       {
         "image": {
@@ -759,10 +765,10 @@
       },
       {
         "image": {
-          "src": "https://images.pexels.com/photos/5332498/pexels-photo-5332498.jpeg?auto=compress&cs=tinysrgb&w=1200",
-          "alt": "Dried fruits on trays at a market stall"
+          "src": "https://images.pexels.com/photos/29060107/pexels-photo-29060107.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "alt": "Dried apricots at a market"
         },
-        "caption": "Sorted and graded"
+        "caption": "Dried apricots"
       },
       {
         "image": {

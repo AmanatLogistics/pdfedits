@@ -8,7 +8,13 @@ export default function Products({ content, trade, tone, onAsk, more }) {
   const { products } = content
   const unit = unitOf(content)
   const tags = useMemo(() => [...new Set(products.items.map((p) => p.tag).filter(Boolean))], [products.items])
-  const tonnes = Object.fromEntries(trade.byProduct.map((p) => [p.name, p.tonnes]))
+  const traded = Object.fromEntries(trade.byProduct.map((p) => [p.name, p]))
+  // Products we mostly import say "imported" rather than "shipped".
+  const amount = (name) => {
+    const t = traded[name]
+    if (!t?.tonnes) return null
+    return `${fmtNum(t.tonnes)} ${unit} ${t.imported > t.exported ? 'imported' : 'shipped'}`
+  }
   const [filter, setFilter] = useState('')
   const items = filter ? products.items.filter((p) => p.tag === filter) : products.items
   return (
@@ -33,7 +39,7 @@ export default function Products({ content, trade, tone, onAsk, more }) {
                   {p.tag && <span className="product__tag">{p.tag}</span>}
                 </span>
                 <span className="product__meta">
-                  {tonnes[p.title] > 0 && <span><Package size={16} weight="duotone" /> {fmtNum(tonnes[p.title])} {unit} shipped</span>}
+                  {amount(p.title) && <span><Package size={16} weight="duotone" /> {amount(p.title)}</span>}
                   {p.season && <span><CalendarBlank size={16} weight="duotone" /> {p.season}</span>}
                 </span>
                 <span className="product__cta">Ask for a price <ArrowUpRight size={15} weight="bold" /></span>
