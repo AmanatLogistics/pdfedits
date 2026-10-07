@@ -60,3 +60,12 @@ export const fmt = (n) => Number(n || 0).toLocaleString('en-IN')
 
 export const telHref = (phone) => `tel:${String(phone || '').replace(/[^\d+]/g, '')}`
 export const waHref = (number, text) => `https://wa.me/${String(number || '').replace(/\D/g, '')}${text ? `?text=${encodeURIComponent(text)}` : ''}`
+
+// Brings the inquiry form into view. (scrollIntoView would also scroll the
+// admin panel when the site runs in its preview.)
+export function scrollToForm(smooth = true) {
+  const el = document.querySelector('#contact form')
+  if (!el) return
+  const r = el.getBoundingClientRect()
+  window.scrollTo({ top: r.top + window.scrollY - Math.max(80, (window.innerHeight - r.height) / 2), behavior: smooth ? 'smooth' : 'auto' })
+}

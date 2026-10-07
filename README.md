@@ -1,20 +1,28 @@
 # Faiz Fayez – Dry Fruits & Fresh Fruits Import / Export
 
-Business website for **Faiz Fayez**, a dry fruit and fresh fruit trading company in
+Business website for **Faiz Fayez LTD**, a dry fruit and fresh fruit trading company in
 **Kandahar, Afghanistan**. Its main job is to show buyers and partners the company’s trade
-record: how many tonnes were exported and imported, how many orders were completed, and
+record: how many tons were exported and imported, how many orders were completed, and
 where the goods went. There is an **admin panel** at `/admin` for editing everything
 without touching code.
 
 ## The website
 
-- **Top banner**: headline, “Request a Quote” / “Become a Partner”, and a card with the total tonnes shipped, the yearly trend and growth
-- **Track record**: totals, tonnes shipped per year (exported vs imported), and the split by product and by country
-- **Recent shipments**: the latest consignments, with date, product, tonnes, route and transport
-- **What we trade**: product photos with tonnes shipped and season; click one to ask for a price
-- **Where we ship**: a map of the routes from Kandahar, the top destinations, and air / road / sea / rail
-- **About**, **Questions & answers**, **Certifications** and **Testimonials** (hidden until you add real ones)
-- **Partnership banner** and **inquiry form**, plus a floating WhatsApp button
+The **home page** shows everything on one page. Each topic also has **its own page**, with a
+banner at the top and a closing “Request a Quote” banner:
+
+| Page | Address | What it shows |
+|---|---|---|
+| Home | `/` | Every section below, in the order set in the admin panel |
+| Track Record | `/track-record` | Totals, tons shipped per year, by product and by transport, and recent shipments |
+| Products | `/products` | Product photos with tons shipped and season, and the photo gallery |
+| Shipping | `/shipping` | The route map from Kandahar and the air, road and sea options |
+| About | `/about` | About the company, how ordering works, and questions & answers |
+| Contact | `/contact` | Inquiry form, partnership banner, emails, phone and WhatsApp |
+
+Clicking a product on any page opens the inquiry form with that product filled in.
+The logo is a Kandahar pomegranate with the “FF” monogram, drawn in the brand colours
+(it is also the browser-tab icon); an uploaded logo image replaces it.
 
 Every number on the site is worked out from the **trade records** entered in the admin panel,
 so the totals, chart, map and “recent shipments” always agree with each other. While the
@@ -29,14 +37,18 @@ by Google, and shows the right title and picture when the link is shared on What
 - **Dashboard**: the current totals and one-click shortcuts (add a shipment, paste from Excel, change photos, …)
 - **Trade records**: one row per shipment (date like `2026-09`) or per yearly total (date like `2025`).
   Add rows one by one, or **paste many rows from Excel / Google Sheets** in the order
-  Date, Product, Country, Export/Import, Tonnes, Orders, Transport. Rows can be searched,
+  Date, Product, Country, Export/Import, Tons, Orders, Transport. Rows can be searched,
   filtered by year and **downloaded as a CSV** file for Excel. Totals from before the
   records can be added in **Totals from before these records**.
 - **Products**, **Company & contact** (name, logo, emails, phone, WhatsApp, address, hours)
-- Every section’s **texts, photos and lists**, including the map’s home city and shipping methods
-- **Sections & menu** (show/hide and reorder), **Colours & fonts**, **Google & sharing**, and **Backup** (download or restore all content)
+- **Pages & menu**: each page’s menu name, banner title, text and photo; which pages are in the
+  top menu; and the order and visibility of the home page sections
+- Every section’s **texts, photos and lists**: top banner, track record (including the unit
+  name, “Tons”), recent shipments, photo gallery, shipping & map, about, FAQ, contact,
+  closing banner and footer
+- **Colours & fonts**, **Google & sharing**, and **Backup** (download or restore all content)
 
-Changes show in a **live preview** (desktop and phone) as you type. Nothing goes live until
+Changes show in a **live preview** (desktop and phone) as you type; links in the preview move between pages. Nothing goes live until
 you press **Publish**. Unpublished edits are kept in your browser if you close the tab.
 
 **How publishing works:** pressing Publish saves the content to this GitHub repository

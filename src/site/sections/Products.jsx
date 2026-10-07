@@ -2,10 +2,11 @@ import { useMemo, useState } from 'preact/hooks'
 import { ArrowUpRight, CalendarBlank, Package } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
 import Photo from '../Photo.jsx'
-import { fmtNum } from '../trade.js'
+import { fmtNum, unitOf } from '../trade.js'
 
-export default function Products({ content, trade, tone, onAsk }) {
-  const { products, record } = content
+export default function Products({ content, trade, tone, onAsk, more }) {
+  const { products } = content
+  const unit = unitOf(content)
   const tags = useMemo(() => [...new Set(products.items.map((p) => p.tag).filter(Boolean))], [products.items])
   const tonnes = Object.fromEntries(trade.byProduct.map((p) => [p.name, p.tonnes]))
   const [filter, setFilter] = useState('')
@@ -13,7 +14,7 @@ export default function Products({ content, trade, tone, onAsk }) {
   return (
     <section className={`section section--${tone}`} id="products">
       <div className="container">
-        <SectionHead eyebrow={products.eyebrow} title={products.title} text={products.text} />
+        <SectionHead eyebrow={products.eyebrow} title={products.title} text={products.text} more={more} />
         {tags.length > 1 && (
           <div className="filters" role="group" aria-label="Filter products">
             <button type="button" className={!filter ? 'is-active' : ''} aria-pressed={!filter} onClick={() => setFilter('')}>All</button>
@@ -23,8 +24,8 @@ export default function Products({ content, trade, tone, onAsk }) {
           </div>
         )}
         <div className="products">
-          {items.map((p) => (
-            <button type="button" className="product" key={p.title} onClick={() => onAsk(p.title)}>
+          {items.map((p, i) => (
+            <button type="button" className="product reveal" style={{ '--i': i % 4 }} key={p.title} onClick={() => onAsk(p.title)}>
               <Photo image={p.image} className="product__img" sizes="(max-width: 700px) 50vw, 300px" />
               <span className="product__body">
                 <span className="product__top">
@@ -32,7 +33,7 @@ export default function Products({ content, trade, tone, onAsk }) {
                   {p.tag && <span className="product__tag">{p.tag}</span>}
                 </span>
                 <span className="product__meta">
-                  {tonnes[p.title] > 0 && <span><Package size={16} weight="duotone" /> {fmtNum(tonnes[p.title])} {record?.unit || 't'} shipped</span>}
+                  {tonnes[p.title] > 0 && <span><Package size={16} weight="duotone" /> {fmtNum(tonnes[p.title])} {unit} shipped</span>}
                   {p.season && <span><CalendarBlank size={16} weight="duotone" /> {p.season}</span>}
                 </span>
                 <span className="product__cta">Ask for a price <ArrowUpRight size={15} weight="bold" /></span>

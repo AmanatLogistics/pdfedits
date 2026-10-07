@@ -59,6 +59,6 @@ export function parseRows(text) {
 
 export function toCsv(records) {
   const q = (v) => (/[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v))
-  return ['Date,Product,Country,Direction,Tonnes,Orders,Transport', ...records.map((r) => [r.date, r.product, r.country, r.direction, r.tonnes, r.orders, r.transport].map(q).join(','))].join('\n')
+  return ['Date,Product,Country,Direction,Tons,Orders,Transport', ...records.map((r) => [r.date, r.product, r.country, r.direction, r.tonnes, r.orders, r.transport].map(q).join(','))].join('\n')
 }
 

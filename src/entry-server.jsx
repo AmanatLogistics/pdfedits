@@ -1,6 +1,8 @@
 import { renderToString } from 'preact-render-to-string'
-import Site from './site/Site.jsx'
+import Site, { livePages } from './site/Site.jsx'
 
-export function render(content) {
-  return renderToString(<Site content={content} />)
+export { livePages }
+
+export function render(content, page = 'home') {
+  return renderToString(<Site content={content} page={page} />)
 }

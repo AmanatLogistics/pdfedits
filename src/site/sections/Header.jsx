@@ -3,11 +3,10 @@ import { Clock, EnvelopeSimple, List, Phone, X } from '../ph.jsx'
 import Logo from '../Logo.jsx'
 import { telHref } from '../hooks.js'
 
-export default function Header({ content, navSections }) {
+export default function Header({ content, pages, current }) {
   const { company, hero } = content
   const [open, setOpen] = useState(false)
   const [solid, setSolid] = useState(false)
-  const [active, setActive] = useState('')
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 30)
@@ -15,16 +14,6 @@ export default function Header({ content, navSections }) {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
-
-  // Highlight the menu item for the section on screen.
-  useEffect(() => {
-    if (!('IntersectionObserver' in window)) return
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id) })
-    }, { rootMargin: '-45% 0px -50% 0px' })
-    navSections.forEach((s) => { const el = document.getElementById(s.id); if (el) io.observe(el) })
-    return () => io.disconnect()
-  }, [navSections])
 
   useEffect(() => {
     if (!open) return
@@ -34,7 +23,8 @@ export default function Header({ content, navSections }) {
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
   }, [open])
 
-  const close = () => setOpen(false)
+  const nav = pages.filter((p) => p.inNav !== false && p.id !== 'contact')
+  const contact = pages.find((p) => p.id === 'contact')
   return (
     <header className={`header ${solid || open ? 'header--solid' : ''}`}>
       <div className="topbar">
@@ -47,14 +37,15 @@ export default function Header({ content, navSections }) {
         </div>
       </div>
       <div className="container header__bar">
-        <a href="#top" className="header__brand">
+        <a href="/" className="header__brand" aria-current={current === 'home' ? 'page' : undefined}>
           <Logo company={company} light={!solid && !open} />
         </a>
         <nav id="site-nav" className={`nav ${open ? 'is-open' : ''}`} aria-label="Main">
-          {navSections.map((s) => (
-            <a key={s.id} href={`#${s.id}`} className={active === s.id ? 'is-active' : ''} onClick={close}>{s.label}</a>
+          <a href="/" className={`nav__home ${current === 'home' ? 'is-active' : ''}`} aria-current={current === 'home' ? 'page' : undefined}>Home</a>
+          {nav.map((p) => (
+            <a key={p.id} href={p.path} className={current === p.id ? 'is-active' : ''} aria-current={current === p.id ? 'page' : undefined}>{p.label}</a>
           ))}
-          <a href="#contact" className="btn btn--accent nav__cta" onClick={close}>{hero.primaryButton || 'Request a Quote'}</a>
+          {contact && <a href={contact.path} className="btn btn--accent nav__cta">{hero.primaryButton || 'Request a Quote'}</a>}
           <div className="nav__contact">
             {company.phone && <a href={telHref(company.phone)}><Phone size={18} weight="duotone" /> {company.phone}</a>}
             {company.email && <a href={`mailto:${company.email}`}><EnvelopeSimple size={18} weight="duotone" /> {company.email}</a>}

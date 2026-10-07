@@ -39,11 +39,12 @@ export function tradeSummary(content) {
   const group = (key) => {
     const m = new Map()
     for (const r of records) {
-      const g = m.get(r[key]) || { name: r[key], tonnes: 0, exported: 0, imported: 0, orders: 0 }
+      const name = r[key] || (key === 'transport' ? 'road' : '')
+      const g = m.get(name) || { name, tonnes: 0, exported: 0, imported: 0, orders: 0 }
       g.tonnes += num(r.tonnes)
       g[r.direction === 'import' ? 'imported' : 'exported'] += num(r.tonnes)
       g.orders += num(r.orders)
-      m.set(r[key], g)
+      m.set(name, g)
     }
     const total = sum(records) || 1
     return [...m.values()].sort((a, b) => b.tonnes - a.tonnes).map((g) => ({ ...g, share: g.tonnes / total }))
@@ -60,10 +61,15 @@ export function tradeSummary(content) {
 
   return {
     exported, imported, shipped: exported + imported, orders, countries,
-    byYear, byProduct: group('product'), byCountry: group('country'),
+    byYear, byProduct: group('product'), byCountry: group('country'), byTransport: group('transport'),
     growth, recent, latest: recent[0]?.date || (last ? String(last.year) : ''),
   }
 }
+
+// The unit every figure is shown in, e.g. "Tons".
+export const unitOf = (content) => content.record?.unit || 'Tons'
+
+export const yearsSince = (since) => Math.max(1, new Date().getFullYear() - Number(since || 0))
 
 export const fmtNum = (n) => Math.round(num(n)).toLocaleString('en-US')
 

@@ -9,7 +9,7 @@ const ICONS = {
     'Globe', 'GlobeHemisphereEast', 'Handshake', 'Info', 'Leaf', 'MapPin', 'Medal', 'Package', 'Phone', 'Plant', 'Quotes',
     'Scales', 'SealCheck', 'ShieldCheck', 'Star', 'Train', 'TrendUp', 'Truck', 'UsersThree', 'Warehouse', 'WhatsappLogo',
   ],
-  bold: ['ArrowDownLeft', 'ArrowRight', 'ArrowUpRight', 'CheckCircle', 'List', 'PaperPlaneTilt', 'Plus', 'TrendUp', 'X'],
+  bold: ['ArrowDownLeft', 'ArrowRight', 'ArrowUpRight', 'CaretRight', 'CheckCircle', 'List', 'PaperPlaneTilt', 'Plus', 'TrendUp', 'X'],
   fill: ['WhatsappLogo'],
   regular: ['Copy'],
 }
