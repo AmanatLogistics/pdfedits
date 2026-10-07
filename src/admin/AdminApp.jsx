@@ -4,11 +4,12 @@ import {
   Monitor, RotateCcw, Smartphone, Upload, X,
 } from 'lucide-react'
 import { PAGES } from './schema.js'
-import { PAGES as SITE_PAGES, PAGE_NAMES } from '../site/pages.js'
+import { PAGES as SITE_PAGES, PAGE_NAMES, pageOfSection } from '../site/pages.js'
+import { LABEL_GROUPS } from '../site/labels.js'
 import { Emblem } from '../site/Logo.jsx'
 import Dashboard from './Dashboard.jsx'
 import RecordsEditor from './RecordsEditor.jsx'
-import { AdminContext, FieldFor, Toggle } from './fields.jsx'
+import { AdminContext, FieldFor, TextInput, Toggle } from './fields.jsx'
 import { ApiError, api, getToken, setToken } from './api.js'
 import { prepareImage } from './image.js'
 import { getAt, mapImages, setAt } from './util.js'
@@ -17,7 +18,7 @@ const DRAFT_KEY = 'faiz-admin-draft'
 const readDraft = () => { try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null') } catch { return null } }
 const writeDraft = (d) => { try { d ? localStorage.setItem(DRAFT_KEY, JSON.stringify(d)) : localStorage.removeItem(DRAFT_KEY) } catch { /* storage full or blocked */ } }
 const SECTION_NAMES = {
-  record: 'Track record', shipments: 'Recent shipments', products: 'Products', destinations: 'Destinations map', about: 'About us',
+  record: 'Track record', shipments: 'Recent shipments', products: 'Products', destinations: 'Shipping & map', about: 'About us',
   certifications: 'Certifications', testimonials: 'Testimonials', faq: 'Questions & answers', contact: 'Contact & partnership',
   gallery: 'Photo gallery',
 }
@@ -114,15 +115,14 @@ function PagesEditor({ content, setContent, setPreviewPage }) {
         )
       })}
 
-      <h2 className="pages__h">Home page sections</h2>
-      <p className="f__help">The home page shows every section, in this order. Hiding a section also hides it on its own page.</p>
+      <h2 className="pages__h">Sections on the pages</h2>
+      <p className="f__help">Show or hide each section, and set the order of the sections within each page. The home page has its own sections, under “Home page”.</p>
       <div className="sections">
-        <div className="sections__fixed">1 · Top banner <span>always first</span></div>
         {list.map((s, i) => (
           <div className={`sections__row ${s.visible ? '' : 'is-hidden'}`} key={s.id}>
-            <span className="sections__n">{i + 2}</span>
+            <span className="sections__n">{i + 1}</span>
             <div className="sections__main">
-              <strong>{SECTION_NAMES[s.id] || s.id}</strong>
+              <strong>{SECTION_NAMES[s.id] || s.id} <span className="sections__page">{PAGE_NAMES[pageOfSection(s.id)?.id] ? `· ${PAGE_NAMES[pageOfSection(s.id)?.id]} page` : ''}</span></strong>
               <div className="sections__toggles">
                 <Toggle label="Show on website" value={s.visible} onChange={(v) => update(i, { visible: v })} />
               </div>
@@ -133,8 +133,23 @@ function PagesEditor({ content, setContent, setPreviewPage }) {
             </div>
           </div>
         ))}
-        <div className="sections__fixed">Footer <span>always last</span></div>
       </div>
+    </div>
+  )
+}
+
+function LabelsEditor({ content, setContent }) {
+  const set = (key, v) => setContent((c) => ({ ...c, labels: { ...(c.labels || {}), [key]: v } }))
+  return (
+    <div className="labels">
+      {LABEL_GROUPS.map((g) => (
+        <section key={g.title} className="labels__group">
+          <h2 className="pages__h">{g.title}</h2>
+          {Object.entries(g.items).map(([key, [text, where]]) => (
+            <TextInput key={key} label={where} placeholder={text} value={content.labels?.[key] ?? ''} onChange={(v) => set(key, v)} />
+          ))}
+        </section>
+      ))}
     </div>
   )
 }
@@ -456,6 +471,7 @@ export default function AdminApp() {
             {page.special === 'records' && <RecordsEditor content={content} setContent={setContent} pasting={pasting} setPasting={setPasting} />}
             {page.special === 'pages' && <PagesEditor content={content} setContent={setContent} setPreviewPage={setPagePreview} />}
             {page.special === 'backup' && <BackupEditor content={content} setContent={setContent} />}
+            {page.special === 'labels' && <LabelsEditor content={content} setContent={setContent} />}
             {page.fields?.map((field, i) => {
               if (field.type === 'sectionToggle') {
                 const idx = sectionIndex(field.section)
@@ -467,14 +483,14 @@ export default function AdminApp() {
                   </div>
                 )
               }
-              return <FieldFor key={field.path} field={field} value={getAt(content, field.path)} onChange={(v) => setContent((c) => setAt(c, field.path, v))} />
+              return <FieldFor key={field.path || `h${i}`} field={field} value={getAt(content, field.path)} onChange={(v) => setContent((c) => setAt(c, field.path, v))} />
             })}
             {page.seoPreview && <SeoPreview content={content} />}
           </div>
         </main>
 
         {showPreview && (
-          <Preview content={content} previewMap={previewMap} scrollTo={page.preview} page={pagePreview || page.sitePage || 'home'}
+          <Preview content={content} previewMap={previewMap} scrollTo={page.preview} page={pagePreview || page.sitePage || pageOfSection(page.preview)?.id || 'home'}
             device={device} setDevice={setDevice} onClose={() => setShowPreview(false)} />
         )}
       </div>

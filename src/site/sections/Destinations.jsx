@@ -4,6 +4,7 @@ import { COUNTRIES } from '../countries.js'
 import { MAP_H, MAP_W, project } from '../map.js'
 import { TRANSPORT } from '../icons.jsx'
 import { fmtNum, unitOf } from '../trade.js'
+import { freightName, label } from '../labels.js'
 
 // Crop the world map to the area the routes cover, keeping a wide shape.
 function frame(points) {
@@ -120,7 +121,7 @@ export default function Destinations({ content, trade, more }) {
   const many = trade.countries > 1
   const rows = many
     ? trade.byCountry.slice(0, 6).map((c) => ({ key: c.name, name: c.name, tonnes: c.tonnes }))
-    : trade.byTransport.map((t) => ({ key: t.name, name: `${TRANSPORT[t.name]?.label || t.name} freight`, tonnes: t.tonnes, Icon: TRANSPORT[t.name]?.C }))
+    : trade.byTransport.map((t) => ({ key: t.name, name: freightName(content, t.name), tonnes: t.tonnes, Icon: TRANSPORT[t.name]?.C }))
   const max = rows[0]?.tonnes || 1
   const showMap = hubLL && trade.byCountry.length > 0
   return (
@@ -134,12 +135,12 @@ export default function Destinations({ content, trade, more }) {
                 <RouteMap hubName={D.hub} countries={trade.byCountry} unit={unit} />
               </div>
               <div className="dest__legend">
-                <span><i className="line line--export" /> Exports from {D.hub}</span>
-                {trade.imported > 0 && <span><i className="line line--import" /> Imports to {D.hub}</span>}
+                <span><i className="line line--export" /> {label(content, 'exportsFrom')} {D.hub}</span>
+                {trade.imported > 0 && <span><i className="line line--import" /> {label(content, 'importsTo')} {D.hub}</span>}
               </div>
             </div>
             <div className="dest__side reveal">
-              <h3>{many ? 'Top destinations' : 'How it travelled'}</h3>
+              <h3>{label(content, many ? 'topDestinations' : 'howTravelled')}</h3>
               <ol className="dest__top">
                 {rows.map((r, i) => (
                   <li key={r.key} style={{ '--i': i }}>

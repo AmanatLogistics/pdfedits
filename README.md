@@ -8,21 +8,19 @@ without touching code.
 
 ## The website
 
-The **home page** shows everything on one page. Each topic also has **its own page**, with a
-banner at the top and a closing “Request a Quote” banner:
-
 | Page | Address | What it shows |
 |---|---|---|
-| Home | `/` | Every section below, in the order set in the admin panel |
+| Home | `/` | Top banner with the total shipped, a card for each page, why buyers choose you, and how ordering works |
 | Track Record | `/track-record` | Totals, tons shipped per year, by product and by transport, and recent shipments |
 | Products | `/products` | Product photos with tons shipped and season, and the photo gallery |
 | Shipping | `/shipping` | The route map from Kandahar and the air, road and sea options |
-| About | `/about` | About the company, how ordering works, and questions & answers |
+| About | `/about` | About the company, certifications, testimonials, and questions & answers |
 | Contact | `/contact` | Inquiry form, partnership banner, emails, phone and WhatsApp |
 
-Clicking a product on any page opens the inquiry form with that product filled in.
-The logo is an “FF” monogram in a framed square, drawn in the brand colours
-(it is also the browser-tab icon); an uploaded logo image replaces it.
+The home page is an overview with its own content; each detailed section appears only on its
+own page. Moving between pages happens in place, without reloading. Clicking a product opens
+the inquiry form with that product filled in. The logo is an “FF” monogram in a framed square,
+drawn in the brand colours (it is also the browser-tab icon); an uploaded logo image replaces it.
 
 Every number on the site is worked out from the **trade records** entered in the admin panel,
 so the totals, chart, map and “recent shipments” always agree with each other. While the
@@ -41,11 +39,13 @@ by Google, and shows the right title and picture when the link is shared on What
   filtered by year and **downloaded as a CSV** file for Excel. Totals from before the
   records can be added in **Totals from before these records**.
 - **Products**, **Company & contact** (name, logo, emails, phone, WhatsApp, address, hours)
+- **Home page**: the page cards (photo, text, highlight), why choose us, and how ordering works
 - **Pages & menu**: each page’s menu name, banner title, text and photo; which pages are in the
-  top menu; and the order and visibility of the home page sections
+  top menu; and which sections are shown, in what order
 - Every section’s **texts, photos and lists**: top banner, track record (including the unit
   name, “Tons”), recent shipments, photo gallery, shipping & map, about, FAQ, contact,
   closing banner and footer
+- **Buttons & small texts**: every button, form label and small heading on the website
 - **Colours & fonts**, **Google & sharing**, and **Backup** (download or restore all content)
 
 Changes show in a **live preview** (desktop and phone) as you type; links in the preview move between pages. Nothing goes live until

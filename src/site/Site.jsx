@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'preact/hooks'
 import { fontsHref, themeCss } from './theme.js'
 import { scrollToForm, useReveal } from './hooks.js'
 import { tradeSummary } from './trade.js'
-import { PAGES, pageOfSection } from './pages.js'
+import { PAGES } from './pages.js'
 import { navigate } from './router.js'
 import Header from './sections/Header.jsx'
 import Hero from './sections/Hero.jsx'
@@ -18,6 +18,9 @@ import Testimonials from './sections/Testimonials.jsx'
 import Faq from './sections/Faq.jsx'
 import Contact from './sections/Contact.jsx'
 import CtaBand from './sections/CtaBand.jsx'
+import Explore from './home/Explore.jsx'
+import Reasons from './home/Reasons.jsx'
+import Steps from './home/Steps.jsx'
 import Footer from './sections/Footer.jsx'
 import WhatsAppButton from './sections/WhatsAppButton.jsx'
 
@@ -27,8 +30,6 @@ const SECTIONS = {
 }
 // Sections with their own dark background; the rest alternate white and grey.
 const DARK = new Set(['destinations'])
-// The "see more" link each home-page section shows, pointing to its own page.
-const MORE = { record: 'See the full track record', shipments: 'See all shipments', products: 'See all products', destinations: 'Shipping details', about: 'More about us' }
 
 // Sections that would render nothing are skipped, so they never break the
 // alternating backgrounds or show up in the menu.
@@ -57,16 +58,17 @@ export default function Site({ content, page = 'home', moved = false }) {
   const trade = useMemo(() => tradeSummary(content), [content])
   const pages = useMemo(() => livePages(content, trade), [content, trade])
   const current = page === 'home' ? null : pages.find((p) => p.id === page) || null
-  const sections = useMemo(() => {
-    const all = content.sections.filter((s) => s.visible && SECTIONS[s.id] && hasContent(s.id, content, trade))
-    return current ? all.filter((s) => current.sections.includes(s.id)) : all
-  }, [content, trade, current])
+  // The home page has its own overview sections; every other section lives on its own page.
+  const sections = useMemo(() => (current
+    ? content.sections.filter((s) => s.visible && SECTIONS[s.id] && current.sections.includes(s.id) && hasContent(s.id, content, trade))
+    : []), [content, trade, current])
   const tones = useMemo(() => {
     let light = 0
     return sections.map((s) => (DARK.has(s.id) ? 'dark' : light++ % 2 === 0 ? 'white' : 'gray'))
   }, [sections])
   const hasContact = sections.some((s) => s.id === 'contact')
   const contactPath = pages.find((p) => p.id === 'contact')?.path
+  const home = content.home || {}
 
   // "Ask for a price" and "Become a partner" open the inquiry form: on this
   // page if it has one, otherwise on the contact page.
@@ -90,21 +92,28 @@ export default function Site({ content, page = 'home', moved = false }) {
       {href && <link rel="stylesheet" href={href} />}
       <Header content={content} pages={pages} current={page} />
       <main key={page} className={moved ? 'page-in' : undefined}>
-        {current
-          ? <PageHero content={content} page={current} trade={trade} />
-          : <Hero content={content} trade={trade} contactHref={hasContact ? '#contact' : contactPath} onPartner={() => goToContact({ partnership: true })} />}
-        {sections.map((s, i) => {
-          const Section = SECTIONS[s.id]
-          const target = pageOfSection(s.id)
-          const more = !current && MORE[s.id] && pages.some((p) => p.id === target?.id) ? { href: target.path, label: MORE[s.id] } : null
-          return (
-            <Section key={s.id} content={content} trade={trade} tone={tones[i]} full={!!current} more={more}
-              request={s.id === 'contact' ? request : undefined}
-              onAsk={(product) => goToContact({ product })}
-              onPartner={() => goToContact({ partnership: true })} />
-          )
-        })}
-        {current && current.id !== 'contact' && <CtaBand content={content} contactHref={contactPath} />}
+        {current ? (
+          <>
+            <PageHero content={content} page={current} trade={trade} />
+            {sections.map((s, i) => {
+              const Section = SECTIONS[s.id]
+              return (
+                <Section key={s.id} content={content} trade={trade} tone={tones[i]} full
+                  request={s.id === 'contact' ? request : undefined}
+                  onAsk={(product) => goToContact({ product })}
+                  onPartner={() => goToContact({ partnership: true })} />
+              )
+            })}
+          </>
+        ) : (
+          <>
+            <Hero content={content} trade={trade} contactHref={contactPath} onPartner={() => goToContact({ partnership: true })} />
+            {home.explore?.visible !== false && <Explore content={content} trade={trade} pages={pages} />}
+            {home.reasons?.visible !== false && <Reasons content={content} />}
+            {home.steps?.visible !== false && <Steps content={content} contactHref={contactPath} />}
+          </>
+        )}
+        {current?.id !== 'contact' && <CtaBand content={content} contactHref={contactPath} />}
       </main>
       <Footer content={content} pages={pages} />
       <WhatsAppButton content={content} />

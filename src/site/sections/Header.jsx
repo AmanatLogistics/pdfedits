@@ -3,6 +3,7 @@ import { Clock, EnvelopeSimple, List, Phone, X } from '../ph.jsx'
 import Logo from '../Logo.jsx'
 import { telHref } from '../hooks.js'
 import { onNavigate } from '../router.js'
+import { label } from '../labels.js'
 
 export default function Header({ content, pages, current }) {
   const { company, hero } = content
@@ -45,7 +46,7 @@ export default function Header({ content, pages, current }) {
           <Logo company={company} light={!solid && !open} />
         </a>
         <nav id="site-nav" className={`nav ${open ? 'is-open' : ''}`} aria-label="Main">
-          <a href="/" className={`nav__home ${current === 'home' ? 'is-active' : ''}`} aria-current={current === 'home' ? 'page' : undefined}>Home</a>
+          <a href="/" className={`nav__home ${current === 'home' ? 'is-active' : ''}`} aria-current={current === 'home' ? 'page' : undefined}>{label(content, 'home')}</a>
           {nav.map((p) => (
             <a key={p.id} href={p.path} className={current === p.id ? 'is-active' : ''} aria-current={current === p.id ? 'page' : undefined}>{p.label}</a>
           ))}

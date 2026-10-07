@@ -5,6 +5,7 @@ import '@fontsource-variable/manrope'
 import Site from './site/Site.jsx'
 import { pageForPath, titleFor } from './site/pages.js'
 import { interceptLinks, onNavigate } from './site/router.js'
+import { scrollToForm } from './site/hooks.js'
 import initialContent from './content/site.json'
 import './site/site.css'
 
@@ -59,7 +60,9 @@ function LiveSite() {
       window.scrollTo(0, url.hash ? window.scrollY : y)
       setPage(pageForPath(url.pathname))
       setMoved(true)
-      if (url.hash) setTimeout(() => scrollToEl(document.querySelector(url.hash), 'smooth'), 60)
+      // Links to the inquiry form land on the form itself, not the top of the contact section.
+      if (url.hash === '#contact') setTimeout(() => scrollToForm(), 60)
+      else if (url.hash) setTimeout(() => scrollToEl(document.querySelector(url.hash), 'smooth'), 60)
     }
     const offNavigate = onNavigate((url) => show(url))
     const onPop = (e) => show(new URL(window.location.href), e.state?.y || 0)

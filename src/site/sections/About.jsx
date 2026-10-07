@@ -1,8 +1,7 @@
-import { ArrowRight } from '../ph.jsx'
 import Photo from '../Photo.jsx'
 import { Icon } from '../icons.jsx'
 
-export default function About({ content, tone, more }) {
+export default function About({ content, tone }) {
   const { about, company } = content
   const years = Math.max(0, new Date().getFullYear() - Number(company.since || 0))
   return (
@@ -33,16 +32,8 @@ export default function About({ content, tone, more }) {
               ))}
             </ul>
           )}
-          {more && <a className="more-link" href={more.href}>{more.label} <ArrowRight size={16} weight="bold" /></a>}
         </div>
       </div>
-      {about.steps?.length > 0 && (
-        <div className="container">
-          <ol className="steps reveal" style={{ '--n': about.steps.length }}>
-            {about.steps.filter(Boolean).map((s, i) => <li key={i}><span>{i + 1}</span>{s}</li>)}
-          </ol>
-        </div>
-      )}
     </section>
   )
 }

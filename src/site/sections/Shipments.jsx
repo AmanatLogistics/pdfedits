@@ -3,6 +3,7 @@ import SectionHead from '../SectionHead.jsx'
 import Photo from '../Photo.jsx'
 import { TRANSPORT } from '../icons.jsx'
 import { fmtDate, fmtNum, unitOf } from '../trade.js'
+import { freightName, label } from '../labels.js'
 
 const thumbOf = (src) => (src && /^https:\/\/images\.pexels\.com\//.test(src) ? src.replace(/([?&])w=\d+/, '$1w=120') : src)
 
@@ -26,7 +27,7 @@ export default function Shipments({ content, trade, tone, full, more }) {
               <li className="ship reveal" style={{ '--i': i % 6 }} key={`${r.date}-${r.product}-${i}`}>
                 <div className="ship__top">
                   <span className="ship__date">{fmtDate(r.date)}</span>
-                  <span className={`ship__dir ship__dir--${isImport ? 'import' : 'export'}`}>{isImport ? 'Import' : 'Export'}</span>
+                  <span className={`ship__dir ship__dir--${isImport ? 'import' : 'export'}`}>{label(content, isImport ? 'importTag' : 'exportTag')}</span>
                 </div>
                 <div className="ship__product">
                   <Photo image={{ src: thumbs[r.product], alt: '' }} className="ship__img" plain width="52" height="52" />
@@ -40,7 +41,7 @@ export default function Shipments({ content, trade, tone, full, more }) {
                   <span className="ship__line" aria-hidden="true"><T.C size={18} weight="duotone" /><ArrowRight size={14} weight="bold" /></span>
                   <span>{isImport ? hub : r.country}</span>
                 </div>
-                <span className="ship__mode">{T.label} freight</span>
+                <span className="ship__mode">{freightName(content, r.transport || 'road')}</span>
               </li>
             )
           })}

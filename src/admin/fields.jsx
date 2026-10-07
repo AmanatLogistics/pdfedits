@@ -265,6 +265,7 @@ export function ListInput({ field, value, onChange }) {
 export function FieldFor({ field, value, onChange }) {
   const common = { label: field.label, help: field.help, value, onChange }
   switch (field.type) {
+    case 'heading': return <div className="f__group"><h2>{field.label}</h2>{field.help && <p className="f__help">{field.help}</p>}</div>
     case 'textarea': return <TextArea {...common} rows={field.rows} counter={field.counter} />
     case 'number': return <NumberInput {...common} />
     case 'email': return <TextInput {...common} type="email" />

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { AlertTriangle, CheckCircle2, ClipboardPaste, ExternalLink, Files, Image, Images, Mail, PanelTop, Plus, Truck } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, ClipboardPaste, ExternalLink, Files, House, Image, Images, Mail, PanelTop, Plus, Truck, Type } from 'lucide-react'
 import { fmtDate, fmtNum, tradeSummary } from '../site/trade.js'
 
 export default function Dashboard({ content, status, dirty, goTo }) {
@@ -9,10 +9,12 @@ export default function Dashboard({ content, status, dirty, goTo }) {
     { icon: ClipboardPaste, title: 'Paste from Excel', text: 'Bring in many records at once.', page: 'records', action: 'paste' },
     { icon: Image, title: 'Products & photos', text: 'Change product names, photos and seasons.', page: 'products' },
     { icon: PanelTop, title: 'Top banner', text: 'Headline, buttons and the main photo.', page: 'hero' },
+    { icon: House, title: 'Home page', text: 'Page cards, why choose us and how ordering works.', page: 'home' },
     { icon: Mail, title: 'Contact details', text: 'Emails, phone, WhatsApp and address.', page: 'company' },
     { icon: Images, title: 'Photo gallery', text: 'Add photos of your fruit, warehouse and loads.', page: 'gallery' },
     { icon: Files, title: 'Pages & menu', text: 'Page banners, menu names and section order.', page: 'pages' },
     { icon: Truck, title: 'Shipping & map', text: 'Home city and how your goods travel.', page: 'destinations' },
+    { icon: Type, title: 'Buttons & small texts', text: 'Button wording, form labels and small headings.', page: 'labels' },
   ]
   return (
     <div className="dash">
