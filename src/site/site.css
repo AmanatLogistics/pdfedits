@@ -52,6 +52,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @keyframes settle { from { transform: scale(1.1); } to { transform: scale(1); } }
 @keyframes wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+main.page-in { animation: fade .45s ease both; }
 .js-reveal .reveal:not(.is-visible) { opacity: 0; }
 .js-reveal .reveal.is-visible { animation: rise .8s cubic-bezier(.2, .7, .2, 1) backwards; animation-delay: calc(var(--i, 0) * 90ms); }
 
@@ -134,8 +135,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .header--solid .topbar { margin-top: calc(var(--topbar-h) * -1); opacity: 0; pointer-events: none; }
 
 .logo { display: inline-flex; align-items: center; gap: 12px; }
-.logo__mark { display: block; width: 46px; height: 46px; border-radius: 13px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 6px 16px -8px rgba(0, 0, 0, .5); transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
-.header__brand:hover .logo__mark { transform: rotate(-6deg) scale(1.05); }
+.logo__mark { display: block; width: 46px; height: 46px; border-radius: 12px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 6px 16px -8px rgba(0, 0, 0, .5); transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
+.header__brand:hover .logo__mark { transform: scale(1.06); }
 .logo__suffix { margin-left: 2px; font-size: .62em; font-weight: 800; letter-spacing: .12em; color: var(--accent-strong); vertical-align: .18em; }
 .logo--light .logo__suffix { color: var(--accent); }
 .logo__img { height: 46px; width: auto; max-width: 180px; object-fit: contain; }

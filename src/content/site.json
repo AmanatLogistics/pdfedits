@@ -744,10 +744,13 @@
       },
       {
         "image": {
-          "src": "https://images.pexels.com/photos/25067701/pexels-photo-25067701.jpeg?auto=compress&cs=tinysrgb&w=1200",
-          "alt": "Sacks of nuts and dried fruit at a bazaar"
+          "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Figs,_khari_baoli_market.jpg/960px-Figs,_khari_baoli_market.jpg",
+          "fallback": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Figs,_khari_baoli_market.jpg",
+          "alt": "Dried figs for sale at Khari Baoli dry fruit market, Delhi",
+          "credit": "Figs at Khari Baoli by Manjit Singh, CC BY-SA 4.0",
+          "creditUrl": "https://commons.wikimedia.org/wiki/File:Figs,_khari_baoli_market.jpg"
         },
-        "caption": "Dry fruits at the bazaar"
+        "caption": "Dried figs at the dry fruit market"
       },
       {
         "image": {
