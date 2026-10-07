@@ -1,0 +1,965 @@
+{
+  "meta": {
+    "title": "Faiz Fayez | Afghan Dry Fruits & Fresh Fruits Exporter, Kandahar",
+    "description": "Faiz Fayez exports Kandahar pomegranates, grapes, raisins, figs, almonds and apricots to India and beyond, and imports fresh fruit into Afghanistan. See our trade record and request a quote.",
+    "siteUrl": "",
+    "shareImage": ""
+  },
+  "theme": {
+    "primary": "#6b3a1a",
+    "accent": "#c9962b",
+    "dark": "#1b120b",
+    "exportColor": "#9c4f16",
+    "importColor": "#e0a526",
+    "headingFont": "Manrope",
+    "bodyFont": "Manrope"
+  },
+  "company": {
+    "name": "Faiz Fayez",
+    "tagline": "Dry & Fresh Fruit Traders",
+    "monogram": "FF",
+    "logo": "",
+    "since": 2014,
+    "email": "info@faizfayez.com",
+    "partnershipEmail": "partners@faizfayez.com",
+    "phone": "+93 70 000 0000",
+    "whatsapp": "93700000000",
+    "address": "Kandahar, Afghanistan",
+    "hours": "Sat – Thu, 8:00 am – 6:00 pm (AFT)",
+    "mapEmbedUrl": ""
+  },
+  "sampleData": true,
+  "sections": [
+    {
+      "id": "record",
+      "label": "Track Record",
+      "visible": true,
+      "inNav": true
+    },
+    {
+      "id": "shipments",
+      "label": "Shipments",
+      "visible": true,
+      "inNav": false
+    },
+    {
+      "id": "products",
+      "label": "Products",
+      "visible": true,
+      "inNav": true
+    },
+    {
+      "id": "destinations",
+      "label": "Destinations",
+      "visible": true,
+      "inNav": true
+    },
+    {
+      "id": "about",
+      "label": "About",
+      "visible": true,
+      "inNav": true
+    },
+    {
+      "id": "certifications",
+      "label": "Certifications",
+      "visible": false,
+      "inNav": false
+    },
+    {
+      "id": "testimonials",
+      "label": "Testimonials",
+      "visible": false,
+      "inNav": false
+    },
+    {
+      "id": "faq",
+      "label": "FAQ",
+      "visible": true,
+      "inNav": false
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "visible": true,
+      "inNav": true
+    }
+  ],
+  "hero": {
+    "eyebrow": "Kandahar, Afghanistan · Since 2014",
+    "title": "Afghan dry fruits and fresh fruits, shipped from Kandahar to the world",
+    "text": "We export Kandahar’s pomegranates, grapes, raisins, figs and almonds to India and beyond, and import fresh fruit into Afghanistan, with grading, paperwork and freight handled end to end.",
+    "primaryButton": "Request a Quote",
+    "secondaryButton": "Become a Partner",
+    "trustPoints": [
+      "Graded and checked lots",
+      "Export papers handled",
+      "Air, road, sea and rail freight"
+    ],
+    "image": {
+      "src": "https://images.pexels.com/photos/25067701/pexels-photo-25067701.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "alt": "Sacks of nuts and dried fruit at a bazaar"
+    },
+    "cardTitle": "Total shipped since 2014"
+  },
+  "statLabels": {
+    "shipped": "Tonnes shipped",
+    "exported": "Tonnes exported",
+    "imported": "Tonnes imported",
+    "orders": "Orders completed",
+    "countries": "Countries",
+    "years": "Years in trade"
+  },
+  "history": {
+    "exported": 0,
+    "imported": 0,
+    "orders": 0
+  },
+  "records": [
+    {
+      "date": "2026-09",
+      "product": "Pomegranates",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 42,
+      "orders": 1,
+      "transport": "air"
+    },
+    {
+      "date": "2026-09",
+      "product": "Raisins",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 66,
+      "orders": 1,
+      "transport": "road"
+    },
+    {
+      "date": "2026-08",
+      "product": "Grapes",
+      "country": "Pakistan",
+      "direction": "export",
+      "tonnes": 38,
+      "orders": 1,
+      "transport": "road"
+    },
+    {
+      "date": "2026-08",
+      "product": "Figs",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 25,
+      "orders": 1,
+      "transport": "air"
+    },
+    {
+      "date": "2026-07",
+      "product": "Almonds",
+      "country": "United Arab Emirates",
+      "direction": "export",
+      "tonnes": 18,
+      "orders": 1,
+      "transport": "sea"
+    },
+    {
+      "date": "2026-07",
+      "product": "Mangoes",
+      "country": "India",
+      "direction": "import",
+      "tonnes": 22,
+      "orders": 1,
+      "transport": "air"
+    },
+    {
+      "date": "2026-06",
+      "product": "Dried apricots",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 30,
+      "orders": 1,
+      "transport": "road"
+    },
+    {
+      "date": "2026-05",
+      "product": "Raisins",
+      "country": "Kazakhstan",
+      "direction": "export",
+      "tonnes": 20,
+      "orders": 1,
+      "transport": "rail"
+    },
+    {
+      "date": "2025",
+      "product": "Pomegranates",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 1150,
+      "orders": 52,
+      "transport": "air"
+    },
+    {
+      "date": "2025",
+      "product": "Raisins",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 820,
+      "orders": 37,
+      "transport": "road"
+    },
+    {
+      "date": "2025",
+      "product": "Figs",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 430,
+      "orders": 20,
+      "transport": "air"
+    },
+    {
+      "date": "2025",
+      "product": "Almonds",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 240,
+      "orders": 11,
+      "transport": "road"
+    },
+    {
+      "date": "2025",
+      "product": "Dried apricots",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 190,
+      "orders": 9,
+      "transport": "road"
+    },
+    {
+      "date": "2025",
+      "product": "Grapes",
+      "country": "Pakistan",
+      "direction": "export",
+      "tonnes": 460,
+      "orders": 21,
+      "transport": "road"
+    },
+    {
+      "date": "2025",
+      "product": "Pistachios",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 70,
+      "orders": 3,
+      "transport": "air"
+    },
+    {
+      "date": "2025",
+      "product": "Pomegranates",
+      "country": "United Arab Emirates",
+      "direction": "export",
+      "tonnes": 160,
+      "orders": 7,
+      "transport": "air"
+    },
+    {
+      "date": "2025",
+      "product": "Raisins",
+      "country": "United Arab Emirates",
+      "direction": "export",
+      "tonnes": 120,
+      "orders": 5,
+      "transport": "sea"
+    },
+    {
+      "date": "2025",
+      "product": "Pomegranates",
+      "country": "Qatar",
+      "direction": "export",
+      "tonnes": 40,
+      "orders": 2,
+      "transport": "air"
+    },
+    {
+      "date": "2025",
+      "product": "Figs",
+      "country": "Russia",
+      "direction": "export",
+      "tonnes": 50,
+      "orders": 2,
+      "transport": "rail"
+    },
+    {
+      "date": "2025",
+      "product": "Raisins",
+      "country": "Kazakhstan",
+      "direction": "export",
+      "tonnes": 60,
+      "orders": 3,
+      "transport": "rail"
+    },
+    {
+      "date": "2025",
+      "product": "Raisins",
+      "country": "Uzbekistan",
+      "direction": "export",
+      "tonnes": 30,
+      "orders": 1,
+      "transport": "rail"
+    },
+    {
+      "date": "2025",
+      "product": "Almonds",
+      "country": "United Kingdom",
+      "direction": "export",
+      "tonnes": 20,
+      "orders": 1,
+      "transport": "air"
+    },
+    {
+      "date": "2025",
+      "product": "Mangoes",
+      "country": "India",
+      "direction": "import",
+      "tonnes": 110,
+      "orders": 5,
+      "transport": "air"
+    },
+    {
+      "date": "2025",
+      "product": "Bananas",
+      "country": "Pakistan",
+      "direction": "import",
+      "tonnes": 100,
+      "orders": 5,
+      "transport": "road"
+    },
+    {
+      "date": "2025",
+      "product": "Dates",
+      "country": "United Arab Emirates",
+      "direction": "import",
+      "tonnes": 50,
+      "orders": 2,
+      "transport": "sea"
+    },
+    {
+      "date": "2024",
+      "product": "Pomegranates",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 980,
+      "orders": 45,
+      "transport": "air"
+    },
+    {
+      "date": "2024",
+      "product": "Raisins",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 700,
+      "orders": 32,
+      "transport": "road"
+    },
+    {
+      "date": "2024",
+      "product": "Figs",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 350,
+      "orders": 16,
+      "transport": "air"
+    },
+    {
+      "date": "2024",
+      "product": "Almonds",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 210,
+      "orders": 10,
+      "transport": "road"
+    },
+    {
+      "date": "2024",
+      "product": "Dried apricots",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 160,
+      "orders": 7,
+      "transport": "road"
+    },
+    {
+      "date": "2024",
+      "product": "Grapes",
+      "country": "Pakistan",
+      "direction": "export",
+      "tonnes": 420,
+      "orders": 19,
+      "transport": "road"
+    },
+    {
+      "date": "2024",
+      "product": "Pistachios",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 55,
+      "orders": 2,
+      "transport": "air"
+    },
+    {
+      "date": "2024",
+      "product": "Pomegranates",
+      "country": "United Arab Emirates",
+      "direction": "export",
+      "tonnes": 120,
+      "orders": 5,
+      "transport": "air"
+    },
+    {
+      "date": "2024",
+      "product": "Raisins",
+      "country": "United Arab Emirates",
+      "direction": "export",
+      "tonnes": 100,
+      "orders": 5,
+      "transport": "sea"
+    },
+    {
+      "date": "2024",
+      "product": "Figs",
+      "country": "Russia",
+      "direction": "export",
+      "tonnes": 30,
+      "orders": 1,
+      "transport": "rail"
+    },
+    {
+      "date": "2024",
+      "product": "Raisins",
+      "country": "Kazakhstan",
+      "direction": "export",
+      "tonnes": 40,
+      "orders": 2,
+      "transport": "rail"
+    },
+    {
+      "date": "2024",
+      "product": "Mangoes",
+      "country": "India",
+      "direction": "import",
+      "tonnes": 95,
+      "orders": 4,
+      "transport": "air"
+    },
+    {
+      "date": "2024",
+      "product": "Bananas",
+      "country": "Pakistan",
+      "direction": "import",
+      "tonnes": 120,
+      "orders": 5,
+      "transport": "road"
+    },
+    {
+      "date": "2024",
+      "product": "Dates",
+      "country": "United Arab Emirates",
+      "direction": "import",
+      "tonnes": 40,
+      "orders": 2,
+      "transport": "sea"
+    },
+    {
+      "date": "2023",
+      "product": "Pomegranates",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 850,
+      "orders": 39,
+      "transport": "air"
+    },
+    {
+      "date": "2023",
+      "product": "Raisins",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 610,
+      "orders": 28,
+      "transport": "road"
+    },
+    {
+      "date": "2023",
+      "product": "Figs",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 290,
+      "orders": 13,
+      "transport": "air"
+    },
+    {
+      "date": "2023",
+      "product": "Almonds",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 170,
+      "orders": 8,
+      "transport": "road"
+    },
+    {
+      "date": "2023",
+      "product": "Dried apricots",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 140,
+      "orders": 6,
+      "transport": "road"
+    },
+    {
+      "date": "2023",
+      "product": "Grapes",
+      "country": "Pakistan",
+      "direction": "export",
+      "tonnes": 380,
+      "orders": 17,
+      "transport": "road"
+    },
+    {
+      "date": "2023",
+      "product": "Pistachios",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 40,
+      "orders": 2,
+      "transport": "air"
+    },
+    {
+      "date": "2023",
+      "product": "Pomegranates",
+      "country": "United Arab Emirates",
+      "direction": "export",
+      "tonnes": 80,
+      "orders": 4,
+      "transport": "air"
+    },
+    {
+      "date": "2023",
+      "product": "Raisins",
+      "country": "United Arab Emirates",
+      "direction": "export",
+      "tonnes": 80,
+      "orders": 4,
+      "transport": "sea"
+    },
+    {
+      "date": "2023",
+      "product": "Mangoes",
+      "country": "India",
+      "direction": "import",
+      "tonnes": 80,
+      "orders": 4,
+      "transport": "air"
+    },
+    {
+      "date": "2023",
+      "product": "Bananas",
+      "country": "Pakistan",
+      "direction": "import",
+      "tonnes": 170,
+      "orders": 8,
+      "transport": "road"
+    },
+    {
+      "date": "2023",
+      "product": "Dates",
+      "country": "United Arab Emirates",
+      "direction": "import",
+      "tonnes": 30,
+      "orders": 1,
+      "transport": "sea"
+    },
+    {
+      "date": "2022",
+      "product": "Pomegranates",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 720,
+      "orders": 33,
+      "transport": "air"
+    },
+    {
+      "date": "2022",
+      "product": "Raisins",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 520,
+      "orders": 24,
+      "transport": "road"
+    },
+    {
+      "date": "2022",
+      "product": "Figs",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 230,
+      "orders": 10,
+      "transport": "air"
+    },
+    {
+      "date": "2022",
+      "product": "Almonds",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 150,
+      "orders": 7,
+      "transport": "road"
+    },
+    {
+      "date": "2022",
+      "product": "Dried apricots",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 110,
+      "orders": 5,
+      "transport": "road"
+    },
+    {
+      "date": "2022",
+      "product": "Grapes",
+      "country": "Pakistan",
+      "direction": "export",
+      "tonnes": 340,
+      "orders": 15,
+      "transport": "road"
+    },
+    {
+      "date": "2022",
+      "product": "Raisins",
+      "country": "United Arab Emirates",
+      "direction": "export",
+      "tonnes": 60,
+      "orders": 3,
+      "transport": "sea"
+    },
+    {
+      "date": "2022",
+      "product": "Mangoes",
+      "country": "India",
+      "direction": "import",
+      "tonnes": 60,
+      "orders": 3,
+      "transport": "air"
+    },
+    {
+      "date": "2022",
+      "product": "Bananas",
+      "country": "Pakistan",
+      "direction": "import",
+      "tonnes": 160,
+      "orders": 7,
+      "transport": "road"
+    },
+    {
+      "date": "2021",
+      "product": "Pomegranates",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 600,
+      "orders": 27,
+      "transport": "air"
+    },
+    {
+      "date": "2021",
+      "product": "Raisins",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 420,
+      "orders": 19,
+      "transport": "road"
+    },
+    {
+      "date": "2021",
+      "product": "Figs",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 180,
+      "orders": 8,
+      "transport": "air"
+    },
+    {
+      "date": "2021",
+      "product": "Almonds",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 120,
+      "orders": 5,
+      "transport": "road"
+    },
+    {
+      "date": "2021",
+      "product": "Dried apricots",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 90,
+      "orders": 4,
+      "transport": "road"
+    },
+    {
+      "date": "2021",
+      "product": "Grapes",
+      "country": "Pakistan",
+      "direction": "export",
+      "tonnes": 300,
+      "orders": 14,
+      "transport": "road"
+    },
+    {
+      "date": "2021",
+      "product": "Bananas",
+      "country": "Pakistan",
+      "direction": "import",
+      "tonnes": 150,
+      "orders": 7,
+      "transport": "road"
+    }
+  ],
+  "record": {
+    "eyebrow": "Track record",
+    "title": "Every tonne we ship, on the record",
+    "text": "Our trade figures, from the first consignment to the latest. Totals update automatically as shipments are added.",
+    "chartTitle": "Tonnes shipped per year",
+    "productsTitle": "By product",
+    "countriesTitle": "By country",
+    "unit": "t"
+  },
+  "shipments": {
+    "eyebrow": "Recent shipments",
+    "title": "Latest consignments",
+    "text": "A selection of recent loads leaving Kandahar and arriving from our partners.",
+    "count": 6
+  },
+  "destinations": {
+    "eyebrow": "Where we ship",
+    "title": "From Kandahar to India and beyond",
+    "text": "India is our biggest market. We also supply buyers in Pakistan, the Gulf, Central Asia, Russia and Europe.",
+    "hub": "Kandahar",
+    "routes": [
+      {
+        "icon": "air",
+        "title": "Air cargo",
+        "text": "Kandahar and Kabul to Delhi and Amritsar for pomegranates, grapes and other fresh fruit."
+      },
+      {
+        "icon": "road",
+        "title": "Road",
+        "text": "Through Spin Boldak to Pakistan and the port of Karachi, and overland to Central Asia."
+      },
+      {
+        "icon": "sea",
+        "title": "Sea",
+        "text": "Via Chabahar port in Iran to India and the Gulf for larger dry fruit loads."
+      },
+      {
+        "icon": "rail",
+        "title": "Rail",
+        "text": "Rail corridors through Uzbekistan and Turkmenistan to Central Asia and Russia."
+      }
+    ]
+  },
+  "products": {
+    "eyebrow": "What we trade",
+    "title": "Kandahar’s finest, graded and packed",
+    "text": "Dry fruits all year round and fresh fruit in season. Click a product to ask for prices and availability.",
+    "items": [
+      {
+        "title": "Pomegranates",
+        "tag": "Fresh fruit",
+        "season": "Sep – Jan",
+        "image": {
+          "src": "https://images.pexels.com/photos/14650515/pexels-photo-14650515.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "alt": "A pile of fresh pomegranates"
+        }
+      },
+      {
+        "title": "Grapes",
+        "tag": "Fresh fruit",
+        "season": "Jul – Oct",
+        "image": {
+          "src": "https://images.pexels.com/photos/4946876/pexels-photo-4946876.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "alt": "Green grapes on the vine"
+        }
+      },
+      {
+        "title": "Raisins",
+        "tag": "Dry fruit",
+        "season": "All year",
+        "image": {
+          "src": "https://images.pexels.com/photos/6085951/pexels-photo-6085951.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "alt": "Close-up of raisins"
+        }
+      },
+      {
+        "title": "Figs",
+        "tag": "Dry fruit",
+        "season": "All year",
+        "image": {
+          "src": "https://images.pexels.com/photos/13427448/pexels-photo-13427448.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "alt": "A fig cut in half"
+        }
+      },
+      {
+        "title": "Almonds",
+        "tag": "Dry fruit",
+        "season": "All year",
+        "image": {
+          "src": "https://images.pexels.com/photos/57042/pexels-photo-57042.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "alt": "Almonds in a bowl"
+        }
+      },
+      {
+        "title": "Dried apricots",
+        "tag": "Dry fruit",
+        "season": "All year",
+        "image": {
+          "src": "https://images.pexels.com/photos/29060107/pexels-photo-29060107.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "alt": "Dried apricots at a market"
+        }
+      },
+      {
+        "title": "Pistachios",
+        "tag": "Dry fruit",
+        "season": "All year",
+        "image": {
+          "src": "https://images.pexels.com/photos/634650/pexels-photo-634650.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "alt": "Pistachios in their shells"
+        }
+      },
+      {
+        "title": "Mangoes",
+        "tag": "Imported",
+        "season": "May – Aug",
+        "image": {
+          "src": "https://images.pexels.com/photos/30643513/pexels-photo-30643513.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "alt": "Ripe mangoes stacked at a market"
+        }
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "About us",
+    "title": "A Kandahar trading house built on trust",
+    "lead": "Faiz Fayez buys directly from growers and processors across southern Afghanistan and ships to buyers who need consistent quality and reliable delivery.",
+    "text": "Every lot is sorted, graded and checked in Kandahar before it leaves, and we handle the paperwork and freight so our buyers receive exactly what they ordered.",
+    "points": [
+      {
+        "icon": "sprout",
+        "title": "Sourced at origin",
+        "text": "Direct from orchards and processors in Kandahar and nearby provinces."
+      },
+      {
+        "icon": "quality",
+        "title": "Graded and checked",
+        "text": "Size, moisture and colour checked on every lot, with photos before dispatch."
+      },
+      {
+        "icon": "document",
+        "title": "Papers handled",
+        "text": "Phytosanitary certificates, certificate of origin and customs clearance."
+      },
+      {
+        "icon": "truck",
+        "title": "Delivered on time",
+        "text": "Air, road, sea and rail freight planned around each buyer’s schedule."
+      }
+    ],
+    "steps": [
+      "Send your requirement",
+      "Get a quote and samples",
+      "Approve the lot",
+      "We ship and track it"
+    ],
+    "badgeText": "years in the fruit trade",
+    "image": {
+      "src": "https://images.pexels.com/photos/5332498/pexels-photo-5332498.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "alt": "Dried fruits on trays at a market stall"
+    },
+    "image2": {
+      "src": "https://images.pexels.com/photos/15733306/pexels-photo-15733306.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "alt": "A truck loaded with sacks"
+    }
+  },
+  "certifications": {
+    "eyebrow": "Certifications",
+    "title": "Registered and compliant",
+    "text": "Our licences and registrations.",
+    "items": []
+  },
+  "testimonials": {
+    "eyebrow": "Testimonials",
+    "title": "What our buyers say",
+    "items": []
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Questions buyers ask us",
+    "items": [
+      {
+        "q": "What is your minimum order?",
+        "a": "It depends on the product and how it travels. Send us your requirement and we will confirm what is possible."
+      },
+      {
+        "q": "Can I see samples first?",
+        "a": "Yes. We send samples or detailed photos of the lot so you can approve the quality before it ships."
+      },
+      {
+        "q": "Which countries do you ship to?",
+        "a": "Mainly India, and also Pakistan, the UAE, Qatar, Central Asia, Russia and the UK. Ask us about other destinations."
+      },
+      {
+        "q": "How is the fruit packed?",
+        "a": "Dry fruits in cartons or bags to your specification; fresh fruit in ventilated boxes for air or road freight."
+      },
+      {
+        "q": "Which documents do you provide?",
+        "a": "Commercial invoice, packing list, certificate of origin and phytosanitary certificate, plus any others your country requires."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Contact us",
+    "title": "Request a quote or become a partner",
+    "text": "Tell us what you need. We reply within one working day.",
+    "partnerTitle": "Looking for a reliable supplier from Afghanistan?",
+    "partnerText": "We welcome importers, wholesalers and distributors for long-term supply partnerships.",
+    "partnerButton": "Become a partner",
+    "inquiryTypes": [
+      {
+        "label": "Price quote / order",
+        "partnership": false
+      },
+      {
+        "label": "Buy from Afghanistan",
+        "partnership": false
+      },
+      {
+        "label": "Sell to Afghanistan",
+        "partnership": false
+      },
+      {
+        "label": "General inquiry",
+        "partnership": false
+      },
+      {
+        "label": "Business partnership",
+        "partnership": true
+      }
+    ],
+    "submitLabel": "Send inquiry",
+    "successMessage": "Thank you. Your inquiry has been sent and we will reply within one working day."
+  },
+  "footer": {
+    "about": "Exporters of Afghan dry fruits and fresh fruits from Kandahar to India and markets worldwide.",
+    "copyright": "All rights reserved."
+  },
+  "whatsappButton": {
+    "enabled": true,
+    "message": "Hello Faiz Fayez, I would like to ask about"
+  }
+}
