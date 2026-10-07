@@ -23,6 +23,7 @@ import Reasons from './home/Reasons.jsx'
 import Steps from './home/Steps.jsx'
 import Footer from './sections/Footer.jsx'
 import WhatsAppButton from './sections/WhatsAppButton.jsx'
+import ToTop from './sections/ToTop.jsx'
 
 const SECTIONS = {
   record: Record, shipments: Shipments, products: Products, gallery: Gallery, destinations: Destinations, about: About,
@@ -107,7 +108,8 @@ export default function Site({ content, page = 'home', moved = false }) {
           </>
         ) : (
           <>
-            <Hero content={content} trade={trade} contactHref={contactPath} onPartner={() => goToContact({ partnership: true })} />
+            <Hero content={content} trade={trade} contactHref={contactPath} onPartner={() => goToContact({ partnership: true })}
+              next={home.explore?.visible !== false ? 'explore' : home.reasons?.visible !== false ? 'why' : home.steps?.visible !== false ? 'how' : 'cta'} />
             {home.explore?.visible !== false && <Explore content={content} trade={trade} pages={pages} />}
             {home.reasons?.visible !== false && <Reasons content={content} />}
             {home.steps?.visible !== false && <Steps content={content} contactHref={contactPath} />}
@@ -117,6 +119,7 @@ export default function Site({ content, page = 'home', moved = false }) {
       </main>
       <Footer content={content} pages={pages} />
       <WhatsAppButton content={content} />
+      <ToTop above={!!(content.whatsappButton?.enabled && content.company?.whatsapp)} />
     </>
   )
 }

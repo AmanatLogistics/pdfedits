@@ -2,6 +2,7 @@ import { useState } from 'preact/hooks'
 import { ArrowDownLeft, ArrowUpRight, CalendarBlank, Globe, Package, TrendUp, Info } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
 import Photo from '../Photo.jsx'
+import { thumbOf } from '../images.js'
 import { useCountUp } from '../hooks.js'
 import { fmtDate, fmtNum, unitOf, yearsSince } from '../trade.js'
 import { freightName, label } from '../labels.js'
@@ -89,13 +90,12 @@ function Breakdown({ rows, unit, thumbs, limit = 6 }) {
   )
 }
 
-const thumbOf = (src) => (src && /^https:\/\/images\.pexels\.com\//.test(src) ? src.replace(/([?&])w=\d+/, '$1w=96') : src)
 
 export default function Record({ content, trade, tone, more }) {
   const { record: R, statLabels: L, company, products } = content
   if (!trade.byYear.length) return null
   const unit = unitOf(content)
-  const thumbs = Object.fromEntries((products?.items || []).map((p) => [p.title, thumbOf(p.image?.src)]))
+  const thumbs = Object.fromEntries((products?.items || []).map((p) => [p.title, thumbOf(p.image?.src, 96)]))
   const years = yearsSince(company.since)
   // With a single destination, a country list says nothing; show how the goods travelled instead.
   const many = trade.countries > 1

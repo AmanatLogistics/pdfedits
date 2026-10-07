@@ -129,3 +129,28 @@ test('rows pasted from Excel are understood', async () => {
   assert.deepEqual(parseRows(csv)[0], { date: '2025', product: 'Raisins', country: 'India', direction: 'import', tonnes: 820, orders: 37, transport: 'road' })
   assert.equal(toCsv(parseRows(csv)), csv)
 })
+
+test('pasted photo links are turned into links the website can show', async () => {
+  const { normalizeImageLink } = await import('../src/admin/imageLinks.js')
+  assert.equal(normalizeImageLink('https://images.unsplash.com/photo-1?w=400').src, 'https://images.unsplash.com/photo-1?w=400')
+  assert.equal(normalizeImageLink('https://www.pexels.com/photo/pile-of-pomegranate-14650515/').src, 'https://images.pexels.com/photos/14650515/pexels-photo-14650515.jpeg?auto=compress&cs=tinysrgb&w=1600')
+  assert.equal(normalizeImageLink('https://unsplash.com/photos/dried-figs-in-a-bowl-Zl8lwWNxWdY').src, 'https://unsplash.com/photos/Zl8lwWNxWdY/download?force=true&w=1600')
+  assert.equal(normalizeImageLink('https://www.google.com/imgres?imgurl=https%3A%2F%2Fexample.com%2Ffigs.jpg&imgrefurl=x').src, 'https://example.com/figs.jpg')
+  assert.ok(normalizeImageLink('https://www.google.com/url?sa=i&url=https%3A%2F%2Fexample.com').error)
+  assert.ok(normalizeImageLink('https://unsplash.com/s/photos/figs').error)
+  assert.ok(normalizeImageLink('data:image/png;base64,AAA').error)
+  const http = normalizeImageLink('http://example.com/a.jpg')
+  assert.equal(http.src, 'https://example.com/a.jpg')
+  assert.ok(http.note)
+  assert.equal(normalizeImageLink('/uploads/a.jpg').src, '/uploads/a.jpg')
+})
+
+test('photos from resizing hosts get a range of sizes', async () => {
+  const { responsiveSet, thumbOf } = await import('../src/site/images.js')
+  assert.match(responsiveSet('https://images.pexels.com/photos/1/pexels-photo-1.jpeg?w=800').srcSet, /w=2400\S* 2400w/)
+  assert.match(responsiveSet('https://images.unsplash.com/photo-1?w=400').srcSet, /w=480\S* 480w/)
+  const wiki = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Dried_Figs_(1).jpg/960px-Dried_Figs_(1).jpg'
+  assert.match(responsiveSet(wiki).srcSet, /1280px-Dried_Figs_\(1\)\.jpg 1280w/)
+  assert.equal(responsiveSet('https://example.com/a.jpg'), null)
+  assert.match(thumbOf('https://images.pexels.com/photos/1/pexels-photo-1.jpeg?w=800', 96), /w=96/)
+})

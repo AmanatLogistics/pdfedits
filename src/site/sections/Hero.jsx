@@ -23,7 +23,7 @@ function Big({ value }) {
   return <strong ref={ref} className="hero-card__big">{fmtNum(shown)}</strong>
 }
 
-export default function Hero({ content, trade, contactHref = '#contact', onPartner }) {
+export default function Hero({ content, trade, contactHref = '#contact', onPartner, next }) {
   const { hero, statLabels: L, company } = content
   // The trend line covers full years only, so the label does too.
   const full = trade.byYear.filter((y) => !y.partial)
@@ -68,6 +68,7 @@ export default function Hero({ content, trade, contactHref = '#contact', onPartn
           </aside>
         )}
       </div>
+      {next && <a className="hero__scroll" href={`#${next}`} aria-label="Scroll down"><span /></a>}
     </section>
   )
 }
