@@ -1,7 +1,7 @@
 import { ArrowRight, CheckCircle, TrendUp } from '../ph.jsx'
 import Photo from '../Photo.jsx'
 import { useCountUp } from '../hooks.js'
-import { fmtNum } from '../trade.js'
+import { fmtNum, unitOf, yearsSince } from '../trade.js'
 
 function Sparkline({ years }) {
   if (years.length < 2) return null
@@ -22,9 +22,11 @@ function Big({ value }) {
   return <strong ref={ref} className="hero-card__big">{fmtNum(shown)}</strong>
 }
 
-export default function Hero({ content, trade, onPartner }) {
+export default function Hero({ content, trade, contactHref = '#contact', onPartner }) {
   const { hero, statLabels: L, company } = content
   const first = trade.byYear[0]?.year
+  const unit = unitOf(content)
+  const many = trade.countries > 1
   return (
     <section className="hero" id="top">
       <Photo image={hero.image} eager className="hero__bg" sizes="100vw" />
@@ -35,7 +37,7 @@ export default function Hero({ content, trade, onPartner }) {
           <h1>{hero.title}</h1>
           {hero.text && <p className="hero__text">{hero.text}</p>}
           <div className="hero__actions">
-            {hero.primaryButton && <a href="#contact" className="btn btn--accent btn--lg">{hero.primaryButton} <ArrowRight size={18} weight="bold" /></a>}
+            {hero.primaryButton && <a href={contactHref} className="btn btn--accent btn--lg">{hero.primaryButton} <ArrowRight size={18} weight="bold" /></a>}
             {hero.secondaryButton && <button type="button" className="btn btn--ghost btn--lg" onClick={onPartner}>{hero.secondaryButton}</button>}
           </div>
           {hero.trustPoints?.length > 0 && (
@@ -47,14 +49,16 @@ export default function Hero({ content, trade, onPartner }) {
         {trade.shipped > 0 && (
           <aside className="hero-card" aria-label="Trade record summary">
             <p className="hero-card__label">{hero.cardTitle || `Total shipped since ${company.since}`}</p>
-            <div className="hero-card__total"><Big value={trade.shipped} /><span>tonnes</span></div>
+            <div className="hero-card__total"><Big value={trade.shipped} /><span>{unit}</span></div>
             <Sparkline years={trade.byYear.filter((y) => !y.partial)} />
             {first && <p className="hero-card__range">{first} – {trade.byYear[trade.byYear.length - 1].year}{trade.growth && trade.growth.pct > 0 && <span><TrendUp size={15} weight="bold" /> +{trade.growth.pct}% in {trade.growth.to}</span>}</p>}
             <dl className="hero-card__stats">
               <div><dt>{L.exported}</dt><dd>{fmtNum(trade.exported)}</dd></div>
               <div><dt>{L.imported}</dt><dd>{fmtNum(trade.imported)}</dd></div>
               <div><dt>{L.orders}</dt><dd>{fmtNum(trade.orders)}</dd></div>
-              <div><dt>{L.countries}</dt><dd>{fmtNum(trade.countries)}</dd></div>
+              {many
+                ? <div><dt>{L.countries}</dt><dd>{fmtNum(trade.countries)}</dd></div>
+                : <div><dt>{L.years}</dt><dd suppressHydrationWarning>{yearsSince(company.since)}+</dd></div>}
             </dl>
             <a href="#record" className="hero-card__link">See the full record <ArrowRight size={15} weight="bold" /></a>
           </aside>

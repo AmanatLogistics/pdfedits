@@ -18,7 +18,7 @@ function PastePanel({ onAdd, onClose }) {
         <h3><ClipboardPaste size={18} /> Paste rows from Excel or Google Sheets</h3>
         <button type="button" className="icon-b" onClick={onClose} aria-label="Close"><X size={16} /></button>
       </div>
-      <p>Columns in this order: <b>Date</b> (2026-09 or 2025), <b>Product</b>, <b>Country</b>, <b>Export or Import</b>, <b>Tonnes</b>, <b>Orders</b>, <b>Transport</b> (air, road, sea or rail). A heading row is skipped automatically.</p>
+      <p>Columns in this order: <b>Date</b> (2026-09 or 2025), <b>Product</b>, <b>Country</b>, <b>Export or Import</b>, <b>Tons</b>, <b>Orders</b>, <b>Transport</b> (air, road or sea). A heading row is skipped automatically.</p>
       <textarea className="input input--area paste__box" rows={7} value={text} onChange={(e) => setText(e.target.value)}
         placeholder={'2026-09\tPomegranates\tIndia\tExport\t42\t1\tAir\n2025\tRaisins\tIndia\tExport\t820\t37\tRoad'} />
       <div className="paste__foot">
@@ -70,7 +70,7 @@ export default function RecordsEditor({ content, setContent, pasting, setPasting
     !DATE_RE.test(String(r.date)) && 'Date must look like 2026-09 or 2025',
     !r.product && 'Add a product',
     r.country && !COUNTRY_NAMES.includes(r.country) && 'This country is not on the map list',
-    !(Number(r.tonnes) > 0) && 'Tonnes must be more than 0 to count',
+    !(Number(r.tonnes) > 0) && 'Tons must be more than 0 to count',
   ].filter(Boolean)
 
   return (
@@ -89,9 +89,9 @@ export default function RecordsEditor({ content, setContent, pasting, setPasting
       )}
 
       <div className="totals">
-        <div><span>Total shipped</span><strong>{fmtNum(summary.shipped)} t</strong></div>
-        <div><span>Exported</span><strong>{fmtNum(summary.exported)} t</strong></div>
-        <div><span>Imported</span><strong>{fmtNum(summary.imported)} t</strong></div>
+        <div><span>Total shipped</span><strong>{fmtNum(summary.shipped)} Tons</strong></div>
+        <div><span>Exported</span><strong>{fmtNum(summary.exported)} Tons</strong></div>
+        <div><span>Imported</span><strong>{fmtNum(summary.imported)} Tons</strong></div>
         <div><span>Orders</span><strong>{fmtNum(summary.orders)}</strong></div>
         <div><span>Countries</span><strong>{summary.countries}</strong></div>
       </div>
@@ -119,7 +119,7 @@ export default function RecordsEditor({ content, setContent, pasting, setPasting
       <div className="rtable" role="table" aria-label="Trade records">
         <div className="rtable__row rtable__row--head" role="row">
           <span role="columnheader">Date</span><span role="columnheader">Product</span><span role="columnheader">Country</span>
-          <span role="columnheader">Type</span><span role="columnheader">Tonnes</span><span role="columnheader">Orders</span>
+          <span role="columnheader">Type</span><span role="columnheader">Tons</span><span role="columnheader">Orders</span>
           <span role="columnheader">Transport</span><span />
         </div>
         {visible.slice(0, limit).map(({ r, i }) => {
@@ -144,7 +144,7 @@ export default function RecordsEditor({ content, setContent, pasting, setPasting
                   <option value="import">Import</option>
                 </select>
               </label>
-              <label className="rc rc--tonnes"><span>Tonnes</span>
+              <label className="rc rc--tonnes"><span>Tons</span>
                 <input className="input input--sm" type="number" min="0" step="any" value={r.tonnes} onChange={(e) => update(i, { tonnes: e.target.value === '' ? '' : Number(e.target.value) })} />
               </label>
               <label className="rc rc--orders"><span>Orders</span>
@@ -170,7 +170,7 @@ export default function RecordsEditor({ content, setContent, pasting, setPasting
         <h3>Totals from before these records</h3>
         <p className="f__help">If you have shipped goods that are not in the table, add the totals here and they are included in all the figures.</p>
         <div className="history__fields">
-          {[['exported', 'Tonnes exported'], ['imported', 'Tonnes imported'], ['orders', 'Orders completed']].map(([k, label]) => (
+          {[['exported', 'Tons exported'], ['imported', 'Tons imported'], ['orders', 'Orders completed']].map(([k, label]) => (
             <label key={k}>{label}
               <input className="input" type="number" min="0" value={content.history?.[k] ?? 0}
                 onChange={(e) => setContent((c) => ({ ...c, history: { ...(c.history || {}), [k]: e.target.value === '' ? 0 : Number(e.target.value) } }))} />

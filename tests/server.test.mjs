@@ -107,13 +107,25 @@ test('trade figures are worked out from the records', async () => {
   assert.equal(t.byProduct[0].name, 'Raisins')
   assert.deepEqual(t.growth, { from: 2024, to: 2025, pct: 42 })
   assert.equal(t.recent.length, 1)
+  // Records without a transport count as road freight.
+  assert.deepEqual(t.byTransport.map((g) => [g.name, g.tonnes]), [['road', 1470]])
+})
+
+test('page addresses map to the right page', async () => {
+  const { pageForPath, pageOfSection } = await import('../src/site/pages.js')
+  assert.equal(pageForPath('/'), 'home')
+  assert.equal(pageForPath('/products'), 'products')
+  assert.equal(pageForPath('/track-record/'), 'track-record')
+  assert.equal(pageForPath('/shipping/index.html'), 'shipping')
+  assert.equal(pageForPath('/nope'), 'home')
+  assert.equal(pageOfSection('faq').path, '/about')
 })
 
 test('rows pasted from Excel are understood', async () => {
   const { parseRows, toCsv } = await import('../src/admin/records.js')
   const rows = parseRows('Date\tProduct\tCountry\tType\tTonnes\tOrders\tTransport\nSep 2026\tPomegranates\tUAE\tExport\t1,200 t\t3\tAir cargo')
   assert.deepEqual(rows[0], { date: '2026-09', product: 'Pomegranates', country: 'United Arab Emirates', direction: 'export', tonnes: 1200, orders: 3, transport: 'air' })
-  const csv = 'Date,Product,Country,Direction,Tonnes,Orders,Transport\n2025,Raisins,India,import,820,37,road'
+  const csv = 'Date,Product,Country,Direction,Tons,Orders,Transport\n2025,Raisins,India,import,820,37,road'
   assert.deepEqual(parseRows(csv)[0], { date: '2025', product: 'Raisins', country: 'India', direction: 'import', tonnes: 820, orders: 37, transport: 'road' })
   assert.equal(toCsv(parseRows(csv)), csv)
 })

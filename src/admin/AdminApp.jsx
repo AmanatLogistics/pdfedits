@@ -4,6 +4,8 @@ import {
   Monitor, RotateCcw, Smartphone, Upload, X,
 } from 'lucide-react'
 import { PAGES } from './schema.js'
+import { PAGES as SITE_PAGES, PAGE_NAMES } from '../site/pages.js'
+import { Emblem } from '../site/Logo.jsx'
 import Dashboard from './Dashboard.jsx'
 import RecordsEditor from './RecordsEditor.jsx'
 import { AdminContext, FieldFor, Toggle } from './fields.jsx'
@@ -17,6 +19,7 @@ const writeDraft = (d) => { try { d ? localStorage.setItem(DRAFT_KEY, JSON.strin
 const SECTION_NAMES = {
   record: 'Track record', shipments: 'Recent shipments', products: 'Products', destinations: 'Destinations map', about: 'About us',
   certifications: 'Certifications', testimonials: 'Testimonials', faq: 'Questions & answers', contact: 'Contact & partnership',
+  gallery: 'Photo gallery',
 }
 
 /* ---------------- Login ---------------- */
@@ -60,7 +63,7 @@ function Login({ status, onLoggedIn }) {
   return (
     <div className="login">
       <form className="login__card" onSubmit={submit}>
-        <div className="login__brand"><span className="login__mark">FF</span><div><strong>Website admin</strong><span>Faiz Fayez</span></div></div>
+        <div className="login__brand"><Emblem size={44} className="login__mark" /><div><strong>Website admin</strong><span>Faiz Fayez LTD</span></div></div>
         <label className="f__label" htmlFor="pw">Password</label>
         <input id="pw" className="input" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} autoFocus required />
         {error && <p className="f__error">{error}</p>}
@@ -76,7 +79,7 @@ function Login({ status, onLoggedIn }) {
 
 /* ---------------- Special editors ---------------- */
 
-function SectionsEditor({ content, setContent }) {
+function PagesEditor({ content, setContent, setPreviewPage }) {
   const list = content.sections
   const update = (i, patch) => setContent((c) => ({ ...c, sections: c.sections.map((s, j) => (j === i ? { ...s, ...patch } : s)) }))
   const move = (i, d) => setContent((c) => {
@@ -85,29 +88,53 @@ function SectionsEditor({ content, setContent }) {
     next.splice(i + d, 0, x)
     return { ...c, sections: next }
   })
+  const field = (path, f) => <FieldFor key={path} field={{ path, ...f }} value={getAt(content, path)} onChange={(v) => setContent((c) => setAt(c, path, v))} />
   return (
-    <div className="sections">
-      <div className="sections__fixed">1 · Top banner <span>always first</span></div>
-      {list.map((s, i) => (
-        <div className={`sections__row ${s.visible ? '' : 'is-hidden'}`} key={s.id}>
-          <span className="sections__n">{i + 2}</span>
-          <div className="sections__main">
-            <strong>{SECTION_NAMES[s.id] || s.id}</strong>
-            <label className="sections__label">Menu name
-              <input className="input input--sm" value={s.label} onChange={(e) => update(i, { label: e.target.value })} />
-            </label>
-            <div className="sections__toggles">
-              <Toggle label="Show on website" value={s.visible} onChange={(v) => update(i, { visible: v })} />
-              {s.id !== 'contact' && <Toggle label="Link in top menu" value={s.inNav} onChange={(v) => update(i, { inNav: v })} />}
+    <div className="pages">
+      <h2 className="pages__h">Pages</h2>
+      <p className="f__help">Each page has its own address and a banner at the top. Its sections are the same ones you edit under “Website sections”.</p>
+      {SITE_PAGES.map((pg) => {
+        const sections = pg.sections.map((id) => SECTION_NAMES[id] || id).join(', ')
+        return (
+          <div className="page-card" key={pg.id} onFocusCapture={() => setPreviewPage(pg.id)}>
+            <div className="page-card__head">
+              <div><strong>{PAGE_NAMES[pg.id]}</strong><span>{pg.path} · {sections}</span></div>
+              <button type="button" className="b b--soft" onClick={() => setPreviewPage(pg.id)}><Eye size={15} /> Preview</button>
+            </div>
+            <div className="page-card__grid">
+              {field(`pages.${pg.id}.label`, { type: 'text', label: 'Menu name' })}
+              {pg.id !== 'contact'
+                ? field(`pages.${pg.id}.inNav`, { type: 'toggle', label: 'Show in the top menu' })
+                : <p className="f__help">The Contact page is linked from the main button in the top menu.</p>}
+            </div>
+            {field(`pages.${pg.id}.title`, { type: 'text', label: 'Banner title' })}
+            {field(`pages.${pg.id}.text`, { type: 'textarea', label: 'Banner text', rows: 2 })}
+            {field(`pages.${pg.id}.image`, { type: 'image', label: 'Banner photo', help: 'A wide landscape photo works best.' })}
+          </div>
+        )
+      })}
+
+      <h2 className="pages__h">Home page sections</h2>
+      <p className="f__help">The home page shows every section, in this order. Hiding a section also hides it on its own page.</p>
+      <div className="sections">
+        <div className="sections__fixed">1 · Top banner <span>always first</span></div>
+        {list.map((s, i) => (
+          <div className={`sections__row ${s.visible ? '' : 'is-hidden'}`} key={s.id}>
+            <span className="sections__n">{i + 2}</span>
+            <div className="sections__main">
+              <strong>{SECTION_NAMES[s.id] || s.id}</strong>
+              <div className="sections__toggles">
+                <Toggle label="Show on website" value={s.visible} onChange={(v) => update(i, { visible: v })} />
+              </div>
+            </div>
+            <div className="sections__move">
+              <button type="button" className="icon-b" onClick={() => move(i, -1)} disabled={i === 0} aria-label="Move up"><ArrowUp size={16} /></button>
+              <button type="button" className="icon-b" onClick={() => move(i, 1)} disabled={i === list.length - 1} aria-label="Move down"><ArrowDown size={16} /></button>
             </div>
           </div>
-          <div className="sections__move">
-            <button type="button" className="icon-b" onClick={() => move(i, -1)} disabled={i === 0} aria-label="Move up"><ArrowUp size={16} /></button>
-            <button type="button" className="icon-b" onClick={() => move(i, 1)} disabled={i === list.length - 1} aria-label="Move down"><ArrowDown size={16} /></button>
-          </div>
-        </div>
-      ))}
-      <div className="sections__fixed">Footer <span>always last</span></div>
+        ))}
+        <div className="sections__fixed">Footer <span>always last</span></div>
+      </div>
     </div>
   )
 }
@@ -169,7 +196,7 @@ function SeoPreview({ content }) {
 
 /* ---------------- Preview ---------------- */
 
-function Preview({ content, previewMap, scrollTo, device, setDevice, onClose }) {
+function Preview({ content, previewMap, scrollTo, page, device, setDevice, onClose }) {
   const frame = useRef(null)
   const box = useRef(null)
   const [ready, setReady] = useState(false)
@@ -190,8 +217,8 @@ function Preview({ content, previewMap, scrollTo, device, setDevice, onClose }) 
   }, [])
 
   const post = useCallback((extra) => {
-    frame.current?.contentWindow?.postMessage({ type: 'faiz:preview', content: mapImages(content, previewMap), ...extra }, window.location.origin)
-  }, [content, previewMap])
+    frame.current?.contentWindow?.postMessage({ type: 'faiz:preview', content: mapImages(content, previewMap), page, ...extra }, window.location.origin)
+  }, [content, previewMap, page])
 
   useEffect(() => {
     if (!ready) return
@@ -200,10 +227,10 @@ function Preview({ content, previewMap, scrollTo, device, setDevice, onClose }) 
   }, [ready, post])
 
   useEffect(() => {
-    if (ready && scrollTo) post({ scrollTo })
+    if (ready) post({ scrollTo: scrollTo || 'top' })
     // Only scroll when the editor page changes, not on every keystroke.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, scrollTo])
+  }, [ready, scrollTo, page])
 
   const width = device === 'mobile' ? 390 : 1280
   const scale = Math.min(1, size.w / width)
@@ -240,6 +267,7 @@ export default function AdminApp() {
   const [previewMap, setPreviewMap] = useState({})
   const [pageId, setPageId] = useState('dashboard')
   const [pasting, setPasting] = useState(false)
+  const [pagePreview, setPagePreview] = useState(null)
   const [device, setDevice] = useState('desktop')
   const [showPreview, setShowPreview] = useState(() => window.innerWidth > 1180)
   const [navOpen, setNavOpen] = useState(false)
@@ -325,6 +353,7 @@ export default function AdminApp() {
       })
     }
     setPasting(action === 'paste')
+    setPagePreview(null)
     setPageId(page)
     document.querySelector('.editor')?.scrollTo(0, 0)
   }
@@ -366,7 +395,7 @@ export default function AdminApp() {
       <div className={`admin ${showPreview ? 'with-preview' : ''} ${page.special === 'records' || page.special === 'dashboard' ? 'is-wide' : ''}`}>
         <header className="topbar-a">
           <button type="button" className="icon-b topbar-a__menu" onClick={() => setNavOpen((o) => !o)} aria-label="Menu"><MenuIcon size={18} /></button>
-          <div className="topbar-a__brand"><span className="login__mark">FF</span><strong>Website admin</strong></div>
+          <div className="topbar-a__brand"><Emblem size={32} className="login__mark" /><strong>Website admin</strong></div>
           <span className={`pill ${dirty ? 'pill--warn' : 'pill--ok'}`}>{dirty ? 'Unpublished changes' : 'Up to date'}</span>
           <div className="topbar-a__actions">
             <a className="b b--ghost" href="/" target="_blank" rel="noreferrer"><ExternalLink size={16} /> <span className="hide-sm">View website</span></a>
@@ -425,7 +454,7 @@ export default function AdminApp() {
           <div className={`editor__body ${page.special === 'records' || page.special === 'dashboard' ? 'editor__body--wide' : ''}`}>
             {page.special === 'dashboard' && <Dashboard content={content} status={status} dirty={dirty} goTo={goTo} />}
             {page.special === 'records' && <RecordsEditor content={content} setContent={setContent} pasting={pasting} setPasting={setPasting} />}
-            {page.special === 'sections' && <SectionsEditor content={content} setContent={setContent} />}
+            {page.special === 'pages' && <PagesEditor content={content} setContent={setContent} setPreviewPage={setPagePreview} />}
             {page.special === 'backup' && <BackupEditor content={content} setContent={setContent} />}
             {page.fields?.map((field, i) => {
               if (field.type === 'sectionToggle') {
@@ -445,7 +474,8 @@ export default function AdminApp() {
         </main>
 
         {showPreview && (
-          <Preview content={content} previewMap={previewMap} scrollTo={page.preview} device={device} setDevice={setDevice} onClose={() => setShowPreview(false)} />
+          <Preview content={content} previewMap={previewMap} scrollTo={page.preview} page={pagePreview || page.sitePage || 'home'}
+            device={device} setDevice={setDevice} onClose={() => setShowPreview(false)} />
         )}
       </div>
     </AdminContext.Provider>

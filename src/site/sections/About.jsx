@@ -1,7 +1,8 @@
+import { ArrowRight } from '../ph.jsx'
 import Photo from '../Photo.jsx'
 import { Icon } from '../icons.jsx'
 
-export default function About({ content, tone }) {
+export default function About({ content, tone, more }) {
   const { about, company } = content
   const years = Math.max(0, new Date().getFullYear() - Number(company.since || 0))
   return (
@@ -25,13 +26,14 @@ export default function About({ content, tone }) {
           {about.points?.length > 0 && (
             <ul className="features">
               {about.points.map((p, i) => (
-                <li key={i}>
+                <li key={i} style={{ '--i': i }}>
                   <span className="features__icon"><Icon name={p.icon} size={26} /></span>
                   <div><h3>{p.title}</h3><p>{p.text}</p></div>
                 </li>
               ))}
             </ul>
           )}
+          {more && <a className="more-link" href={more.href}>{more.label} <ArrowRight size={16} weight="bold" /></a>}
         </div>
       </div>
       {about.steps?.length > 0 && (

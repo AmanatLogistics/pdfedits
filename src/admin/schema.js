@@ -1,6 +1,6 @@
 import {
-  Building2, CircleHelp, Database, FileSpreadsheet, Globe2, Hash, Image, LayoutDashboard, LayoutList, Mail, MessageSquareQuote,
-  Palette, PanelBottom, PanelTop, Search, ShieldCheck, Sparkles, Truck,
+  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Hash, Image, Images, LayoutDashboard, Mail, Megaphone,
+  MessageSquareQuote, Palette, PanelBottom, PanelTop, Search, ShieldCheck, Sparkles, Truck,
 } from 'lucide-react'
 import { FONT_OPTIONS } from '../site/theme.js'
 import { ICONS, TRANSPORT } from '../site/icons.jsx'
@@ -24,11 +24,11 @@ export const PAGES = [
   { id: 'dashboard', group: 'Start here', title: 'Dashboard', icon: LayoutDashboard, preview: 'record', special: 'dashboard' },
   {
     id: 'records', group: 'Start here', title: 'Trade records', icon: FileSpreadsheet, preview: 'record', special: 'records',
-    intro: 'Every shipment or yearly total you add here updates the whole website automatically: the big totals, the yearly chart, the product and country lists, recent shipments and the map.',
+    intro: 'Every shipment or yearly total you add here updates the whole website automatically: the big totals, the yearly chart, the product list, recent shipments and the map.',
   },
   {
     id: 'products', group: 'Start here', title: 'Products & photos', icon: Image, preview: 'products',
-    intro: 'The products shown on the website. Tonnes shipped are worked out from your trade records, so use the same product names in both places.',
+    intro: 'The products shown on the website. Tons shipped are worked out from your trade records, so use the same product names in both places.',
     fields: [
       show('products'),
       ...heading('products'),
@@ -49,9 +49,8 @@ export const PAGES = [
     intro: 'Your business name, logo, email addresses and phone numbers. These appear in the header, contact section and footer.',
     fields: [
       { path: 'company.name', type: 'text', label: 'Company name', required: true },
-      { path: 'company.tagline', type: 'text', label: 'Line under the name', help: 'For example “Dry & Fresh Fruit Traders”.' },
-      { path: 'company.logo', type: 'imageSrc', label: 'Logo image', help: 'Optional. Without a logo the letters below are shown in a coloured square.' },
-      { path: 'company.monogram', type: 'text', label: 'Logo letters', maxLength: 3 },
+      { path: 'company.tagline', type: 'text', label: 'Line under the name', help: 'For example “Dry & Fresh Fruit Traders”. “LTD” at the end of the name is shown smaller, next to it.' },
+      { path: 'company.logo', type: 'imageSrc', label: 'Logo image', help: 'Optional. Without a logo image, the Faiz Fayez pomegranate emblem is shown next to the name.' },
       { path: 'company.since', type: 'number', label: 'Year established' },
       { path: 'company.email', type: 'email', label: 'Inquiry email', help: 'Price requests, orders and general inquiries go here.' },
       { path: 'company.partnershipEmail', type: 'email', label: 'Partnership email', help: 'Business partnership proposals go here.' },
@@ -71,7 +70,7 @@ export const PAGES = [
       { path: 'hero.eyebrow', type: 'text', label: 'Small label above the headline' },
       { path: 'hero.title', type: 'textarea', label: 'Headline', rows: 2 },
       { path: 'hero.text', type: 'textarea', label: 'Text under the headline' },
-      { path: 'hero.primaryButton', type: 'text', label: 'Main button text', help: 'Scrolls to the inquiry form.' },
+      { path: 'hero.primaryButton', type: 'text', label: 'Main button text', help: 'Opens the inquiry form. Also used for the button in the top menu.' },
       { path: 'hero.secondaryButton', type: 'text', label: 'Second button text', help: 'Opens the form with “Business partnership” selected. Leave empty to hide.' },
       { path: 'hero.trustPoints', type: 'stringList', label: 'Short trust points', addLabel: 'Add point' },
       { path: 'hero.cardTitle', type: 'text', label: 'Title of the total-shipped card' },
@@ -85,11 +84,14 @@ export const PAGES = [
       ...heading('record'),
       { path: 'record.chartTitle', type: 'text', label: 'Chart title' },
       { path: 'record.productsTitle', type: 'text', label: 'Title of the product list' },
-      { path: 'record.countriesTitle', type: 'text', label: 'Title of the country list' },
-      { path: 'statLabels.shipped', type: 'text', label: 'Name for total tonnes' },
-      { path: 'statLabels.exported', type: 'text', label: 'Name for tonnes exported' },
-      { path: 'statLabels.imported', type: 'text', label: 'Name for tonnes imported' },
+      { path: 'record.transportTitle', type: 'text', label: 'Title of the transport list', help: 'Shown when all your records go to one country.' },
+      { path: 'record.countriesTitle', type: 'text', label: 'Title of the country list', help: 'Shown when your records include more than one country.' },
+      { path: 'record.unit', type: 'text', label: 'Unit name', help: 'Shown after every amount on the website, e.g. “Tons”.' },
+      { path: 'statLabels.shipped', type: 'text', label: 'Name for total shipped' },
+      { path: 'statLabels.exported', type: 'text', label: 'Name for exported' },
+      { path: 'statLabels.imported', type: 'text', label: 'Name for imported' },
       { path: 'statLabels.orders', type: 'text', label: 'Name for orders' },
+      { path: 'statLabels.years', type: 'text', label: 'Name for years in trade' },
       { path: 'statLabels.countries', type: 'text', label: 'Name for countries' },
     ],
   },
@@ -99,12 +101,29 @@ export const PAGES = [
     fields: [
       show('shipments'),
       ...heading('shipments'),
-      { path: 'shipments.count', type: 'number', label: 'How many to show' },
+      { path: 'shipments.count', type: 'number', label: 'How many to show on the home page' },
+      { path: 'shipments.pageCount', type: 'number', label: 'How many to show on the Track Record page' },
     ],
   },
   {
-    id: 'destinations', group: 'Website sections', title: 'Destinations map', icon: Globe2, preview: 'destinations',
-    intro: 'The map draws a route from your home city to every country in your trade records, thicker for bigger volumes.',
+    id: 'gallery', group: 'Website sections', title: 'Photo gallery', icon: Images, preview: 'gallery',
+    intro: 'A grid of photos on the home page and the Products page. The first photo is shown large. Photos of your own warehouse, packing and shipments work best.',
+    fields: [
+      show('gallery'),
+      ...heading('gallery'),
+      {
+        path: 'gallery.items', type: 'list', label: 'Photos', itemLabel: 'Photo', titleKey: 'caption',
+        newItem: { image: { src: '', alt: '' }, caption: '' },
+        fields: [
+          { key: 'image', type: 'image', label: 'Photo' },
+          { key: 'caption', type: 'text', label: 'Caption' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'destinations', group: 'Website sections', title: 'Shipping & map', icon: Globe2, preview: 'destinations',
+    intro: 'The map draws a route from your home city to the countries in your trade records, thicker for bigger volumes, and lists how your goods travel.',
     fields: [
       show('destinations'),
       ...heading('destinations'),
@@ -214,6 +233,15 @@ export const PAGES = [
     ],
   },
   {
+    id: 'cta', group: 'Website sections', title: 'Closing banner', icon: Megaphone, preview: 'cta', sitePage: 'track-record',
+    intro: 'The banner at the bottom of every page except the home page and Contact page, inviting visitors to request a quote.',
+    fields: [
+      { path: 'cta.title', type: 'text', label: 'Title' },
+      { path: 'cta.text', type: 'textarea', label: 'Text' },
+      { path: 'cta.button', type: 'text', label: 'Button text' },
+    ],
+  },
+  {
     id: 'footer', group: 'Website sections', title: 'Footer & WhatsApp', icon: PanelBottom, preview: 'footer',
     fields: [
       { path: 'footer.about', type: 'textarea', label: 'Footer description' },
@@ -224,14 +252,14 @@ export const PAGES = [
   },
 
   {
-    id: 'sections', group: 'Design & settings', title: 'Sections & menu', icon: LayoutList, preview: null, special: 'sections',
-    intro: 'Choose which sections appear, their order on the page, and which ones are linked in the top menu.',
+    id: 'pages', group: 'Start here', title: 'Pages & menu', icon: Files, preview: null, special: 'pages',
+    intro: 'The website has a home page with every section, plus a page for each topic. Edit each page’s menu name, banner text and photo, and choose the order of sections on the home page.',
   },
   {
     id: 'theme', group: 'Design & settings', title: 'Colours & fonts', icon: Palette, preview: 'record',
     intro: 'The brand colours and typefaces used across the whole website.',
     fields: [
-      { path: 'theme.primary', type: 'color', label: 'Main brand colour', help: 'Buttons, icons, the total-tonnes tile and the partnership banner.' },
+      { path: 'theme.primary', type: 'color', label: 'Main brand colour', help: 'The logo background, icons, the total-shipped tile and the banners.' },
       { path: 'theme.accent', type: 'color', label: 'Highlight colour', help: 'Main buttons, small labels, the map routes and highlights.' },
       { path: 'theme.dark', type: 'color', label: 'Dark background colour', help: 'Top banner, map section and footer.' },
       { path: 'theme.exportColor', type: 'color', label: 'Chart colour: exports' },

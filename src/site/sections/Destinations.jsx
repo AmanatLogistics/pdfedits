@@ -3,14 +3,14 @@ import SectionHead from '../SectionHead.jsx'
 import { COUNTRIES } from '../countries.js'
 import { MAP_H, MAP_W, project } from '../map.js'
 import { TRANSPORT } from '../icons.jsx'
-import { fmtNum } from '../trade.js'
+import { fmtNum, unitOf } from '../trade.js'
 
 // Crop the world map to the area the routes cover, keeping a wide shape.
 function frame(points) {
   const xs = points.map((p) => p[0])
   const ys = points.map((p) => p[1])
   let [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)]
-  let w = Math.max(x1 - x0, 140)
+  let w = Math.max(x1 - x0, 160)
   let h = Math.max(y1 - y0, 60)
   w *= 1.5
   h *= 1.7
@@ -50,17 +50,17 @@ function RouteMap({ hubName, countries, unit }) {
     return [x0, cy - h / 2, x0 + w, cy + h / 2]
   }
   const hit = (a, b) => !(a[2] < b[0] || a[0] > b[2] || a[3] < b[1] || a[1] > b[3])
-  const taken = [box(hub[0], hub[1] + 22 * k, hubName.length * 10 * k + 24 * k, 30 * k, 'middle')]
+  const taken = [box(hub[0], hub[1] + 30 * k, hubName.length * 13 * k + 24 * k, 38 * k, 'middle')]
   const labels = []
   for (const p of pts) {
     const dx = p.pos[0] - hub[0]
     const dy = p.pos[1] - hub[1]
     const side = Math.abs(dx) >= Math.abs(dy) * 0.8
     const anchor = side ? (dx > 0 ? 'start' : 'end') : 'middle'
-    const x = side ? p.pos[0] + (dx > 0 ? 11 : -11) * k : p.pos[0]
-    const y = side ? p.pos[1] : p.pos[1] + (dy < 0 ? -22 : 24) * k
-    const w = Math.max(p.name.length * 7.6, 58) * k
-    const b = box(x, y, w, 32 * k, anchor)
+    const x = side ? p.pos[0] + (dx > 0 ? 14 : -14) * k : p.pos[0]
+    const y = side ? p.pos[1] : p.pos[1] + (dy < 0 ? -28 : 30) * k
+    const w = Math.max(p.name.length * 10.5, 80) * k
+    const b = box(x, y, w, 42 * k, anchor)
     if (taken.some((t) => hit(b, t))) continue
     taken.push(b)
     labels.push({ ...p, anchor, x, y })
@@ -73,8 +73,15 @@ function RouteMap({ hubName, countries, unit }) {
       {pts.flatMap((p) => {
         const both = p.exported > 0 && p.imported > 0
         const w = (1.2 + 4.5 * Math.sqrt(p.tonnes / max)) * k
+        const out = arc(hub, p.pos, 1)
         return [
-          p.exported > 0 && <path key={`e-${p.name}`} d={arc(hub, p.pos, 1)} className="rmap__route rmap__route--export" style={{ strokeWidth: w }} />,
+          p.exported > 0 && <path key={`e-${p.name}`} d={out} pathLength="1" className="rmap__route rmap__route--export" style={{ strokeWidth: w }} />,
+          // A small "shipment" travelling along each export route.
+          p.exported > 0 && (
+            <circle key={`m-${p.name}`} r={Math.max(2.4 * k, w * 0.75)} className="rmap__mover">
+              <animateMotion dur="2.8s" repeatCount="indefinite" path={out} keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines=".45 0 .55 1" />
+            </circle>
+          ),
           p.imported > 0 && <path key={`i-${p.name}`} d={arc(p.pos, hub, both ? 1 : -1)} className="rmap__route rmap__route--import" style={{ strokeWidth: Math.max(1.2 * k, w * 0.7) }} />,
         ]
       })}
@@ -85,22 +92,22 @@ function RouteMap({ hubName, countries, unit }) {
       ))}
       {labels.map((p) => (
         <g key={`l-${p.name}`} className="rmap__label" textAnchor={p.anchor} transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`}>
-          <text fontSize={13 * k} y={-2 * k}>{p.name}</text>
-          <text fontSize={12 * k} y={12 * k} className="rmap__tonnes">{fmtNum(p.tonnes)} {unit}</text>
+          <text fontSize={18 * k} y={-3 * k}>{p.name}</text>
+          <text fontSize={16 * k} y={16 * k} className="rmap__tonnes">{fmtNum(p.tonnes)} {unit}</text>
         </g>
       ))}
       <g className="rmap__hub">
-        <circle cx={hub[0]} cy={hub[1]} r={16 * k} className="rmap__pulse" />
-        <circle cx={hub[0]} cy={hub[1]} r={7 * k} />
-        <text x={hub[0]} y={hub[1] + 26 * k} fontSize={14 * k}>{hubName}</text>
+        <circle cx={hub[0]} cy={hub[1]} r={18 * k} className="rmap__pulse" />
+        <circle cx={hub[0]} cy={hub[1]} r={8 * k} />
+        <text x={hub[0]} y={hub[1] + 34 * k} fontSize={18 * k}>{hubName}</text>
       </g>
     </svg>
   )
 }
 
-export default function Destinations({ content, trade }) {
-  const { destinations: D, record } = content
-  const unit = record?.unit || 't'
+export default function Destinations({ content, trade, more }) {
+  const { destinations: D } = content
+  const unit = unitOf(content)
   const hubLL = COUNTRIES[D.hub]
   // On phones the map is wider than the screen: start it scrolled to the hub.
   const centre = useCallback((el) => {
@@ -109,42 +116,50 @@ export default function Destinations({ content, trade }) {
     const box = el.getBoundingClientRect()
     el.scrollLeft = dot ? dot.left + dot.width / 2 - box.left - box.width / 2 : (el.scrollWidth - el.clientWidth) / 2
   }, [])
-  const top = trade.byCountry.slice(0, 6)
-  const max = top[0]?.tonnes || 1
+  // Several destinations: rank them. One destination: show how the goods travelled.
+  const many = trade.countries > 1
+  const rows = many
+    ? trade.byCountry.slice(0, 6).map((c) => ({ key: c.name, name: c.name, tonnes: c.tonnes }))
+    : trade.byTransport.map((t) => ({ key: t.name, name: `${TRANSPORT[t.name]?.label || t.name} freight`, tonnes: t.tonnes, Icon: TRANSPORT[t.name]?.C }))
+  const max = rows[0]?.tonnes || 1
+  const showMap = hubLL && trade.byCountry.length > 0
   return (
     <section className="section section--dark" id="destinations">
       <div className="container">
-        <SectionHead eyebrow={D.eyebrow} title={D.title} text={D.text} align="split" light />
-        <div className="dest">
-          <div className="dest__map reveal">
-            {hubLL && (
+        <SectionHead eyebrow={D.eyebrow} title={D.title} text={D.text} align="split" light more={more} />
+        {showMap && (
+          <div className="dest">
+            <div className="dest__map reveal">
               <div className="dest__scroll" ref={centre}>
                 <RouteMap hubName={D.hub} countries={trade.byCountry} unit={unit} />
               </div>
-            )}
-            <div className="dest__legend">
-              <span><i className="line line--export" /> Exports from {D.hub}</span>
-              <span><i className="line line--import" /> Imports to {D.hub}</span>
+              <div className="dest__legend">
+                <span><i className="line line--export" /> Exports from {D.hub}</span>
+                {trade.imported > 0 && <span><i className="line line--import" /> Imports to {D.hub}</span>}
+              </div>
+            </div>
+            <div className="dest__side reveal">
+              <h3>{many ? 'Top destinations' : 'How it travelled'}</h3>
+              <ol className="dest__top">
+                {rows.map((r, i) => (
+                  <li key={r.key} style={{ '--i': i }}>
+                    <span className="dest__rank">{r.Icon ? <r.Icon size={18} weight="duotone" /> : i + 1}</span>
+                    <div>
+                      <div className="dest__row"><strong>{r.name}</strong><span>{fmtNum(r.tonnes)} {unit}</span></div>
+                      <span className="dest__track"><span style={{ width: `${(r.tonnes / max) * 100}%` }} /></span>
+                    </div>
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
-          <ol className="dest__top reveal">
-            {top.map((c, i) => (
-              <li key={c.name}>
-                <span className="dest__rank">{i + 1}</span>
-                <div>
-                  <div className="dest__row"><strong>{c.name}</strong><span>{fmtNum(c.tonnes)} {unit}</span></div>
-                  <span className="dest__track"><span style={{ width: `${(c.tonnes / max) * 100}%` }} /></span>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+        )}
         {D.routes?.length > 0 && (
           <div className="modes">
             {D.routes.map((r, i) => {
               const T = TRANSPORT[r.icon] ?? TRANSPORT.road
               return (
-                <div className="mode reveal" key={i}>
+                <div className="mode reveal" style={{ '--i': i }} key={i}>
                   <span className="mode__icon"><T.C size={26} weight="duotone" /></span>
                   <h3>{r.title}</h3>
                   <p>{r.text}</p>

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { AlertTriangle, CheckCircle2, ClipboardPaste, ExternalLink, Image, Mail, PanelTop, Plus, Truck } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, ClipboardPaste, ExternalLink, Files, Image, Images, Mail, PanelTop, Plus, Truck } from 'lucide-react'
 import { fmtDate, fmtNum, tradeSummary } from '../site/trade.js'
 
 export default function Dashboard({ content, status, dirty, goTo }) {
@@ -10,7 +10,9 @@ export default function Dashboard({ content, status, dirty, goTo }) {
     { icon: Image, title: 'Products & photos', text: 'Change product names, photos and seasons.', page: 'products' },
     { icon: PanelTop, title: 'Top banner', text: 'Headline, buttons and the main photo.', page: 'hero' },
     { icon: Mail, title: 'Contact details', text: 'Emails, phone, WhatsApp and address.', page: 'company' },
-    { icon: Truck, title: 'Destinations map', text: 'Home city and shipping methods.', page: 'destinations' },
+    { icon: Images, title: 'Photo gallery', text: 'Add photos of your fruit, warehouse and loads.', page: 'gallery' },
+    { icon: Files, title: 'Pages & menu', text: 'Page banners, menu names and section order.', page: 'pages' },
+    { icon: Truck, title: 'Shipping & map', text: 'Home city and how your goods travel.', page: 'destinations' },
   ]
   return (
     <div className="dash">
@@ -31,11 +33,11 @@ export default function Dashboard({ content, status, dirty, goTo }) {
       )}
 
       <div className="dash__totals">
-        <div className="dash__main"><span>Total shipped</span><strong>{fmtNum(t.shipped)}<small> tonnes</small></strong></div>
-        <div><span>Exported</span><strong>{fmtNum(t.exported)} t</strong></div>
-        <div><span>Imported</span><strong>{fmtNum(t.imported)} t</strong></div>
+        <div className="dash__main"><span>Total shipped</span><strong>{fmtNum(t.shipped)}<small> Tons</small></strong></div>
+        <div><span>Exported</span><strong>{fmtNum(t.exported)} Tons</strong></div>
+        <div><span>Imported</span><strong>{fmtNum(t.imported)} Tons</strong></div>
         <div><span>Orders</span><strong>{fmtNum(t.orders)}</strong></div>
-        <div><span>Countries</span><strong>{t.countries}</strong></div>
+        <div><span>Products</span><strong>{t.byProduct.length}</strong></div>
         <div><span>Latest record</span><strong>{t.latest ? fmtDate(t.latest) : '—'}</strong></div>
       </div>
 

@@ -1,7 +1,7 @@
-import { useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import { CheckCircle, Clock, Copy, EnvelopeSimple, Handshake, MapPin, PaperPlaneTilt, Phone, WhatsappLogo } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
-import { telHref, waHref } from '../hooks.js'
+import { scrollToForm, telHref, waHref } from '../hooks.js'
 
 const EMPTY = { name: '', company: '', email: '', phone: '', country: '', product: '', quantity: '', message: '', website: '' }
 
@@ -22,6 +22,18 @@ export default function Contact({ content, tone, request: outside }) {
   const [form, setForm] = useState(EMPTY)
   const [state, setState] = useState({ status: 'idle', message: '' })
   const [copied, setCopied] = useState('')
+
+  // Links from other pages arrive as /contact?product=Raisins or ?partner=1.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search)
+    const product = q.get('product')
+    if (!product && !q.has('partner')) return
+    const t = setTimeout(() => {
+      setRequest({ product: product || '', partnership: q.has('partner'), at: Date.now() })
+      scrollToForm(false)
+    }, 0)
+    return () => clearTimeout(t)
+  }, [])
 
   // A button elsewhere on the page ("Become a Partner", a product card) can
   // pre-select the inquiry type or product.
@@ -84,7 +96,7 @@ export default function Contact({ content, tone, request: outside }) {
               <h3>{contact.partnerTitle}</h3>
               {contact.partnerText && <p>{contact.partnerText}</p>}
             </div>
-            <button type="button" className="btn btn--accent" onClick={() => { setRequest({ partnership: true, at: Date.now() }); document.querySelector('#contact form')?.scrollIntoView({ behavior: 'smooth', block: 'center' }) }}>{contact.partnerButton || 'Become a partner'}</button>
+            <button type="button" className="btn btn--accent" onClick={() => { setRequest({ partnership: true, at: Date.now() }); scrollToForm() }}>{contact.partnerButton || 'Become a partner'}</button>
           </div>
         )}
         <SectionHead eyebrow={contact.eyebrow} title={contact.title} text={contact.text} />
@@ -163,7 +175,7 @@ export default function Contact({ content, tone, request: outside }) {
                         <input name="product" list="product-list" value={form.product} onChange={set('product')} placeholder="e.g. Almonds" maxLength={160} />
                         <datalist id="product-list">{productNames.map((p) => <option key={p} value={p} />)}</datalist>
                       </label>
-                      <label>Quantity<input name="quantity" value={form.quantity} onChange={set('quantity')} placeholder="e.g. 5 tonnes" maxLength={80} /></label>
+                      <label>Quantity<input name="quantity" value={form.quantity} onChange={set('quantity')} placeholder="e.g. 20 Tons" maxLength={80} /></label>
                     </>
                   )}
                   <label className="form__full">Country<input name="country" value={form.country} onChange={set('country')} autoComplete="country-name" maxLength={80} /></label>
