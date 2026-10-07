@@ -1,10 +1,11 @@
 import {
-  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Hash, Image, Images, LayoutDashboard, Mail, Megaphone,
-  MessageSquareQuote, Palette, PanelBottom, PanelTop, Search, ShieldCheck, Sparkles, Truck,
+  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Hash, House, Image, Images, LayoutDashboard, Mail, Megaphone,
+  MessageSquareQuote, Palette, PanelBottom, PanelTop, Search, ShieldCheck, Sparkles, Truck, Type,
 } from 'lucide-react'
 import { FONT_OPTIONS } from '../site/theme.js'
 import { ICONS, TRANSPORT } from '../site/icons.jsx'
 import { COUNTRY_NAMES } from '../site/countries.js'
+import { PAGE_NAMES } from '../site/pages.js'
 
 const iconOptions = Object.entries(ICONS).map(([value, { label }]) => ({ value, label }))
 const transportOptions = Object.entries(TRANSPORT).map(([value, { label }]) => ({ value, label }))
@@ -21,7 +22,7 @@ const show = (id) => ({ type: 'sectionToggle', section: id, label: 'Show this se
 // Every admin page: what it edits and which part of the preview it shows.
 // Pages with `special` have their own editor in AdminApp.jsx.
 export const PAGES = [
-  { id: 'dashboard', group: 'Start here', title: 'Dashboard', icon: LayoutDashboard, preview: 'record', special: 'dashboard' },
+  { id: 'dashboard', group: 'Start here', title: 'Dashboard', icon: LayoutDashboard, preview: 'top', sitePage: 'home', special: 'dashboard' },
   {
     id: 'records', group: 'Start here', title: 'Trade records', icon: FileSpreadsheet, preview: 'record', special: 'records',
     intro: 'Every shipment or yearly total you add here updates the whole website automatically: the big totals, the yearly chart, the product list, recent shipments and the map.',
@@ -42,6 +43,46 @@ export const PAGES = [
           { key: 'season', type: 'text', label: 'Season', help: 'For example “All year” or “Sep – Jan”.' },
         ],
       },
+    ],
+  },
+  {
+    id: 'home', group: 'Start here', title: 'Home page', icon: House, preview: 'explore', sitePage: 'home',
+    intro: 'The home page is an overview: the top banner, a card for each page, why buyers choose you and how ordering works. The detailed sections live on their own pages.',
+    fields: [
+      { type: 'heading', label: 'Page cards', help: 'One card for each page, linking to it.' },
+      { path: 'home.explore.visible', type: 'toggle', label: 'Show the page cards' },
+      ...heading('home.explore'),
+      ...['track-record', 'products', 'shipping', 'about'].flatMap((id) => [
+        { type: 'heading', label: `Card: ${PAGE_NAMES[id]}` },
+        { path: `home.explore.cards.${id}.image`, type: 'image', label: 'Photo' },
+        { path: `home.explore.cards.${id}.title`, type: 'text', label: 'Title', help: 'Leave empty to use the page’s menu name.' },
+        { path: `home.explore.cards.${id}.text`, type: 'textarea', label: 'Text', rows: 2 },
+        { path: `home.explore.cards.${id}.stat`, type: 'text', label: 'Highlight', help: 'The small gold label. Leave empty for an automatic one, e.g. the tons shipped.' },
+      ]),
+      { type: 'heading', label: 'Why choose us' },
+      { path: 'home.reasons.visible', type: 'toggle', label: 'Show this section' },
+      ...heading('home.reasons'),
+      {
+        path: 'home.reasons.items', type: 'list', label: 'Reasons', itemLabel: 'Reason', titleKey: 'title',
+        newItem: { icon: 'quality', title: 'New reason', text: '' },
+        fields: [
+          { key: 'icon', type: 'select', label: 'Icon', options: iconOptions },
+          { key: 'title', type: 'text', label: 'Title' },
+          { key: 'text', type: 'textarea', label: 'Description' },
+        ],
+      },
+      { type: 'heading', label: 'How ordering works' },
+      { path: 'home.steps.visible', type: 'toggle', label: 'Show this section' },
+      ...heading('home.steps'),
+      {
+        path: 'home.steps.items', type: 'list', label: 'Steps', itemLabel: 'Step', titleKey: 'title',
+        newItem: { title: 'New step', text: '' },
+        fields: [
+          { key: 'title', type: 'text', label: 'Title' },
+          { key: 'text', type: 'textarea', label: 'Description', rows: 2 },
+        ],
+      },
+      { path: 'home.steps.button', type: 'text', label: 'Button text', help: 'Opens the contact page. Leave empty to hide the button.' },
     ],
   },
   {
@@ -155,7 +196,6 @@ export const PAGES = [
           { key: 'text', type: 'textarea', label: 'Description' },
         ],
       },
-      { path: 'about.steps', type: 'stringList', label: 'How ordering works (steps)', addLabel: 'Add step' },
       { path: 'about.badgeText', type: 'text', label: 'Years badge text', help: 'Shown under the number of years since you were established.' },
       { path: 'about.image', type: 'image', label: 'Main photo' },
       { path: 'about.image2', type: 'image', label: 'Small photo', help: 'Optional second photo overlapping the main one.' },
@@ -253,7 +293,7 @@ export const PAGES = [
 
   {
     id: 'pages', group: 'Start here', title: 'Pages & menu', icon: Files, preview: null, special: 'pages',
-    intro: 'The website has a home page with every section, plus a page for each topic. Edit each page’s menu name, banner text and photo, and choose the order of sections on the home page.',
+    intro: 'Besides the home page, the website has a page for each topic. Edit each page’s menu name, banner text and photo, and choose which sections are shown.',
   },
   {
     id: 'theme', group: 'Design & settings', title: 'Colours & fonts', icon: Palette, preview: 'record',
@@ -278,6 +318,10 @@ export const PAGES = [
       { path: 'meta.shareImage', type: 'imageSrc', label: 'Share picture', help: 'Shown when the link is shared. Leave empty to use the top banner photo.' },
     ],
     seoPreview: true,
+  },
+  {
+    id: 'labels', group: 'Design & settings', title: 'Buttons & small texts', icon: Type, preview: null, special: 'labels',
+    intro: 'Every small piece of wording on the website: button texts, form labels and list headings. Leave a box empty to keep the wording shown in grey.',
   },
   { id: 'backup', group: 'Design & settings', title: 'Backup', icon: Database, preview: null, special: 'backup', intro: 'Download a copy of all website content, or restore one.' },
 ]

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'preact/hooks'
 import { CheckCircle, Clock, Copy, EnvelopeSimple, Handshake, MapPin, PaperPlaneTilt, Phone, WhatsappLogo } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
 import { scrollToForm, telHref, waHref } from '../hooks.js'
+import { label } from '../labels.js'
 
 const EMPTY = { name: '', company: '', email: '', phone: '', country: '', product: '', quantity: '', message: '', website: '' }
 
@@ -17,6 +18,7 @@ export default function Contact({ content, tone, request: outside }) {
   const [local, setRequest] = useState(null)
   const request = !outside ? local : !local ? outside : local.at > outside.at ? local : outside
   const { contact, company, products } = content
+  const T = (k) => label(content, k)
   const types = contact.inquiryTypes?.length ? contact.inquiryTypes : [{ label: 'General inquiry', partnership: false }]
   const [typeIndex, setTypeIndex] = useState(0)
   const [form, setForm] = useState(EMPTY)
@@ -105,7 +107,7 @@ export default function Contact({ content, tone, request: outside }) {
             {company.email && (
               <div className="cinfo">
                 <span className="cinfo__icon"><EnvelopeSimple size={22} weight="duotone" /></span>
-                <div><h3>Orders &amp; inquiries</h3><a href={`mailto:${company.email}`}>{company.email}</a></div>
+                <div><h3>{T('ordersEmail')}</h3><a href={`mailto:${company.email}`}>{company.email}</a></div>
                 <button type="button" className="cinfo__copy" onClick={() => copy(company.email)} aria-label="Copy email address">
                   {copied === company.email ? <CheckCircle size={16} weight="bold" /> : <Copy size={16} />}
                 </button>
@@ -114,7 +116,7 @@ export default function Contact({ content, tone, request: outside }) {
             {company.partnershipEmail && (
               <div className="cinfo">
                 <span className="cinfo__icon"><Handshake size={22} weight="duotone" /></span>
-                <div><h3>Business partnerships</h3><a href={`mailto:${company.partnershipEmail}`}>{company.partnershipEmail}</a></div>
+                <div><h3>{T('partnersEmail')}</h3><a href={`mailto:${company.partnershipEmail}`}>{company.partnershipEmail}</a></div>
                 <button type="button" className="cinfo__copy" onClick={() => copy(company.partnershipEmail)} aria-label="Copy partnership email address">
                   {copied === company.partnershipEmail ? <CheckCircle size={16} weight="bold" /> : <Copy size={16} />}
                 </button>
@@ -123,25 +125,25 @@ export default function Contact({ content, tone, request: outside }) {
             {company.phone && (
               <div className="cinfo">
                 <span className="cinfo__icon"><Phone size={22} weight="duotone" /></span>
-                <div><h3>Phone</h3><a href={telHref(company.phone)}>{company.phone}</a></div>
+                <div><h3>{T('phone')}</h3><a href={telHref(company.phone)}>{company.phone}</a></div>
               </div>
             )}
             {company.whatsapp && (
               <div className="cinfo">
                 <span className="cinfo__icon cinfo__icon--wa"><WhatsappLogo size={22} weight="duotone" /></span>
-                <div><h3>WhatsApp</h3><a href={waHref(company.whatsapp)} target="_blank" rel="noreferrer">Chat with our team</a></div>
+                <div><h3>{T('whatsapp')}</h3><a href={waHref(company.whatsapp)} target="_blank" rel="noreferrer">{T('whatsappText')}</a></div>
               </div>
             )}
             {company.address && (
               <div className="cinfo">
                 <span className="cinfo__icon"><MapPin size={22} weight="duotone" /></span>
-                <div><h3>Office</h3><span>{company.address}</span></div>
+                <div><h3>{T('office')}</h3><span>{company.address}</span></div>
               </div>
             )}
             {company.hours && (
               <div className="cinfo">
                 <span className="cinfo__icon"><Clock size={22} weight="duotone" /></span>
-                <div><h3>Business hours</h3><span>{company.hours}</span></div>
+                <div><h3>{T('hours')}</h3><span>{company.hours}</span></div>
               </div>
             )}
             {company.mapEmbedUrl && /^https:\/\/(www\.)?google\.[a-z.]+\/maps\/embed/.test(company.mapEmbedUrl) && (
@@ -153,35 +155,35 @@ export default function Contact({ content, tone, request: outside }) {
             {state.status === 'sent' ? (
               <div className="form__done" role="status">
                 <CheckCircle size={48} weight="duotone" />
-                <h3>Inquiry sent</h3>
+                <h3>{T('sentTitle')}</h3>
                 <p>{state.message}</p>
-                <button type="button" className="btn btn--primary" onClick={() => setState({ status: 'idle', message: '' })}>Send another inquiry</button>
+                <button type="button" className="btn btn--primary" onClick={() => setState({ status: 'idle', message: '' })}>{T('sendAnother')}</button>
               </div>
             ) : (
               <>
                 <div className="form__grid">
-                  <label className="form__full">Inquiry type
+                  <label className="form__full">{T('inquiryType')}
                     <select value={typeIndex} onChange={(e) => setTypeIndex(Number(e.target.value))}>
                       {types.map((t, i) => <option key={i} value={i}>{t.label}</option>)}
                     </select>
                   </label>
-                  <label><span>Full name <em>*</em></span><input required name="name" value={form.name} onChange={set('name')} autoComplete="name" maxLength={120} /></label>
-                  <label>Company<input name="company" value={form.company} onChange={set('company')} autoComplete="organization" maxLength={160} /></label>
-                  <label><span>Email <em>*</em></span><input required type="email" name="email" value={form.email} onChange={set('email')} autoComplete="email" maxLength={200} /></label>
-                  <label>Phone / WhatsApp<input type="tel" name="phone" value={form.phone} onChange={set('phone')} autoComplete="tel" maxLength={40} /></label>
+                  <label><span>{T('fullName')} <em>*</em></span><input required name="name" value={form.name} onChange={set('name')} autoComplete="name" maxLength={120} /></label>
+                  <label>{T('company')}<input name="company" value={form.company} onChange={set('company')} autoComplete="organization" maxLength={160} /></label>
+                  <label><span>{T('email')} <em>*</em></span><input required type="email" name="email" value={form.email} onChange={set('email')} autoComplete="email" maxLength={200} /></label>
+                  <label>{T('phoneField')}<input type="tel" name="phone" value={form.phone} onChange={set('phone')} autoComplete="tel" maxLength={40} /></label>
                   {!type.partnership && (
                     <>
-                      <label>Product
-                        <input name="product" list="product-list" value={form.product} onChange={set('product')} placeholder="e.g. Almonds" maxLength={160} />
+                      <label>{T('product')}
+                        <input name="product" list="product-list" value={form.product} onChange={set('product')} placeholder={productNames[0] ? `e.g. ${productNames[0]}` : ''} maxLength={160} />
                         <datalist id="product-list">{productNames.map((p) => <option key={p} value={p} />)}</datalist>
                       </label>
-                      <label>Quantity<input name="quantity" value={form.quantity} onChange={set('quantity')} placeholder="e.g. 20 Tons" maxLength={80} /></label>
+                      <label>{T('quantity')}<input name="quantity" value={form.quantity} onChange={set('quantity')} placeholder={T('quantityHint')} maxLength={80} /></label>
                     </>
                   )}
-                  <label className="form__full">Country<input name="country" value={form.country} onChange={set('country')} autoComplete="country-name" maxLength={80} /></label>
-                  <label className="form__full"><span>Message <em>*</em></span>
+                  <label className="form__full">{T('country')}<input name="country" value={form.country} onChange={set('country')} autoComplete="country-name" maxLength={80} /></label>
+                  <label className="form__full"><span>{T('message')} <em>*</em></span>
                     <textarea required rows={5} name="message" value={form.message} onChange={set('message')} maxLength={5000}
-                      placeholder={type.partnership ? 'Tell us about your business and the partnership you have in mind.' : 'Grade, packing, delivery port and timeline.'} />
+                      placeholder={type.partnership ? 'Tell us about your business and the partnership you have in mind.' : T('messageHint')} />
                   </label>
                   <label className="form__hp" aria-hidden="true">Website<input tabIndex={-1} name="website" value={form.website} onChange={set('website')} autoComplete="off" /></label>
                 </div>
@@ -191,8 +193,8 @@ export default function Contact({ content, tone, request: outside }) {
                   </button>
                   <p className="form__note" role="status">
                     {state.status === 'error' && <span className="form__error">{state.message}</span>}
-                    {state.status === 'mailto' && <>Your email app should open with the message ready. If it doesn’t, write to <a href={`mailto:${to}`}>{to}</a>.</>}
-                    {(state.status === 'idle' || state.status === 'sending') && <>Goes to <strong>{to}</strong></>}
+                    {state.status === 'mailto' && <>{T('mailtoNote')} <a href={`mailto:${to}`}>{to}</a>.</>}
+                    {(state.status === 'idle' || state.status === 'sending') && <>{T('goesTo')} <strong>{to}</strong></>}
                   </p>
                 </div>
               </>

@@ -150,6 +150,105 @@
     },
     "cardTitle": "Total shipped since 2014"
   },
+  "home": {
+    "explore": {
+      "visible": true,
+      "eyebrow": "Explore",
+      "title": "Everything about our trade, one click away",
+      "text": "See how much we have shipped, what we sell, how it travels and who we are.",
+      "cards": {
+        "track-record": {
+          "title": "",
+          "text": "Every ton shipped since 2014, year by year, product by product.",
+          "stat": "",
+          "image": {
+            "src": "https://images.pexels.com/photos/15733306/pexels-photo-15733306.jpeg?auto=compress&cs=tinysrgb&w=900",
+            "alt": "A truck loaded with sacks"
+          }
+        },
+        "products": {
+          "title": "",
+          "text": "Pomegranates, grapes, raisins, dried figs, almonds and more.",
+          "stat": "",
+          "image": {
+            "src": "https://images.pexels.com/photos/14650515/pexels-photo-14650515.jpeg?auto=compress&cs=tinysrgb&w=900",
+            "alt": "A pile of fresh red pomegranates"
+          }
+        },
+        "shipping": {
+          "title": "",
+          "text": "How our goods travel from Kandahar, with every document arranged.",
+          "stat": "",
+          "image": {
+            "src": "https://images.pexels.com/photos/17358983/pexels-photo-17358983.jpeg?auto=compress&cs=tinysrgb&w=900",
+            "alt": "Bags of cargo loaded on a truck"
+          }
+        },
+        "about": {
+          "title": "",
+          "text": "A Kandahar trading house built on quality and trust.",
+          "stat": "",
+          "image": {
+            "src": "https://images.pexels.com/photos/5332498/pexels-photo-5332498.jpeg?auto=compress&cs=tinysrgb&w=900",
+            "alt": "Dried fruits on trays at a market stall"
+          }
+        }
+      }
+    },
+    "reasons": {
+      "visible": true,
+      "eyebrow": "Why Faiz Fayez",
+      "title": "A supplier you can rely on, season after season",
+      "text": "Buyers come back to us for the same four reasons.",
+      "items": [
+        {
+          "icon": "sprout",
+          "title": "Bought at the source",
+          "text": "Straight from orchards and processors in Kandahar, so you get fresher fruit at a fair price."
+        },
+        {
+          "icon": "chart",
+          "title": "Volumes on record",
+          "text": "Thousands of tons delivered and every consignment logged, so you can see what we can handle."
+        },
+        {
+          "icon": "handshake",
+          "title": "One partner, start to finish",
+          "text": "Grading, packing, papers, customs and freight are all arranged by our team."
+        },
+        {
+          "icon": "clock",
+          "title": "Quick, clear replies",
+          "text": "Quotes within one working day and updates at every step until delivery."
+        }
+      ]
+    },
+    "steps": {
+      "visible": true,
+      "eyebrow": "How it works",
+      "title": "Ordering in four simple steps",
+      "text": "",
+      "button": "Request a Quote",
+      "items": [
+        {
+          "title": "Send your requirement",
+          "text": "Tell us the product, grade, quantity and delivery date."
+        },
+        {
+          "title": "Get a quote and samples",
+          "text": "Prices within one working day, with photos or samples of the lot."
+        },
+        {
+          "title": "Approve the lot",
+          "text": "Check the grading and packing before anything leaves Kandahar."
+        },
+        {
+          "title": "We ship and track it",
+          "text": "Papers, customs and freight handled, with updates until delivery."
+        }
+      ]
+    }
+  },
   "statLabels": {
     "shipped": "Tons shipped",
     "exported": "Tons exported",
@@ -809,12 +908,6 @@
         "text": "Air, road and sea freight planned around each buyer’s schedule."
       }
     ],
-    "steps": [
-      "Send your requirement",
-      "Get a quote and samples",
-      "Approve the lot",
-      "We ship and track it"
-    ],
     "badgeText": "years in the fruit trade",
     "image": {
       "src": "https://images.pexels.com/photos/5332498/pexels-photo-5332498.jpeg?auto=compress&cs=tinysrgb&w=1200",
@@ -903,6 +996,7 @@
     "about": "Exporters of Afghan dry fruits and fresh fruits from Kandahar, with every consignment graded, packed and documented.",
     "copyright": "All rights reserved."
   },
+  "labels": {},
   "whatsappButton": {
     "enabled": true,
     "message": "Hello Faiz Fayez LTD, I would like to ask about"

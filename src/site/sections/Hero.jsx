@@ -2,6 +2,7 @@ import { ArrowRight, CheckCircle, TrendUp } from '../ph.jsx'
 import Photo from '../Photo.jsx'
 import { useCountUp } from '../hooks.js'
 import { fmtNum, unitOf, yearsSince } from '../trade.js'
+import { label } from '../labels.js'
 
 function Sparkline({ years }) {
   if (years.length < 2) return null
@@ -63,7 +64,7 @@ export default function Hero({ content, trade, contactHref = '#contact', onPartn
                 ? <div><dt>{L.countries}</dt><dd>{fmtNum(trade.countries)}</dd></div>
                 : <div><dt>{L.years}</dt><dd suppressHydrationWarning>{yearsSince(company.since)}+</dd></div>}
             </dl>
-            <a href="#record" className="hero-card__link">See the full record <ArrowRight size={15} weight="bold" /></a>
+            <a href="/track-record" className="hero-card__link">{label(content, 'seeRecord')} <ArrowRight size={15} weight="bold" /></a>
           </aside>
         )}
       </div>

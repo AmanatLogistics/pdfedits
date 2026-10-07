@@ -1,3 +1,4 @@
+import { label } from '../labels.js'
 import { Plus } from '../ph.jsx'
 
 export default function Faq({ content, tone }) {
@@ -9,7 +10,7 @@ export default function Faq({ content, tone }) {
         <div className="faq__head reveal">
           {faq.eyebrow && <p className="eyebrow">{faq.eyebrow}</p>}
           <h2>{faq.title}</h2>
-          <a href="#contact" className="btn btn--primary">Ask a question</a>
+          <a href="/contact#contact" className="btn btn--primary">{label(content, 'askQuestion')}</a>
         </div>
         <div className="faq__list reveal">
           {faq.items.map((f, i) => (
