@@ -24,7 +24,7 @@ export default [
     },
   },
   {
-    files: ['server/**/*.js', 'api/**/*.js', 'scripts/**/*.mjs', 'vite.config.js', 'src/entry-server.jsx'],
+    files: ['server/**/*.js', 'api/**/*.js', 'scripts/**/*.mjs', 'tests/**/*.mjs', 'vite.config.js', 'src/entry-server.jsx'],
     languageOptions: { ecmaVersion: 2023, sourceType: 'module', globals: { ...globals.node } },
   },
 ]

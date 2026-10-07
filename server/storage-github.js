@@ -14,9 +14,10 @@ export function githubConfig() {
   }
 }
 
+// GITHUB_API_URL is only needed for GitHub Enterprise or the tests.
 async function gh(path, { method = 'GET', body } = {}) {
   const { token, repo } = githubConfig()
-  const res = await fetch(`https://api.github.com/repos/${repo}${path}`, {
+  const res = await fetch(`${process.env.GITHUB_API_URL || 'https://api.github.com'}/repos/${repo}${path}`, {
     method,
     headers: {
       Authorization: `Bearer ${token}`,

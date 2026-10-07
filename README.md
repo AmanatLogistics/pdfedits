@@ -77,6 +77,7 @@ npm install
 npm run dev      # website on http://localhost:5173, admin on /admin/ (password: admin)
 npm run build    # production build in dist/
 npm run lint
+npm test         # admin API and inquiry form tests (no real GitHub needed)
 ```
 
 In `npm run dev` the admin panel saves straight into the project files, so it can be tried
