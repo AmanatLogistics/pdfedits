@@ -1,0 +1,231 @@
+{
+  "meta": {
+    "title": "Faiz Fayez | Dry Fruits & Fresh Fruits Import and Export",
+    "description": "Faiz Fayez imports and exports premium dry fruits and fresh fruits, trading between India and markets across the Middle East, Asia and Europe. Request a quote today.",
+    "siteUrl": "",
+    "shareImage": ""
+  },
+  "theme": {
+    "primary": "#6b3a1a",
+    "accent": "#c9962b",
+    "dark": "#1e130b",
+    "importColor": "#9c4f16",
+    "exportColor": "#e0a526",
+    "headingFont": "Manrope",
+    "bodyFont": "Inter"
+  },
+  "company": {
+    "name": "Faiz Fayez",
+    "tagline": "Import & Export",
+    "monogram": "FF",
+    "logo": "",
+    "since": 2014,
+    "email": "info@faizfayez.com",
+    "partnershipEmail": "partners@faizfayez.com",
+    "phone": "+91 00000 00000",
+    "whatsapp": "910000000000",
+    "address": "New Delhi, India",
+    "hours": "Mon – Sat, 9:00 am – 7:00 pm IST",
+    "mapEmbedUrl": ""
+  },
+  "sections": [
+    { "id": "about", "label": "About", "visible": true, "inNav": true },
+    { "id": "services", "label": "Services", "visible": true, "inNav": true },
+    { "id": "products", "label": "What We Trade", "visible": true, "inNav": true },
+    { "id": "performance", "label": "Our Numbers", "visible": true, "inNav": false },
+    { "id": "reach", "label": "Global Reach", "visible": true, "inNav": true },
+    { "id": "process", "label": "How We Work", "visible": true, "inNav": false },
+    { "id": "why", "label": "Why Us", "visible": true, "inNav": false },
+    { "id": "certifications", "label": "Certifications", "visible": false, "inNav": false },
+    { "id": "testimonials", "label": "Testimonials", "visible": false, "inNav": false },
+    { "id": "faq", "label": "FAQ", "visible": true, "inNav": false },
+    { "id": "partnership", "label": "Partnership", "visible": true, "inNav": true },
+    { "id": "contact", "label": "Contact", "visible": true, "inNav": false }
+  ],
+  "hero": {
+    "eyebrow": "Importers & Exporters since 2014",
+    "title": "Premium Dry Fruits & Fresh Fruits, Traded Across Borders",
+    "text": "We import quality nuts and dried fruits into India and export India’s finest fresh produce to buyers in the Middle East, Asia and Europe, with sourcing, grading, paperwork and freight handled end to end.",
+    "primaryButton": "Request a Quote",
+    "secondaryButton": "Become a Partner",
+    "trustPoints": ["Quality-graded lots", "Export documentation handled", "On-time delivery"],
+    "image": {
+      "src": "https://images.pexels.com/photos/5332498/pexels-photo-5332498.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "alt": "Dried fruits and nuts displayed on trays at a market"
+    },
+    "showStats": true
+  },
+  "stats": [
+    { "label": "Tonnes imported", "value": 12500, "suffix": "+" },
+    { "label": "Tonnes exported", "value": 9800, "suffix": "+" },
+    { "label": "Orders completed", "value": 3450, "suffix": "+" },
+    { "label": "Countries served", "value": 18, "suffix": "" }
+  ],
+  "about": {
+    "eyebrow": "About Us",
+    "title": "A Trusted Name in Dry Fruit & Fresh Fruit Trade",
+    "lead": "Faiz Fayez is an import and export company specialising in dry fruits and fresh fruits. We supply wholesalers, retailers, food manufacturers and distributors in India and overseas.",
+    "text": "We bring premium almonds, pistachios, walnuts, dates and raisins into India, and export Indian mangoes, pomegranates, grapes and cashews to markets across the Middle East, Asia and Europe.",
+    "points": [
+      "Direct sourcing from growers and processors",
+      "Every lot sorted, graded and quality checked",
+      "Accurate weights and transparent pricing",
+      "Bulk and custom packing to buyer specification"
+    ],
+    "button": "Talk to Our Team",
+    "badgeText": "Years in the fruit trade",
+    "image": {
+      "src": "https://images.pexels.com/photos/17870116/pexels-photo-17870116.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "alt": "Sacks of dry goods at a market in New Delhi"
+    },
+    "image2": {
+      "src": "https://images.pexels.com/photos/15733306/pexels-photo-15733306.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "alt": "A truck loaded with sacks on the road"
+    }
+  },
+  "services": {
+    "eyebrow": "What We Do",
+    "title": "Complete Trade Services, From Sourcing to Delivery",
+    "text": "One partner for the whole shipment: buying, quality control, packing, paperwork and freight.",
+    "items": [
+      { "icon": "import", "title": "Import to India", "text": "Almonds, pistachios, walnuts, dates, raisins, figs and apricots from Afghanistan, Iran, the USA and the Gulf." },
+      { "icon": "export", "title": "Export from India", "text": "Mangoes, pomegranates, grapes, apples, kinnow and cashews shipped to buyers in the Gulf, Asia and Europe." },
+      { "icon": "search", "title": "Sourcing", "text": "We find the right grade, origin and price for your requirement and share samples before you commit." },
+      { "icon": "quality", "title": "Quality Control", "text": "Size grading, moisture and visual checks on every lot, with photos and reports before dispatch." },
+      { "icon": "package", "title": "Packing & Storage", "text": "Bulk cartons, vacuum packs or private-label packing, with cold storage for fresh produce." },
+      { "icon": "document", "title": "Documentation & Logistics", "text": "Invoices, certificate of origin, phytosanitary certificates, customs clearance and freight by sea, air or road." }
+    ]
+  },
+  "products": {
+    "eyebrow": "What We Trade",
+    "title": "Dry Fruits & Fresh Fruits",
+    "text": "A selection of the produce we import and export throughout the year. Ask us for grades, packing options and current availability.",
+    "items": [
+      { "title": "Almonds", "tag": "Dry fruit", "image": { "src": "https://images.pexels.com/photos/57042/pexels-photo-57042.jpeg?auto=compress&cs=tinysrgb&w=800", "alt": "Almonds in a bowl" } },
+      { "title": "Cashews", "tag": "Dry fruit", "image": { "src": "https://images.pexels.com/photos/12326584/pexels-photo-12326584.jpeg?auto=compress&cs=tinysrgb&w=800", "alt": "Cashew nuts in a bowl" } },
+      { "title": "Pistachios", "tag": "Dry fruit", "image": { "src": "https://images.pexels.com/photos/634650/pexels-photo-634650.jpeg?auto=compress&cs=tinysrgb&w=800", "alt": "Pistachios in their shells" } },
+      { "title": "Walnuts", "tag": "Dry fruit", "image": { "src": "https://images.pexels.com/photos/1489291/pexels-photo-1489291.jpeg?auto=compress&cs=tinysrgb&w=800", "alt": "A pile of walnuts" } },
+      { "title": "Dates", "tag": "Dry fruit", "image": { "src": "https://images.pexels.com/photos/3993529/pexels-photo-3993529.jpeg?auto=compress&cs=tinysrgb&w=800", "alt": "Close-up of dates" } },
+      { "title": "Dried Apricots", "tag": "Dry fruit", "image": { "src": "https://images.pexels.com/photos/29060107/pexels-photo-29060107.jpeg?auto=compress&cs=tinysrgb&w=800", "alt": "Dried apricots at a market" } },
+      { "title": "Mangoes", "tag": "Fresh fruit", "image": { "src": "https://images.pexels.com/photos/30643513/pexels-photo-30643513.jpeg?auto=compress&cs=tinysrgb&w=800", "alt": "Ripe mangoes stacked at a market" } },
+      { "title": "Pomegranates", "tag": "Fresh fruit", "image": { "src": "https://images.pexels.com/photos/18523341/pexels-photo-18523341.jpeg?auto=compress&cs=tinysrgb&w=800", "alt": "Red pomegranates piled at a market" } }
+    ]
+  },
+  "performance": {
+    "eyebrow": "Trade Performance",
+    "title": "Steady Growth in Imports and Exports",
+    "text": "Our volumes have grown every year as more buyers trust us with their supply. Here is how much we have imported and exported each year.",
+    "chartTitle": "Annual trade volume",
+    "unit": "tonnes",
+    "importLabel": "Imported",
+    "exportLabel": "Exported",
+    "years": [
+      { "year": 2021, "imported": 1650, "exported": 1200 },
+      { "year": 2022, "imported": 2100, "exported": 1550 },
+      { "year": 2023, "imported": 2550, "exported": 1950 },
+      { "year": 2024, "imported": 2900, "exported": 2300 },
+      { "year": 2025, "imported": 3300, "exported": 2800 }
+    ]
+  },
+  "reach": {
+    "eyebrow": "Global Reach",
+    "title": "India at the Centre of Our Trade Network",
+    "text": "We move goods by sea, air and road between India and partner markets across four continents.",
+    "hub": "India",
+    "importsTitle": "Imports into India",
+    "exportsTitle": "Exports from India",
+    "imports": [
+      { "country": "Afghanistan", "goods": "Almonds, raisins, figs, apricots" },
+      { "country": "Iran", "goods": "Pistachios, dates, raisins" },
+      { "country": "United States", "goods": "California almonds, walnuts" },
+      { "country": "Saudi Arabia", "goods": "Dates" },
+      { "country": "Turkey", "goods": "Dried apricots, figs, hazelnuts" }
+    ],
+    "exports": [
+      { "country": "United Arab Emirates", "goods": "Mangoes, pomegranates, grapes, cashews" },
+      { "country": "United Kingdom", "goods": "Alphonso and Kesar mangoes" },
+      { "country": "Bangladesh", "goods": "Apples, kinnow, grapes" },
+      { "country": "Nepal", "goods": "Apples, grapes" },
+      { "country": "Malaysia", "goods": "Pomegranates, cashews, raisins" },
+      { "country": "Qatar", "goods": "Mangoes, pomegranates" }
+    ]
+  },
+  "process": {
+    "eyebrow": "How We Work",
+    "title": "From Inquiry to Delivery in Five Steps",
+    "steps": [
+      { "title": "Inquiry", "text": "Share the product, grade, quantity, packing and destination port." },
+      { "title": "Quote & Samples", "text": "We send a clear quotation and samples or lot photos for approval." },
+      { "title": "Quality Check", "text": "The approved lot is graded, inspected and packed to your specification." },
+      { "title": "Documentation", "text": "Invoices, certificates and customs paperwork are prepared and shared." },
+      { "title": "Shipment", "text": "Goods are dispatched by sea, air or road, with tracking until delivery." }
+    ]
+  },
+  "why": {
+    "eyebrow": "Why Choose Us",
+    "title": "What Our Buyers Value",
+    "items": [
+      { "icon": "badge", "title": "Consistent Quality", "text": "The grade in the sample is the grade in the shipment." },
+      { "icon": "scale", "title": "Transparent Pricing", "text": "Clear quotations with no hidden charges." },
+      { "icon": "clock", "title": "Reliable Timelines", "text": "Shipments planned and dispatched on the dates we commit to." },
+      { "icon": "shield", "title": "Compliance Handled", "text": "Import and export paperwork prepared correctly, first time." },
+      { "icon": "globe", "title": "Strong Network", "text": "Established partners at origin and in destination markets." },
+      { "icon": "handshake", "title": "Long-Term Relationships", "text": "Many of our buyers return season after season." }
+    ]
+  },
+  "certifications": {
+    "eyebrow": "Certifications",
+    "title": "Registered and Compliant",
+    "text": "Add your licences and registrations here, such as IEC, FSSAI or APEDA, with their numbers or certificate images.",
+    "items": []
+  },
+  "testimonials": {
+    "eyebrow": "Testimonials",
+    "title": "What Our Buyers Say",
+    "items": []
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Frequently Asked Questions",
+    "items": [
+      { "q": "What is your minimum order quantity?", "a": "Minimum quantities depend on the product and destination. Send us your requirement and we will confirm what is possible." },
+      { "q": "Can I get samples before placing an order?", "a": "Yes. We can share samples or detailed lot photos so you can approve the quality before shipment." },
+      { "q": "Which countries do you ship to?", "a": "We trade mainly between India and the Middle East, South and South-East Asia, Europe and the Americas. Contact us about other destinations." },
+      { "q": "Do you offer private-label or custom packing?", "a": "Yes. We pack in bulk cartons, vacuum packs or retail packs with your branding, to your specification." },
+      { "q": "How do I request a quotation?", "a": "Use the inquiry form below or message us on WhatsApp with the product, grade, quantity and delivery port." }
+    ]
+  },
+  "partnership": {
+    "eyebrow": "Business Partnership",
+    "title": "Partner With Faiz Fayez",
+    "text": "We are looking for distributors, wholesalers, retail chains, food manufacturers and overseas importers for long-term supply partnerships, bulk contracts and private-label packing.",
+    "audiences": ["Distributors & wholesalers", "Retail chains & supermarkets", "Food & sweet manufacturers", "Overseas importers"],
+    "button": "Send a Partnership Proposal",
+    "image": {
+      "src": "https://images.pexels.com/photos/2231744/pexels-photo-2231744.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "alt": "Aerial view of a cargo ship beside stacked containers"
+    }
+  },
+  "contact": {
+    "eyebrow": "Contact Us",
+    "title": "Request a Quote or Get in Touch",
+    "text": "Tell us what you need and our team will reply within one working day.",
+    "inquiryTypes": [
+      { "label": "Price quote / order", "partnership": false },
+      { "label": "Import to India", "partnership": false },
+      { "label": "Export from India", "partnership": false },
+      { "label": "General inquiry", "partnership": false },
+      { "label": "Business partnership", "partnership": true }
+    ],
+    "submitLabel": "Send Inquiry",
+    "successMessage": "Thank you. Your inquiry has been sent and our team will reply within one working day."
+  },
+  "footer": {
+    "about": "Importers and exporters of dry fruits and fresh fruits, trading between India and markets worldwide.",
+    "copyright": "All rights reserved."
+  },
+  "whatsappButton": {
+    "enabled": true,
+    "message": "Hello Faiz Fayez, I would like to ask about"
+  }
+}

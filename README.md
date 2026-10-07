@@ -1,51 +1,84 @@
 # Faiz Fayez – Dry Fruits & Fresh Fruits Import / Export
 
-Website for **Faiz Fayez**, importers and exporters of dry fruits and fresh fruits,
-trading mainly with India.
+Business website for **Faiz Fayez**, with an **admin panel** at `/admin` for editing
+everything on the site without touching code.
 
-A professional B2B trading-company layout: top contact bar, full-width photo hero, key figures band, services, trade performance chart, global reach, partnership and quote request. Brand colours are brown and gold; fonts are Montserrat (headings) and Open Sans (text), self-hosted.
+## The website
 
-## Sections
+- **Top banner**: full-width photo, headline, “Request a Quote” and “Become a Partner”, key numbers (imported, exported, orders, countries)
+- **About**, **Services**, **What we trade** (photo cards, click to ask for a quote)
+- **Trade numbers chart**: imports vs exports by year, with totals and growth worked out automatically
+- **Global reach map**: a world map with routes between India and every import and export country
+- **How we work**, **Why choose us**, **Questions & answers**
+- **Certifications** and **Testimonials** (hidden until you add real ones)
+- **Partnership banner** and **Contact / inquiry form**, plus a floating WhatsApp button
 
-1. **Hero**: headline, "Request a Quote" and "Become a Partner", key figures (imported, exported, orders, countries)
-2. **About Us**
-3. **Services**: import, export, sourcing, quality control, packing, documentation & logistics
-4. **Trade Performance**: imports vs exports chart by year
-5. **Global Reach**: what we import into India and export from India
-6. **What We Trade**: photos of the produce
-7. **Why Choose Us**
-8. **Business Partnership**
-9. **Contact**: inquiry and partnership emails, phone, WhatsApp and a quote request form that opens the visitor's email app
+The page is pre-rendered at build time, so it loads fast, is fully readable by Google, and
+shows the right title, description and picture when the link is shared on WhatsApp or LinkedIn.
 
-## Editing the content
+## The admin panel (`/admin`)
 
-Everything is in **`src/data/site.js`**:
+Everything on the website can be changed from the admin panel:
 
-| What | Where |
+- **Company & contact**: name, logo, emails, phone, WhatsApp, address, hours, map
+- **Colours & fonts**
+- **Sections & menu**: show/hide any section, change the order, choose what is in the top menu
+- Every section’s **texts, photos, lists and numbers** (add, remove and reorder items)
+- **Google & sharing** settings, and **Backup** (download or restore all content)
+
+Changes show in a **live preview** (desktop and phone) as you type. Nothing goes live until
+you press **Publish**. Unpublished edits are kept in your browser if you close the tab.
+
+**How publishing works:** pressing Publish saves the content to this GitHub repository
+(`src/content/site.json`, and uploaded photos in `public/uploads/`). Vercel sees the change
+and rebuilds the website, which takes about **1–2 minutes**. Every publish is a separate
+entry in the GitHub history, so any earlier version can be recovered.
+
+Photos are resized in the browser before upload, so phone photos of any size can be used.
+
+## One-time setup on Vercel
+
+In Vercel, open the project → **Settings → Environment Variables**, and add:
+
+| Name | Value |
 |---|---|
-| Name, emails, phone, WhatsApp, city, hours | `company` |
-| Imported / exported / orders / countries | `stats` |
-| Year-by-year chart | `tradeByYear` |
-| Import and export routes | `lanes` |
-| Photographs | `photos`, `plates` |
+| `ADMIN_PASSWORD` | The password for the admin panel. Use a long one. |
+| `GITHUB_TOKEN` | A GitHub token that can save changes (see below). |
 
-> The emails, phone number and all figures are **placeholders**. Replace them with the real ones before going live.
+Then **redeploy** (Deployments → ⋯ → Redeploy) so the new settings take effect.
 
-### Photographs
+**Creating the GitHub token:** on GitHub go to **Settings → Developer settings → Personal
+access tokens → Fine-grained tokens → Generate new token**.
+- Resource owner: **AmanatLogistics**
+- Repository access: **Only select repositories → pdfedits**
+- Permissions → Repository permissions → **Contents: Read and write**
+- Pick an expiry date and remember to renew the token before it expires.
 
-The photos are free-licence images served from Pexels. To use your own, put the file in
-`public/images/` and give that entry a `src`:
+**Optional settings**
 
-```js
-{ name: 'Almonds', alt: 'Almonds in a bowl', src: '/images/almonds.jpg' },
-```
+| Name | When to use it |
+|---|---|
+| `GITHUB_BRANCH` | The branch the admin saves to. By default it is the branch of the deployment you are on, so on the live site it saves to the production branch. |
+| `GITHUB_REPO` | Only if the repository is not detected automatically, e.g. `AmanatLogistics/pdfedits`. |
+| `RESEND_API_KEY` | Sends inquiry-form messages straight to your inbox (free account at resend.com). Without it, the form opens the visitor’s own email app with the message written out. |
+| `INQUIRY_FROM` | The “from” address for inquiry emails, once your domain is verified in Resend, e.g. `Faiz Fayez Website <website@faizfayez.com>`. |
 
-## Running locally
+> **Which branch is live?** Vercel’s production deployments currently come from the
+> `claude/browser-pdf-editor-vxtsac` branch (the old PDF editor). To make this website the
+> live one, merge this branch into the production branch, or change **Settings → Git →
+> Production Branch** in Vercel.
+
+## Editing in code
+
+All content lives in **`src/content/site.json`**; the admin panel edits the same file.
 
 ```bash
 npm install
-npm run dev      # development server
+npm run dev      # website on http://localhost:5173, admin on /admin/ (password: admin)
 npm run build    # production build in dist/
+npm run lint
 ```
 
-Deploys to Vercel as a static Vite app (see `vercel.json`).
+In `npm run dev` the admin panel saves straight into the project files, so it can be tried
+without GitHub. The default photos are free images from Pexels; replace them with your own
+through the admin panel.
