@@ -115,6 +115,15 @@ test('trade figures are worked out from the records', async () => {
   assert.deepEqual(t.byTransport.map((g) => [g.name, g.tonnes]), [['road', 1470]])
 })
 
+test('one ton is written in the singular', async () => {
+  const { unitFor } = await import('../src/site/trade.js')
+  assert.equal(unitFor(1, 'Tons'), 'Ton')
+  assert.equal(unitFor(1.2, 'Tons'), 'Ton')
+  assert.equal(unitFor(2, 'Tons'), 'Tons')
+  assert.equal(unitFor(0, 'Tons'), 'Tons')
+  assert.equal(unitFor(1, 'kg'), 'kg')
+})
+
 test('page addresses map to the right page', async () => {
   const { pageForPath, pageOfSection } = await import('../src/site/pages.js')
   assert.equal(pageForPath('/'), 'home')
@@ -148,6 +157,10 @@ test('pasted photo links are turned into links the website can show', async () =
   assert.ok(http.note)
   assert.equal(normalizeImageLink('/uploads/a.jpg').src, '/uploads/a.jpg')
   assert.equal(normalizeImageLink('/partners/logo.png').src, '/partners/logo.png')
+  // Google's small search previews work, with a note that they will look blurry.
+  const thumb = normalizeImageLink('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ')
+  assert.equal(thumb.src, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ')
+  assert.match(thumb.note, /blurry/)
 })
 
 test('photos from resizing hosts get a range of sizes', async () => {

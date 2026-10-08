@@ -3,7 +3,7 @@ import SectionHead from '../SectionHead.jsx'
 import Photo from '../Photo.jsx'
 import { thumbOf } from '../images.js'
 import { TRANSPORT } from '../icons.jsx'
-import { fmtDate, fmtNum, unitOf } from '../trade.js'
+import { fmtDate, fmtNum, unitFor, unitOf } from '../trade.js'
 import { freightName, label } from '../labels.js'
 
 
@@ -33,7 +33,7 @@ export default function Shipments({ content, trade, tone, full, more }) {
                   <Photo image={{ src: thumbs[r.product], alt: '' }} className="ship__img" plain width="52" height="52" />
                   <div>
                     <strong>{r.product}</strong>
-                    <span className="ship__tonnes">{fmtNum(r.tonnes)} {unit}</span>
+                    <span className="ship__tonnes">{fmtNum(r.tonnes)} {unitFor(r.tonnes, unit)}</span>
                   </div>
                 </div>
                 <div className="ship__route">

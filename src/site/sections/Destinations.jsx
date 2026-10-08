@@ -3,7 +3,7 @@ import SectionHead from '../SectionHead.jsx'
 import { COUNTRIES } from '../countries.js'
 import { MAP_H, MAP_W, project } from '../map.js'
 import { TRANSPORT } from '../icons.jsx'
-import { fmtNum, unitOf } from '../trade.js'
+import { fmtNum, unitFor, unitOf } from '../trade.js'
 import { freightName, label } from '../labels.js'
 
 // Crop the world map to the area the routes cover, keeping a wide shape.
@@ -88,19 +88,19 @@ function RouteMap({ hubName, countries, unit }) {
       })}
       {pts.map((p) => (
         <circle key={`c-${p.name}`} cx={p.pos[0]} cy={p.pos[1]} r={(3 + 4 * Math.sqrt(p.tonnes / max)) * k} className="rmap__pt">
-          <title>{`${p.name}: ${fmtNum(p.tonnes)} ${unit}`}</title>
+          <title>{`${p.name}: ${fmtNum(p.tonnes)} ${unitFor(p.tonnes, unit)}`}</title>
         </circle>
       ))}
       {labels.map((p) => (
-        <g key={`l-${p.name}`} className="rmap__label" textAnchor={p.anchor} transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`}>
-          <text fontSize={18 * k} y={-3 * k}>{p.name}</text>
-          <text fontSize={16 * k} y={16 * k} className="rmap__tonnes">{fmtNum(p.tonnes)} {unit}</text>
+        <g key={`l-${p.name}`} className="rmap__label" text-anchor={p.anchor} transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`}>
+          <text font-size={18 * k} y={-3 * k}>{p.name}</text>
+          <text font-size={16 * k} y={16 * k} className="rmap__tonnes">{fmtNum(p.tonnes)} {unitFor(p.tonnes, unit)}</text>
         </g>
       ))}
       <g className="rmap__hub">
         <circle cx={hub[0]} cy={hub[1]} r={18 * k} className="rmap__pulse" />
         <circle cx={hub[0]} cy={hub[1]} r={8 * k} />
-        <text x={hub[0]} y={hub[1] + 34 * k} fontSize={18 * k}>{hubName}</text>
+        <text x={hub[0]} y={hub[1] + 34 * k} font-size={18 * k}>{hubName}</text>
       </g>
     </svg>
   )
@@ -146,7 +146,7 @@ export default function Destinations({ content, trade, more }) {
                   <li key={r.key} style={{ '--i': i }}>
                     <span className="dest__rank">{r.Icon ? <r.Icon size={18} weight="duotone" /> : i + 1}</span>
                     <div>
-                      <div className="dest__row"><strong>{r.name}</strong><span>{fmtNum(r.tonnes)} {unit}</span></div>
+                      <div className="dest__row"><strong>{r.name}</strong><span>{fmtNum(r.tonnes)} {unitFor(r.tonnes, unit)}</span></div>
                       <span className="dest__track"><span style={{ width: `${(r.tonnes / max) * 100}%` }} /></span>
                     </div>
                   </li>

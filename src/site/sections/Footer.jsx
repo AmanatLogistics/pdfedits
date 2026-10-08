@@ -2,6 +2,7 @@ import { EnvelopeSimple, MapPin, Phone } from '../ph.jsx'
 import Logo from '../Logo.jsx'
 import { telHref } from '../hooks.js'
 import { label } from '../labels.js'
+import { livePartners, showPartnerIn } from './Partners.jsx'
 
 // Photos used under a licence that asks for a credit carry one (image.credit).
 function photoCredits(content) {
@@ -26,6 +27,12 @@ export default function Footer({ content, pages }) {
         <div className="footer__about">
           <Logo company={company} light />
           {footer.about && <p>{footer.about}</p>}
+          {showPartnerIn(content, 'footer') && livePartners(content).slice(0, 2).map((p) => (
+            <a key={p.name} className="footer__partner" href="/track-record#partners">
+              {p.logo?.src && <img src={p.logo.src} alt="" loading="lazy" />}
+              <span><small>{label(content, 'partnerWith')}</small><strong>{p.name}</strong></span>
+            </a>
+          ))}
         </div>
         <div>
           <h3>{label(content, 'footerCompany')}</h3>

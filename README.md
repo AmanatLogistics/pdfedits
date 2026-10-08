@@ -10,11 +10,11 @@ without touching code.
 
 | Page | Address | What it shows |
 |---|---|---|
-| Home | `/` | Top banner with the total shipped, a card for each page, why buyers choose you, and how ordering works |
+| Home | `/` | Top banner with the total shipped, a card for each page, the partnership with Amanat Logistics, why buyers choose you, and how ordering works |
 | Track Record | `/track-record` | Totals, tons shipped per year, by product and by transport, partners (e.g. Amanat Logistics) with the tons shipped together, and recent shipments |
 | Products | `/products` | Product photos with tons shipped and season, and the photo gallery |
-| Shipping | `/shipping` | The route map from Kandahar and the air, road and sea options |
-| About | `/about` | About the company, certifications, testimonials, and questions & answers |
+| Shipping | `/shipping` | The route map from Kandahar, the air, road and sea options, and the logistics partnership |
+| About | `/about` | About the company, certifications, testimonials, questions & answers, and the logistics partnership |
 | Contact | `/contact` | Inquiry form, partnership banner, emails, phone and WhatsApp |
 
 The home page is an overview with its own content; each detailed section appears only on its
@@ -38,7 +38,9 @@ by Google, and shows the right title and picture when the link is shared on What
   Date, Product, Country, Export/Import, Tons, Orders, Transport. Rows can be searched,
   filtered by year and **downloaded as a CSV** file for Excel. Totals from before the
   records can be added in **Totals from before these records**.
-- **Track record** page also holds the **partners** (such as Amanat Logistics) with the amounts shipped together per product
+- **Partnership**: partners such as Amanat Logistics (logo, description, amounts shipped together per
+  product), the band shown on the home page, and switches for where the partnership appears (top
+  banner, home, Shipping and About pages, footer). The full figures are always on the Track Record page
 - **Products**, **Company & contact** (name, logo, emails, phone, WhatsApp, address, hours)
 - **Home page**: the page cards (photo, text, highlight), why choose us, and how ordering works
 - **Pages & menu**: each page’s menu name, banner title, text and photo; which pages are in the

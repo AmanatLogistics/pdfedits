@@ -43,6 +43,11 @@ export function normalizeImageLink(input) {
   }
   if (host === 'unsplash.com' || host === 'pexels.com') return { error: `This is a link to a page, not to one photo. ${PAGE_HELP}` }
 
+  // Google's own small preview of a search result: it works, but looks blurry when shown large.
+  if (/^encrypted-tbn\d*\.gstatic\.com$/.test(host)) {
+    return { src: url.toString(), note: 'This is Google’s small preview, so it will look blurry. For a sharp photo, click the picture in Google Images, wait for the large version, then right-click it and choose “Copy image address”.' }
+  }
+
   return { src: url.toString(), note }
 }
 

@@ -1,5 +1,5 @@
 import {
-  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Hash, House, Image, Images, LayoutDashboard, Mail, Megaphone,
+  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Handshake, Hash, House, Image, Images, LayoutDashboard, Mail, Megaphone,
   MessageSquareQuote, Palette, PanelBottom, PanelTop, Search, ShieldCheck, Sparkles, Truck, Type,
 } from 'lucide-react'
 import { FONT_OPTIONS } from '../site/theme.js'
@@ -26,6 +26,49 @@ export const PAGES = [
   {
     id: 'records', group: 'Start here', title: 'Trade records', icon: FileSpreadsheet, preview: 'record', special: 'records',
     intro: 'Every shipment or yearly total you add here updates the whole website automatically: the big totals, the yearly chart, the product list, recent shipments and the map.',
+  },
+  {
+    id: 'partnership', group: 'Start here', title: 'Partnership', icon: Handshake, preview: 'partnership', sitePage: 'home',
+    intro: 'Companies you work with, such as Amanat Logistics, and how much you have shipped together. The full figures are on the Track Record page; choose below where else the partnership appears.',
+    fields: [
+      { type: 'heading', label: 'Where it shows', help: 'The first partner in the list is the one shown in these places.' },
+      { path: 'partners.show.hero', type: 'toggle', label: 'Top banner of the home page (small “Logistics partner” link)' },
+      { path: 'partners.show.home', type: 'toggle', label: 'Home page (partnership band with the figures)' },
+      { path: 'partners.show.shipping', type: 'toggle', label: 'Shipping page (partnership band)' },
+      { path: 'partners.show.about', type: 'toggle', label: 'About page (partnership band)' },
+      { path: 'partners.show.footer', type: 'toggle', label: 'Footer of every page' },
+      { type: 'heading', label: 'Partnership band', help: 'The band on the home page (and the Shipping and About pages if switched on above).' },
+      { path: 'partners.band.eyebrow', type: 'text', label: 'Small label above the title' },
+      { path: 'partners.band.title', type: 'text', label: 'Title', help: 'Leave empty for “Logistics partner: …” with the partner’s name.' },
+      { path: 'partners.band.text', type: 'textarea', label: 'Text', rows: 3 },
+      { path: 'partners.band.button', type: 'text', label: 'Button text', help: 'Opens the full figures on the Track Record page.' },
+      { type: 'heading', label: 'On the Track Record page', help: 'Shown under the trade figures, with every partner and figure.' },
+      { path: 'partners.title', type: 'text', label: 'Title' },
+      { path: 'partners.text', type: 'textarea', label: 'Text', rows: 2 },
+      { type: 'heading', label: 'Partners and figures' },
+      { path: 'partners.example', type: 'toggle', label: 'The partner figures are examples', help: 'Shows a small “example figures” note. Switch it off once the figures are real.' },
+      {
+        path: 'partners.items', type: 'list', label: 'Partners', itemLabel: 'Partner', titleKey: 'name',
+        newItem: { name: 'New partner', role: '', logo: { src: '', alt: '' }, text: '', since: '', link: '', stats: [] },
+        fields: [
+          { key: 'name', type: 'text', label: 'Company name' },
+          { key: 'role', type: 'text', label: 'What they do for you', help: 'For example “Freight & customs partner”.' },
+          { key: 'logo', type: 'image', label: 'Logo', contain: true, help: 'Optional. A logo on a clear (transparent) background looks best. Without a logo a handshake icon is shown.' },
+          { key: 'text', type: 'textarea', label: 'Description', rows: 3 },
+          { key: 'since', type: 'text', label: 'Working together since', help: 'A year, e.g. 2020. Leave empty to hide.' },
+          { key: 'link', type: 'url', label: 'Their website (optional)' },
+          {
+            key: 'stats', type: 'list', label: 'Shipped together', itemLabel: 'Figure', titleKey: 'label', compact: true,
+            newItem: { label: 'Dried figs', value: 0, unit: 'Tons' },
+            fields: [
+              { key: 'label', type: 'text', label: 'Product' },
+              { key: 'value', type: 'number', label: 'Amount' },
+              { key: 'unit', type: 'text', label: 'Unit' },
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
     id: 'products', group: 'Start here', title: 'Products & photos', icon: Image, preview: 'products',
@@ -119,7 +162,7 @@ export const PAGES = [
   },
   {
     id: 'record', group: 'Website sections', title: 'Track record', icon: Hash, preview: 'record',
-    intro: 'The texts around your trade figures. The numbers themselves come from Trade records.',
+    intro: 'The texts around your trade figures. The numbers themselves come from Trade records. Partners such as Amanat Logistics are edited under Partnership.',
     fields: [
       show('record'),
       ...heading('record'),
@@ -134,31 +177,6 @@ export const PAGES = [
       { path: 'statLabels.orders', type: 'text', label: 'Name for orders' },
       { path: 'statLabels.years', type: 'text', label: 'Name for years in trade' },
       { path: 'statLabels.countries', type: 'text', label: 'Name for countries' },
-      { type: 'heading', label: 'Partners', help: 'Companies you ship with, such as Amanat Logistics, and how much you have shipped together. Shown under the trade figures.' },
-      { path: 'partners.title', type: 'text', label: 'Partners title' },
-      { path: 'partners.text', type: 'textarea', label: 'Partners text', rows: 2 },
-      { path: 'partners.example', type: 'toggle', label: 'The partner figures are examples', help: 'Shows a small “example figures” note. Switch it off once the figures are real.' },
-      {
-        path: 'partners.items', type: 'list', label: 'Partners', itemLabel: 'Partner', titleKey: 'name',
-        newItem: { name: 'New partner', role: '', logo: { src: '', alt: '' }, text: '', since: '', link: '', stats: [] },
-        fields: [
-          { key: 'name', type: 'text', label: 'Company name' },
-          { key: 'role', type: 'text', label: 'What they do for you', help: 'For example “Freight & customs partner”.' },
-          { key: 'logo', type: 'image', label: 'Logo', help: 'Optional. Without a logo a handshake icon is shown.' },
-          { key: 'text', type: 'textarea', label: 'Description', rows: 3 },
-          { key: 'since', type: 'text', label: 'Working together since', help: 'A year, e.g. 2020. Leave empty to hide.' },
-          { key: 'link', type: 'url', label: 'Their website (optional)' },
-          {
-            key: 'stats', type: 'list', label: 'Shipped together', itemLabel: 'Figure', titleKey: 'label', compact: true,
-            newItem: { label: 'Dried figs', value: 0, unit: 'Tons' },
-            fields: [
-              { key: 'label', type: 'text', label: 'Product' },
-              { key: 'value', type: 'number', label: 'Amount' },
-              { key: 'unit', type: 'text', label: 'Unit' },
-            ],
-          },
-        ],
-      },
     ],
   },
   {

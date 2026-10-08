@@ -87,6 +87,10 @@ if (isPreview) {
   render(<PreviewSite />, root)
 } else {
   // The page arrives fully rendered; this only attaches the interactive parts.
-  (root.hasChildNodes() ? hydrate : render)(<LiveSite />, root)
+  // If the server sent another page's HTML (e.g. a host that answers every
+  // address with the home page), draw this page from scratch instead.
+  const ready = root.hasChildNodes() && root.dataset.page === pageForPath(window.location.pathname)
+  if (!ready) root.textContent = ''
+  ;(ready ? hydrate : render)(<LiveSite />, root)
   if (import.meta.env.PROD) inject()
 }

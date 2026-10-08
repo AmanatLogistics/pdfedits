@@ -1,8 +1,9 @@
 import { ArrowRight, CheckCircle, TrendUp } from '../ph.jsx'
 import Photo from '../Photo.jsx'
 import { useCountUp } from '../hooks.js'
-import { fmtNum, unitOf, yearsSince } from '../trade.js'
+import { fmtNum, unitFor, unitOf, yearsSince } from '../trade.js'
 import { label } from '../labels.js'
+import { livePartners, showPartnerIn } from './Partners.jsx'
 
 function Sparkline({ years }) {
   if (years.length < 2) return null
@@ -13,7 +14,7 @@ function Sparkline({ years }) {
   return (
     <svg className="spark" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true">
       <polygon points={`0,36 ${line} 100,36`} className="spark__area" />
-      <polyline points={line} className="spark__line" vectorEffect="non-scaling-stroke" />
+      <polyline points={line} className="spark__line" vector-effect="non-scaling-stroke" />
     </svg>
   )
 }
@@ -31,6 +32,9 @@ export default function Hero({ content, trade, contactHref = '#contact', onPartn
   const last = full[full.length - 1]?.year
   const unit = unitOf(content)
   const many = trade.countries > 1
+  // Without imports, "exported" would only repeat the total above it.
+  const average = trade.orders ? trade.shipped / trade.orders : 0
+  const partner = showPartnerIn(content, 'hero') ? livePartners(content)[0] : null
   return (
     <section className="hero" id="top">
       <Photo image={hero.image} eager className="hero__bg" sizes="100vw" />
@@ -49,6 +53,14 @@ export default function Hero({ content, trade, contactHref = '#contact', onPartn
               {hero.trustPoints.filter(Boolean).map((t, i) => <li key={i}><CheckCircle size={20} weight="duotone" /> {t}</li>)}
             </ul>
           )}
+          {partner && (
+            <a className="hero__partner" href="/track-record#partners">
+              {partner.logo?.src && <img src={partner.logo.src} alt="" />}
+              <span>{label(content, 'partnerWith')}</span>
+              <strong>{partner.name}</strong>
+              <ArrowRight size={15} weight="bold" />
+            </a>
+          )}
         </div>
         {trade.shipped > 0 && (
           <aside className="hero-card" aria-label="Trade record summary">
@@ -57,8 +69,17 @@ export default function Hero({ content, trade, contactHref = '#contact', onPartn
             <Sparkline years={full} />
             {first && <p className="hero-card__range">{first === last ? first : `${first} – ${last}`}{trade.growth && trade.growth.pct > 0 && <span><TrendUp size={15} weight="bold" /> +{trade.growth.pct}% in {trade.growth.to}</span>}</p>}
             <dl className="hero-card__stats">
-              <div><dt>{L.exported}</dt><dd>{fmtNum(trade.exported)}</dd></div>
-              <div><dt>{L.imported}</dt><dd>{fmtNum(trade.imported)}</dd></div>
+              {trade.imported > 0 ? (
+                <>
+                  <div><dt>{L.exported}</dt><dd>{fmtNum(trade.exported)}</dd></div>
+                  <div><dt>{L.imported}</dt><dd>{fmtNum(trade.imported)}</dd></div>
+                </>
+              ) : (
+                <>
+                  <div><dt>{label(content, 'productsTraded')}</dt><dd>{trade.byProduct.length}</dd></div>
+                  <div><dt>{label(content, 'averageOrder')}</dt><dd>{fmtNum(average)} <small>{unitFor(average, unit)}</small></dd></div>
+                </>
+              )}
               <div><dt>{L.orders}</dt><dd>{fmtNum(trade.orders)}</dd></div>
               {many
                 ? <div><dt>{L.countries}</dt><dd>{fmtNum(trade.countries)}</dd></div>

@@ -69,7 +69,7 @@ function writePage({ id, url, title, description, heroSrc }) {
   const html = template
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`)
     .replace('<!--app-head-->', headFor({ title, description, url, heroSrc }))
-    .replace('<div id="root"></div>', `<div id="root">${render(content, id)}</div>`)
+    .replace('<div id="root"></div>', `<div id="root" data-page="${id}">${render(content, id)}</div>`)
     // Put the site's stylesheet inside the page, saving a round trip before
     // anything can be drawn — this matters most on slow mobile connections.
     .replace(/<link rel="stylesheet" crossorigin href="\/assets\/main-[\w-]+\.css">/, (tag) => (css && !css.includes('</style') ? `<style>${css}</style>` : tag))
