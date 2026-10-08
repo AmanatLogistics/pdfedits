@@ -814,15 +814,6 @@
           "src": "https://images.pexels.com/photos/634650/pexels-photo-634650.jpeg?auto=compress&cs=tinysrgb&w=800",
           "alt": "Pistachios in their shells"
         }
-      },
-      {
-        "title": "Mangoes",
-        "tag": "Imported",
-        "season": "May – Aug",
-        "image": {
-          "src": "https://images.pexels.com/photos/918643/pexels-photo-918643.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "Ripe mangoes"
-        }
       }
     ]
   },
