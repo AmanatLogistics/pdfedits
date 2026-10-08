@@ -34,6 +34,15 @@ export const LABEL_GROUPS = [
     },
   },
   {
+    title: 'Partners',
+    items: {
+      partnerTotal: ['Shipped together', 'First figure on a partner, the total of all its figures'],
+      partnerSince: ['Partners since', 'Before the year on a partner'],
+      partnerVisit: ['Visit website', 'Link to a partner’s website'],
+      partnerSampleNote: ['These are example figures. Replace them with your real shipments in the admin panel under Partners.', 'Shown while the partner figures are marked as examples'],
+    },
+  },
+  {
     title: 'Shipping',
     items: {
       topDestinations: ['Top destinations', 'Shown when you ship to several countries'],

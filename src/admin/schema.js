@@ -134,6 +134,31 @@ export const PAGES = [
       { path: 'statLabels.orders', type: 'text', label: 'Name for orders' },
       { path: 'statLabels.years', type: 'text', label: 'Name for years in trade' },
       { path: 'statLabels.countries', type: 'text', label: 'Name for countries' },
+      { type: 'heading', label: 'Partners', help: 'Companies you ship with, such as Amanat Logistics, and how much you have shipped together. Shown under the trade figures.' },
+      { path: 'partners.title', type: 'text', label: 'Partners title' },
+      { path: 'partners.text', type: 'textarea', label: 'Partners text', rows: 2 },
+      { path: 'partners.example', type: 'toggle', label: 'The partner figures are examples', help: 'Shows a small “example figures” note. Switch it off once the figures are real.' },
+      {
+        path: 'partners.items', type: 'list', label: 'Partners', itemLabel: 'Partner', titleKey: 'name',
+        newItem: { name: 'New partner', role: '', logo: { src: '', alt: '' }, text: '', since: '', link: '', stats: [] },
+        fields: [
+          { key: 'name', type: 'text', label: 'Company name' },
+          { key: 'role', type: 'text', label: 'What they do for you', help: 'For example “Freight & customs partner”.' },
+          { key: 'logo', type: 'image', label: 'Logo', help: 'Optional. Without a logo a handshake icon is shown.' },
+          { key: 'text', type: 'textarea', label: 'Description', rows: 3 },
+          { key: 'since', type: 'text', label: 'Working together since', help: 'A year, e.g. 2020. Leave empty to hide.' },
+          { key: 'link', type: 'url', label: 'Their website (optional)' },
+          {
+            key: 'stats', type: 'list', label: 'Shipped together', itemLabel: 'Figure', titleKey: 'label', compact: true,
+            newItem: { label: 'Dried figs', value: 0, unit: 'Tons' },
+            fields: [
+              { key: 'label', type: 'text', label: 'Product' },
+              { key: 'value', type: 'number', label: 'Amount' },
+              { key: 'unit', type: 'text', label: 'Unit' },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
