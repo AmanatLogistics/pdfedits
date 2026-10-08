@@ -20,7 +20,7 @@ const writeDraft = (d) => { try { d ? localStorage.setItem(DRAFT_KEY, JSON.strin
 const SECTION_NAMES = {
   record: 'Track record', shipments: 'Recent shipments', products: 'Products', destinations: 'Shipping & map', about: 'About us',
   certifications: 'Certifications', testimonials: 'Testimonials', faq: 'Questions & answers', contact: 'Contact & partnership',
-  gallery: 'Photo gallery',
+  gallery: 'Photo gallery', partners: 'Partners',
 }
 
 /* ---------------- Login ---------------- */

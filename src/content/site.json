@@ -36,6 +36,11 @@
       "visible": true
     },
     {
+      "id": "partners",
+      "label": "Partners",
+      "visible": true
+    },
+    {
       "id": "shipments",
       "label": "Shipments",
       "visible": true
@@ -720,6 +725,48 @@
     "title": "Latest consignments",
     "text": "Recent loads that left our Kandahar warehouse, with the tons in each one.",
     "count": 6
+  },
+  "partners": {
+    "eyebrow": "Our logistics partner",
+    "title": "Shipped together with Amanat Logistics",
+    "text": "Amanat Logistics moves our consignments from Kandahar to buyers abroad. Here is what we have shipped together so far.",
+    "onHome": true,
+    "example": true,
+    "items": [
+      {
+        "name": "Amanat Logistics",
+        "role": "Freight & customs partner",
+        "logo": {
+          "src": "",
+          "alt": "Amanat Logistics logo"
+        },
+        "text": "Road and air freight, customs clearance and export documents for our dry fruit and fresh fruit shipments.",
+        "since": "2020",
+        "link": "",
+        "stats": [
+          {
+            "label": "Dried figs",
+            "value": 1200,
+            "unit": "Tons"
+          },
+          {
+            "label": "Raisins",
+            "value": 850,
+            "unit": "Tons"
+          },
+          {
+            "label": "Pomegranates",
+            "value": 650,
+            "unit": "Tons"
+          },
+          {
+            "label": "Almonds",
+            "value": 400,
+            "unit": "Tons"
+          }
+        ]
+      }
+    ]
   },
   "destinations": {
     "eyebrow": "Shipping",

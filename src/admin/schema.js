@@ -1,5 +1,5 @@
 import {
-  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Hash, House, Image, Images, LayoutDashboard, Mail, Megaphone,
+  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Handshake, Hash, House, Image, Images, LayoutDashboard, Mail, Megaphone,
   MessageSquareQuote, Palette, PanelBottom, PanelTop, Search, ShieldCheck, Sparkles, Truck, Type,
 } from 'lucide-react'
 import { FONT_OPTIONS } from '../site/theme.js'
@@ -144,6 +144,37 @@ export const PAGES = [
       ...heading('shipments'),
       { path: 'shipments.count', type: 'number', label: 'How many to show on the home page' },
       { path: 'shipments.pageCount', type: 'number', label: 'How many to show on the Track Record page' },
+    ],
+  },
+  {
+    id: 'partners', group: 'Website sections', title: 'Partners', icon: Handshake, preview: 'partners',
+    intro: 'Companies you work with, such as your logistics partner, and how much you have shipped together. Shown on the Track Record page, and on the home page if you switch that on.',
+    fields: [
+      show('partners'),
+      { path: 'partners.onHome', type: 'toggle', label: 'Also show on the home page' },
+      { path: 'partners.example', type: 'toggle', label: 'These are example figures', help: 'Shows a small “example figures” note on the website. Switch it off once the figures are real.' },
+      ...heading('partners'),
+      {
+        path: 'partners.items', type: 'list', label: 'Partners', itemLabel: 'Partner', titleKey: 'name',
+        newItem: { name: 'New partner', role: '', logo: { src: '', alt: '' }, text: '', since: '', link: '', stats: [] },
+        fields: [
+          { key: 'name', type: 'text', label: 'Company name' },
+          { key: 'role', type: 'text', label: 'What they do for you', help: 'For example “Freight & customs partner”.' },
+          { key: 'logo', type: 'image', label: 'Logo', help: 'Optional. Without a logo a handshake icon is shown.' },
+          { key: 'text', type: 'textarea', label: 'Description', rows: 3 },
+          { key: 'since', type: 'text', label: 'Working together since', help: 'A year, e.g. 2020. Leave empty to hide.' },
+          { key: 'link', type: 'url', label: 'Their website (optional)' },
+          {
+            key: 'stats', type: 'list', label: 'Shipped together', itemLabel: 'Figure', titleKey: 'label', compact: true,
+            newItem: { label: 'Dried figs', value: 0, unit: 'Tons' },
+            fields: [
+              { key: 'label', type: 'text', label: 'Product' },
+              { key: 'value', type: 'number', label: 'Amount' },
+              { key: 'unit', type: 'text', label: 'Unit' },
+            ],
+          },
+        ],
+      },
     ],
   },
   {

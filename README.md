@@ -11,7 +11,7 @@ without touching code.
 | Page | Address | What it shows |
 |---|---|---|
 | Home | `/` | Top banner with the total shipped, a card for each page, why buyers choose you, and how ordering works |
-| Track Record | `/track-record` | Totals, tons shipped per year, by product and by transport, and recent shipments |
+| Track Record | `/track-record` | Totals, tons shipped per year, by product and by transport, partners (e.g. Amanat Logistics) with the tons shipped together, and recent shipments |
 | Products | `/products` | Product photos with tons shipped and season, and the photo gallery |
 | Shipping | `/shipping` | The route map from Kandahar and the air, road and sea options |
 | About | `/about` | About the company, certifications, testimonials, and questions & answers |
@@ -38,6 +38,7 @@ by Google, and shows the right title and picture when the link is shared on What
   Date, Product, Country, Export/Import, Tons, Orders, Transport. Rows can be searched,
   filtered by year and **downloaded as a CSV** file for Excel. Totals from before the
   records can be added in **Totals from before these records**.
+- **Partners**: companies you work with (such as Amanat Logistics), with the amounts shipped together per product; optionally also shown on the home page
 - **Products**, **Company & contact** (name, logo, emails, phone, WhatsApp, address, hours)
 - **Home page**: the page cards (photo, text, highlight), why choose us, and how ordering works
 - **Pages & menu**: each page’s menu name, banner title, text and photo; which pages are in the
