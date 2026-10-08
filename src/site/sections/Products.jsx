@@ -18,6 +18,8 @@ export default function Products({ content, trade, tone, onAsk, more }) {
   }
   const [filter, setFilter] = useState('')
   const items = filter ? products.items.filter((p) => p.tag === filter) : products.items
+  // Four across, unless three gives fuller rows (e.g. 6 products as 3 + 3, not 4 + 2).
+  const cols = items.length % 4 === 0 || items.length % 4 === 3 ? 4 : 3
   return (
     <section className={`section section--${tone}`} id="products">
       <div className="container">
@@ -30,9 +32,9 @@ export default function Products({ content, trade, tone, onAsk, more }) {
             ))}
           </div>
         )}
-        <div className="products">
+        <div className={`products products--${cols}`}>
           {items.map((p, i) => (
-            <button type="button" className="product reveal" style={{ '--i': i % 4 }} key={p.title} onClick={() => onAsk(p.title)}>
+            <button type="button" className="product reveal" style={{ '--i': i % cols }} key={p.title} onClick={() => onAsk(p.title)}>
               <span className="product__media">
                 <Photo image={p.image} className="product__img" sizes="(max-width: 700px) 50vw, (max-width: 1020px) 33vw, 300px" />
                 {p.tag && <span className="product__tag">{p.tag}</span>}

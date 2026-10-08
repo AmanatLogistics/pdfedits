@@ -27,16 +27,17 @@ function Kpi({ label, value, unit, suffix, icon, tone, i }) {
   )
 }
 
-function YearChart({ trade, unit, T }) {
-  const years = trade.byYear
-  const imports = trade.imported > 0
+// Bars of tons per period (years, or months of the newest year), with a
+// readout of the period under the pointer.
+function VolumeChart({ rows, imports, unit, T, caption }) {
   const [hover, setHover] = useState(null)
-  const top = niceTop(Math.max(...years.map((y) => y.exported + y.imported)))
-  const shown = years[hover ?? years.length - 1]
+  const top = niceTop(Math.max(...rows.map((y) => y.exported + y.imported)))
+  const on = hover ?? rows.length - 1
+  const shown = rows[on]
   return (
-    <div className="ychart">
+    <div className={`ychart ${rows.length > 8 ? 'ychart--many' : ''}`}>
       <div className="ychart__readout" aria-live="polite">
-        <strong>{shown.year}{shown.partial ? ` (${T('soFar')})` : ''}</strong>
+        <strong>{shown.title}</strong>
         <span><i className="swatch swatch--export" /> {fmtNum(shown.exported)} {unitFor(shown.exported, unit)} {T('exported')}</span>
         {imports && <span><i className="swatch swatch--import" /> {fmtNum(shown.imported)} {unitFor(shown.imported, unit)} {T('imported')}</span>}
       </div>
@@ -45,28 +46,28 @@ function YearChart({ trade, unit, T }) {
           {[1, 0.5, 0].map((f) => <div key={f}><span>{fmtNum(top * f)}</span></div>)}
         </div>
         <div className="ychart__cols">
-          {years.map((y, i) => {
+          {rows.map((y, i) => {
             const total = y.exported + y.imported
             return (
-              <div key={y.year} tabIndex={0} style={{ '--i': i }} className={`ychart__col ${(hover ?? years.length - 1) === i ? 'is-on' : ''} ${y.partial ? 'is-partial' : ''}`}
+              <div key={y.key} tabIndex={0} style={{ '--i': i }} className={`ychart__col ${on === i ? 'is-on' : ''} ${y.partial ? 'is-partial' : ''}`}
                 onMouseEnter={() => setHover(i)} onFocus={() => setHover(i)} onBlur={() => setHover(null)}
-                aria-label={`${y.year}${y.partial ? ` ${T('soFar')}` : ''}: ${fmtNum(y.exported)} ${unitFor(y.exported, unit)} ${T('exported')}, ${fmtNum(y.imported)} ${unitFor(y.imported, unit)} ${T('imported')}`}>
+                aria-label={`${y.title}: ${fmtNum(y.exported)} ${unitFor(y.exported, unit)} ${T('exported')}${imports ? `, ${fmtNum(y.imported)} ${unitFor(y.imported, unit)} ${T('imported')}` : ''}`}>
                 <div className="ychart__stack" style={{ height: `${(total / top) * 100}%` }}>
-                  <span className="ychart__total">{fmtNum(total)}</span>
+                  {total > 0 && <span className="ychart__total">{fmtNum(total)}</span>}
                   {y.imported > 0 && <span className="ychart__seg ychart__seg--import" style={{ flexGrow: y.imported }} />}
                   {y.exported > 0 && <span className="ychart__seg ychart__seg--export" style={{ flexGrow: y.exported }} />}
                 </div>
-                <span className="ychart__year">{y.year}{y.partial ? '*' : ''}</span>
+                <span className="ychart__year">{y.name}</span>
               </div>
             )
           })}
         </div>
       </div>
-      {years.some((y) => y.partial) && <p className="ychart__note">* {years.find((y) => y.partial).year} {T('soFarNote')}</p>}
+      {rows.some((y) => y.partial) && <p className="ychart__note">* {rows.find((y) => y.partial).key} {T('soFarNote')}</p>}
       <table className="sr-only">
-        <caption>{unit} shipped per year</caption>
-        <thead><tr><th>Year</th><th>Exported</th><th>Imported</th></tr></thead>
-        <tbody>{years.map((y) => <tr key={y.year}><td>{y.year}</td><td>{y.exported}</td><td>{y.imported}</td></tr>)}</tbody>
+        <caption>{caption}</caption>
+        <thead><tr><th>Period</th><th>Exported</th><th>Imported</th></tr></thead>
+        <tbody>{rows.map((y) => <tr key={y.key}><td>{y.title}</td><td>{y.exported}</td><td>{y.imported}</td></tr>)}</tbody>
       </table>
     </div>
   )
@@ -103,8 +104,15 @@ export default function Record({ content, trade, tone, more }) {
   const years = yearsSince(company.since)
   // With a single destination, a country list says nothing; show how the goods travelled instead.
   const many = trade.countries > 1
-  const best = trade.byYear.filter((y) => !y.partial).reduce((a, y) => (!a || y.exported + y.imported > a.exported + a.imported ? y : a), null)
   const T = (k) => label(content, k)
+  // With fewer than two years on record a yearly chart is a single bar, so
+  // show the newest year month by month instead.
+  const monthly = trade.byYear.length < 2 && trade.byMonth.length > 1
+  const rows = monthly
+    ? trade.byMonth.map((m) => ({ ...m, key: m.month, title: `${m.name} ${m.year}` }))
+    : trade.byYear.map((y) => ({ ...y, key: y.year, name: `${y.year}${y.partial ? '*' : ''}`, title: `${y.year}${y.partial ? ` (${T('soFar')})` : ''}` }))
+  const peak = rows.filter((y) => !y.partial).reduce((a, y) => (!a || y.exported + y.imported > a.exported + a.imported ? y : a), null)
+  const topProduct = trade.byProduct[0]
   const transport = trade.byTransport.map((t) => ({ ...t, name: freightName(content, t.name) }))
   const average = trade.orders ? trade.shipped / trade.orders : 0
   // Without any imports, "exported" equals "shipped", so show orders and products instead.
@@ -135,10 +143,10 @@ export default function Record({ content, trade, tone, more }) {
         <div className="record__grid">
           <div className="card card--chart reveal">
             <div className="card__head">
-              <h3>{R.chartTitle}</h3>
+              <h3>{monthly ? R.monthChartTitle || `${unit} shipped per month` : R.chartTitle}</h3>
               {imports && <span className="legend"><span><i className="swatch swatch--export" /> {cap(T('exported'))}</span><span><i className="swatch swatch--import" /> {cap(T('imported'))}</span></span>}
             </div>
-            <YearChart trade={trade} unit={unit} T={T} />
+            <VolumeChart rows={rows} imports={imports} unit={unit} T={T} caption={`${unit} shipped per ${monthly ? 'month' : 'year'}`} />
           </div>
           <div className="card reveal">
             <div className="card__head"><h3>{R.productsTitle}</h3></div>
@@ -147,10 +155,12 @@ export default function Record({ content, trade, tone, more }) {
           <div className="card reveal">
             <div className="card__head"><h3>{many ? R.countriesTitle : R.transportTitle || 'By transport'}</h3></div>
             <Breakdown rows={many ? trade.byCountry : transport} unit={unit} />
+            {/* Facts the figures above don't already show. */}
             <dl className="facts">
-              <div><dt>{T('averageOrder')}</dt><dd>{fmtNum(average)} {unitFor(average, unit)}</dd></div>
-              {best && <div><dt>{T('biggestYear')}</dt><dd>{best.year} · {fmtNum(best.exported + best.imported)} {unitFor(best.exported + best.imported, unit)}</dd></div>}
-              <div><dt>{T('productsTraded')}</dt><dd>{trade.byProduct.length}</dd></div>
+              {imports && <div><dt>{T('averageOrder')}</dt><dd>{fmtNum(average)} {unitFor(average, unit)}</dd></div>}
+              {peak && <div><dt>{T(monthly ? 'biggestMonth' : 'biggestYear')}</dt><dd>{peak.title} · {fmtNum(peak.exported + peak.imported)} {unitFor(peak.exported + peak.imported, unit)}</dd></div>}
+              {topProduct && <div><dt>{T('topProduct')}</dt><dd>{topProduct.name}</dd></div>}
+              {imports && <div><dt>{T('productsTraded')}</dt><dd>{trade.byProduct.length}</dd></div>}
             </dl>
           </div>
         </div>

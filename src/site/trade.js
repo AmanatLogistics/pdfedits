@@ -59,9 +59,22 @@ export function tradeSummary(content) {
 
   const recent = records.filter(hasMonth).sort((x, y) => String(y.date).localeCompare(String(x.date)))
 
+  // Month by month through the newest year (January to its latest month), for
+  // when the records cover too few years for a yearly chart to say much.
+  const byMonth = []
+  const monthly = last ? records.filter((r) => yearOf(r) === last.year && hasMonth(r)) : []
+  if (monthly.length) {
+    const upTo = Math.max(...monthly.map((r) => Number(String(r.date).slice(5, 7)) || 1))
+    for (let m = 1; m <= upTo; m++) byMonth.push({ year: last.year, month: m, name: MONTHS[m - 1], exported: 0, imported: 0 })
+    for (const r of monthly) {
+      const row = byMonth[(Number(String(r.date).slice(5, 7)) || 1) - 1]
+      if (row) row[r.direction === 'import' ? 'imported' : 'exported'] += num(r.tonnes)
+    }
+  }
+
   return {
     exported, imported, shipped: exported + imported, orders, countries,
-    byYear, byProduct: group('product'), byCountry: group('country'), byTransport: group('transport'),
+    byYear, byMonth, byProduct: group('product'), byCountry: group('country'), byTransport: group('transport'),
     growth, recent, latest: recent[0]?.date || (last ? String(last.year) : ''),
   }
 }

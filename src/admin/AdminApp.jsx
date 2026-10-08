@@ -416,7 +416,7 @@ export default function AdminApp() {
             <a className="b b--ghost" href="/" target="_blank" rel="noreferrer"><ExternalLink size={16} /> <span className="hide-sm">View website</span></a>
             <button type="button" className="b b--ghost" onClick={() => setShowPreview((s) => !s)}>{showPreview ? <EyeOff size={16} /> : <Eye size={16} />} <span className="hide-sm">{showPreview ? 'Hide preview' : 'Preview'}</span></button>
             <button type="button" className="b b--ghost" onClick={discard} disabled={!dirty}><RotateCcw size={16} /> <span className="hide-sm">Discard</span></button>
-            <button type="button" className="b b--primary" onClick={doPublish} disabled={!dirty || publish.state === 'busy'}>
+            <button type="button" className={`b b--primary ${dirty ? 'b--dirty' : ''}`} onClick={doPublish} disabled={!dirty || publish.state === 'busy'}>
               {publish.state === 'busy' ? <Loader2 className="spin" size={16} /> : <Upload size={16} />} Publish
             </button>
             <button type="button" className="icon-b" onClick={logout} aria-label="Log out" title="Log out"><LogOut size={16} /></button>

@@ -167,6 +167,7 @@ export const PAGES = [
       show('record'),
       ...heading('record'),
       { path: 'record.chartTitle', type: 'text', label: 'Chart title' },
+      { path: 'record.monthChartTitle', type: 'text', label: 'Chart title when it shows months', help: 'While your records cover only one year, the chart shows that year month by month. Leave empty for “Tons shipped per month”.' },
       { path: 'record.productsTitle', type: 'text', label: 'Title of the product list' },
       { path: 'record.transportTitle', type: 'text', label: 'Title of the transport list', help: 'Shown when all your records go to one country.' },
       { path: 'record.countriesTitle', type: 'text', label: 'Title of the country list', help: 'Shown when your records include more than one country.' },

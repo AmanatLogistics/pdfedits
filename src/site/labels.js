@@ -26,6 +26,8 @@ export const LABEL_GROUPS = [
       soFarNote: ['figures so far this year', 'Note under the chart'],
       averageOrder: ['Average order', 'Fact under the transport list'],
       biggestYear: ['Biggest year', 'Fact under the transport list'],
+      biggestMonth: ['Biggest month', 'Fact under the transport list, while the chart shows months'],
+      topProduct: ['Most shipped', 'Fact under the transport list: the product shipped most'],
       productsTraded: ['Products traded', 'Fact under the transport list'],
       lastUpdated: ['Last updated with shipments from', 'Line under the figures'],
       exportTag: ['Export', 'Tag on a shipment card'],

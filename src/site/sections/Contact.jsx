@@ -14,6 +14,12 @@ function buildMailto(to, typeLabel, f) {
   return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 }
 
+// On narrow screens a long address may wrap: let it break after the "@", not mid-word.
+const Email = ({ address }) => {
+  const at = address.indexOf('@')
+  return at > 0 ? <>{address.slice(0, at + 1)}<wbr />{address.slice(at + 1)}</> : address
+}
+
 export default function Contact({ content, tone, request: outside }) {
   const [local, setRequest] = useState(null)
   const request = !outside ? local : !local ? outside : local.at > outside.at ? local : outside
@@ -107,7 +113,7 @@ export default function Contact({ content, tone, request: outside }) {
             {company.email && (
               <div className="cinfo">
                 <span className="cinfo__icon"><EnvelopeSimple size={22} weight="duotone" /></span>
-                <div><h3>{T('ordersEmail')}</h3><a href={`mailto:${company.email}`}>{company.email}</a></div>
+                <div><h3>{T('ordersEmail')}</h3><a href={`mailto:${company.email}`}><Email address={company.email} /></a></div>
                 <button type="button" className="cinfo__copy" onClick={() => copy(company.email)} aria-label="Copy email address">
                   {copied === company.email ? <CheckCircle size={16} weight="bold" /> : <Copy size={16} />}
                 </button>
@@ -116,7 +122,7 @@ export default function Contact({ content, tone, request: outside }) {
             {company.partnershipEmail && (
               <div className="cinfo">
                 <span className="cinfo__icon"><Handshake size={22} weight="duotone" /></span>
-                <div><h3>{T('partnersEmail')}</h3><a href={`mailto:${company.partnershipEmail}`}>{company.partnershipEmail}</a></div>
+                <div><h3>{T('partnersEmail')}</h3><a href={`mailto:${company.partnershipEmail}`}><Email address={company.partnershipEmail} /></a></div>
                 <button type="button" className="cinfo__copy" onClick={() => copy(company.partnershipEmail)} aria-label="Copy partnership email address">
                   {copied === company.partnershipEmail ? <CheckCircle size={16} weight="bold" /> : <Copy size={16} />}
                 </button>
