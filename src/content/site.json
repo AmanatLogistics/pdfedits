@@ -28,7 +28,7 @@
     "hours": "Sat – Thu, 8:00 am – 6:00 pm (AFT)",
     "mapEmbedUrl": ""
   },
-  "sampleData": true,
+  "sampleData": false,
   "sections": [
     {
       "id": "record",
@@ -268,7 +268,7 @@
       "product": "Pomegranates",
       "country": "India",
       "direction": "export",
-      "tonnes": 480,
+      "tonnes": 1,
       "orders": 3,
       "transport": "sea"
     },
@@ -277,17 +277,8 @@
       "product": "Raisins",
       "country": "India",
       "direction": "export",
-      "tonnes": 260,
-      "orders": 2,
-      "transport": "road"
-    },
-    {
-      "date": "2026-08",
-      "product": "Grapes",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 180,
-      "orders": 4,
+      "tonnes": 100,
+      "orders": 5,
       "transport": "air"
     },
     {
@@ -295,26 +286,8 @@
       "product": "Dried figs",
       "country": "India",
       "direction": "export",
-      "tonnes": 150,
-      "orders": 2,
-      "transport": "road"
-    },
-    {
-      "date": "2026-07",
-      "product": "Almonds",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 120,
-      "orders": 1,
-      "transport": "road"
-    },
-    {
-      "date": "2026-07",
-      "product": "Mangoes",
-      "country": "India",
-      "direction": "import",
-      "tonnes": 90,
-      "orders": 2,
+      "tonnes": 200,
+      "orders": 6,
       "transport": "air"
     },
     {
@@ -322,7 +295,7 @@
       "product": "Dried apricots",
       "country": "India",
       "direction": "export",
-      "tonnes": 140,
+      "tonnes": 4,
       "orders": 2,
       "transport": "road"
     },
@@ -331,7 +304,7 @@
       "product": "Raisins",
       "country": "India",
       "direction": "export",
-      "tonnes": 310,
+      "tonnes": 5,
       "orders": 2,
       "transport": "sea"
     },
@@ -340,7 +313,7 @@
       "product": "Pistachios",
       "country": "India",
       "direction": "export",
-      "tonnes": 60,
+      "tonnes": 3,
       "orders": 1,
       "transport": "air"
     },
@@ -349,8 +322,8 @@
       "product": "Dried figs",
       "country": "India",
       "direction": "export",
-      "tonnes": 200,
-      "orders": 2,
+      "tonnes": 60,
+      "orders": 5,
       "transport": "sea"
     },
     {
@@ -358,350 +331,8 @@
       "product": "Raisins",
       "country": "India",
       "direction": "export",
-      "tonnes": 240,
-      "orders": 2,
-      "transport": "road"
-    },
-    {
-      "date": "2026-01",
-      "product": "Pomegranates",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 380,
+      "tonnes": 5,
       "orders": 3,
-      "transport": "sea"
-    },
-    {
-      "date": "2025",
-      "product": "Pomegranates",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 1240,
-      "orders": 28,
-      "transport": "air"
-    },
-    {
-      "date": "2025",
-      "product": "Raisins",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 1020,
-      "orders": 26,
-      "transport": "road"
-    },
-    {
-      "date": "2025",
-      "product": "Grapes",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 480,
-      "orders": 22,
-      "transport": "air"
-    },
-    {
-      "date": "2025",
-      "product": "Dried figs",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 440,
-      "orders": 21,
-      "transport": "road"
-    },
-    {
-      "date": "2025",
-      "product": "Almonds",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 260,
-      "orders": 12,
-      "transport": "road"
-    },
-    {
-      "date": "2025",
-      "product": "Dried apricots",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 200,
-      "orders": 9,
-      "transport": "road"
-    },
-    {
-      "date": "2025",
-      "product": "Pistachios",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 75,
-      "orders": 4,
-      "transport": "air"
-    },
-    {
-      "date": "2025",
-      "product": "Mangoes",
-      "country": "India",
-      "direction": "import",
-      "tonnes": 110,
-      "orders": 6,
-      "transport": "air"
-    },
-    {
-      "date": "2024",
-      "product": "Pomegranates",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 1060,
-      "orders": 24,
-      "transport": "air"
-    },
-    {
-      "date": "2024",
-      "product": "Raisins",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 880,
-      "orders": 22,
-      "transport": "road"
-    },
-    {
-      "date": "2024",
-      "product": "Grapes",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 430,
-      "orders": 20,
-      "transport": "air"
-    },
-    {
-      "date": "2024",
-      "product": "Dried figs",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 360,
-      "orders": 17,
-      "transport": "road"
-    },
-    {
-      "date": "2024",
-      "product": "Almonds",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 220,
-      "orders": 10,
-      "transport": "road"
-    },
-    {
-      "date": "2024",
-      "product": "Dried apricots",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 170,
-      "orders": 8,
-      "transport": "road"
-    },
-    {
-      "date": "2024",
-      "product": "Pistachios",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 55,
-      "orders": 3,
-      "transport": "air"
-    },
-    {
-      "date": "2024",
-      "product": "Mangoes",
-      "country": "India",
-      "direction": "import",
-      "tonnes": 95,
-      "orders": 5,
-      "transport": "air"
-    },
-    {
-      "date": "2023",
-      "product": "Pomegranates",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 900,
-      "orders": 20,
-      "transport": "air"
-    },
-    {
-      "date": "2023",
-      "product": "Raisins",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 760,
-      "orders": 19,
-      "transport": "road"
-    },
-    {
-      "date": "2023",
-      "product": "Grapes",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 390,
-      "orders": 18,
-      "transport": "air"
-    },
-    {
-      "date": "2023",
-      "product": "Dried figs",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 290,
-      "orders": 14,
-      "transport": "road"
-    },
-    {
-      "date": "2023",
-      "product": "Almonds",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 180,
-      "orders": 8,
-      "transport": "road"
-    },
-    {
-      "date": "2023",
-      "product": "Dried apricots",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 140,
-      "orders": 6,
-      "transport": "road"
-    },
-    {
-      "date": "2023",
-      "product": "Pistachios",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 40,
-      "orders": 2,
-      "transport": "air"
-    },
-    {
-      "date": "2023",
-      "product": "Mangoes",
-      "country": "India",
-      "direction": "import",
-      "tonnes": 80,
-      "orders": 4,
-      "transport": "air"
-    },
-    {
-      "date": "2022",
-      "product": "Pomegranates",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 760,
-      "orders": 17,
-      "transport": "air"
-    },
-    {
-      "date": "2022",
-      "product": "Raisins",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 640,
-      "orders": 16,
-      "transport": "road"
-    },
-    {
-      "date": "2022",
-      "product": "Grapes",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 340,
-      "orders": 15,
-      "transport": "air"
-    },
-    {
-      "date": "2022",
-      "product": "Dried figs",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 230,
-      "orders": 11,
-      "transport": "road"
-    },
-    {
-      "date": "2022",
-      "product": "Almonds",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 150,
-      "orders": 7,
-      "transport": "road"
-    },
-    {
-      "date": "2022",
-      "product": "Dried apricots",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 110,
-      "orders": 5,
-      "transport": "road"
-    },
-    {
-      "date": "2022",
-      "product": "Mangoes",
-      "country": "India",
-      "direction": "import",
-      "tonnes": 60,
-      "orders": 3,
-      "transport": "air"
-    },
-    {
-      "date": "2021",
-      "product": "Pomegranates",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 620,
-      "orders": 14,
-      "transport": "air"
-    },
-    {
-      "date": "2021",
-      "product": "Raisins",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 520,
-      "orders": 13,
-      "transport": "road"
-    },
-    {
-      "date": "2021",
-      "product": "Grapes",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 300,
-      "orders": 14,
-      "transport": "air"
-    },
-    {
-      "date": "2021",
-      "product": "Dried figs",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 180,
-      "orders": 9,
-      "transport": "road"
-    },
-    {
-      "date": "2021",
-      "product": "Almonds",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 120,
-      "orders": 5,
-      "transport": "road"
-    },
-    {
-      "date": "2021",
-      "product": "Dried apricots",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 90,
-      "orders": 4,
       "transport": "road"
     }
   ],
@@ -734,8 +365,8 @@
           "alt": "Amanat Logistics logo"
         },
         "text": "Road and air freight, customs clearance and export documents for our dry fruit and fresh fruit shipments.",
-        "since": "2020",
-        "link": "",
+        "since": "2025",
+        "link": "https://www.amanatlogistics.com/",
         "stats": [
           {
             "label": "Dried figs",
@@ -750,11 +381,6 @@
           {
             "label": "Pomegranates",
             "value": 650,
-            "unit": "Tons"
-          },
-          {
-            "label": "Almonds",
-            "value": 400,
             "unit": "Tons"
           }
         ]
