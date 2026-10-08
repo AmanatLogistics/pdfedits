@@ -5,7 +5,7 @@
 export const PAGES = [
   { id: 'track-record', path: '/track-record', sections: ['record', 'shipments'] },
   { id: 'products', path: '/products', sections: ['products', 'gallery'] },
-  { id: 'shipping', path: '/shipping', sections: ['destinations'] },
+  { id: 'shipping', path: '/shipping', sections: ['destinations', 'partner'] },
   { id: 'about', path: '/about', sections: ['about', 'certifications', 'testimonials', 'faq'] },
   { id: 'contact', path: '/contact', sections: ['contact'] },
 ]

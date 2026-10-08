@@ -62,6 +62,10 @@ test('content and uploads are validated', async () => {
   const bad = structuredClone(data.content)
   bad.hero.image.src = 'javascript:alert(1)'
   assert.equal((await call(h.content, 'POST', { content: bad, version: data.version }, token)).status, 400)
+  for (const src of ['//evil.example/x.png', '/uploads/../../etc/passwd', 'http://example.com/a.jpg']) {
+    bad.hero.image.src = src
+    assert.equal((await call(h.content, 'POST', { content: bad, version: data.version }, token)).status, 400, src)
+  }
   assert.equal((await call(h.content, 'POST', { content: { hero: {} }, version: data.version }, token)).status, 400)
   assert.equal((await call(h.upload, 'POST', { name: 'x.svg', type: 'image/svg+xml', data: 'PHN2Zz4=' }, token)).status, 400)
 })
@@ -143,6 +147,7 @@ test('pasted photo links are turned into links the website can show', async () =
   assert.equal(http.src, 'https://example.com/a.jpg')
   assert.ok(http.note)
   assert.equal(normalizeImageLink('/uploads/a.jpg').src, '/uploads/a.jpg')
+  assert.equal(normalizeImageLink('/partners/logo.png').src, '/partners/logo.png')
 })
 
 test('photos from resizing hosts get a range of sizes', async () => {

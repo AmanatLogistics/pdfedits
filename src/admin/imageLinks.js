@@ -9,7 +9,7 @@ export function normalizeImageLink(input) {
   let text = String(input || '').trim().replace(/^["'<(]+|[">)']+$/g, '')
   if (!text) return { src: '' }
   if (/^data:/i.test(text)) return { error: 'This is a copied picture, not a link. Save it to your computer and use Upload instead.' }
-  if (/^\/uploads\//.test(text)) return { src: text }
+  if (/^\/(?!\/)/.test(text)) return { src: text } // a file on this website, e.g. /uploads/photo.jpg
   if (/^\/\//.test(text)) text = `https:${text}`
   if (!/^[a-z]+:\/\//i.test(text)) text = `https://${text}`
 

@@ -56,6 +56,11 @@
       "visible": true
     },
     {
+      "id": "partner",
+      "label": "Logistics partner",
+      "visible": true
+    },
+    {
       "id": "about",
       "label": "About",
       "visible": true
@@ -743,6 +748,37 @@
         "text": "Larger dry fruit orders in containers through Chabahar port for the best freight rates."
       }
     ]
+  },
+  "partner": {
+    "eyebrow": "Logistics partner",
+    "title": "Shipping together with Amanat Logistics",
+    "text": "Our consignments move with Amanat Logistics: trucking, customs clearance and freight forwarding handled by one trusted team, from our Kandahar warehouse to the buyer’s door.",
+    "name": "Amanat Logistics",
+    "logo": "/partners/amanat-logistics-white.png",
+    "logoOnLight": "/partners/amanat-logistics.png",
+    "color": "#7e2e47",
+    "link": "",
+    "stats": [
+      {
+        "value": "9,240",
+        "label": "Tons shipped together"
+      },
+      {
+        "value": "260+",
+        "label": "Consignments delivered"
+      },
+      {
+        "value": "Since 2019",
+        "label": "Working together"
+      }
+    ],
+    "points": [
+      "Trucking and freight forwarding",
+      "Customs clearance and export papers",
+      "Tracking until delivery"
+    ],
+    "showOnHome": true,
+    "inFooter": true
   },
   "products": {
     "eyebrow": "What we trade",

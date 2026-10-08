@@ -74,6 +74,7 @@ code { padding: 1px 6px; border-radius: 5px; background: #f1ece5; font-size: 13p
 .img__warn { color: #9a6a00; }
 .img__side .f__help svg { vertical-align: -2px; }
 .img--small .img__thumb img { object-fit: contain; }
+.img__thumb--dark { background: #3b2a24; }
 .img__busy { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(255, 255, 255, .7); color: var(--a-primary); }
 .img__side { display: grid; gap: 8px; min-width: 0; }
 .img__buttons { display: flex; flex-wrap: wrap; gap: 6px; }

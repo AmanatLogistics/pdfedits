@@ -1,5 +1,5 @@
 import {
-  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Hash, House, Image, Images, LayoutDashboard, Mail, Megaphone,
+  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Handshake, Hash, House, Image, Images, LayoutDashboard, Mail, Megaphone,
   MessageSquareQuote, Palette, PanelBottom, PanelTop, Search, ShieldCheck, Sparkles, Truck, Type,
 } from 'lucide-react'
 import { FONT_OPTIONS } from '../site/theme.js'
@@ -178,6 +178,29 @@ export const PAGES = [
           { key: 'text', type: 'textarea', label: 'Description' },
         ],
       },
+    ],
+  },
+  {
+    id: 'partner', group: 'Website sections', title: 'Logistics partner', icon: Handshake, preview: 'partner',
+    intro: 'Your partnership with Amanat Logistics (or another partner): both logos, what you have shipped together, and what they handle. Shown on the Shipping page, and optionally on the home page and in the footer.',
+    fields: [
+      show('partner'),
+      { path: 'partner.showOnHome', type: 'toggle', label: 'Also show it on the home page' },
+      { path: 'partner.inFooter', type: 'toggle', label: 'Show the partner’s logo in the footer' },
+      ...heading('partner'),
+      { path: 'partner.name', type: 'text', label: 'Partner name' },
+      { path: 'partner.logo', type: 'imageSrc', label: 'Partner logo (white, for the coloured panel)', help: 'A white logo on a transparent background looks best.', dark: true },
+      { path: 'partner.color', type: 'color', label: 'Partner colour', help: 'Background of the logo panel.' },
+      { path: 'partner.link', type: 'url', label: 'Partner website (optional)', help: 'Adds a “Visit” button and links the footer logo.' },
+      {
+        path: 'partner.stats', type: 'list', label: 'Figures', itemLabel: 'Figure', titleKey: 'label', compact: true,
+        newItem: { value: '', label: 'New figure' },
+        fields: [
+          { key: 'value', type: 'text', label: 'Number or short text', help: 'For example “9,240” or “Since 2019”.' },
+          { key: 'label', type: 'text', label: 'What it means', help: 'For example “Tons shipped together”.' },
+        ],
+      },
+      { path: 'partner.points', type: 'stringList', label: 'What the partner handles', addLabel: 'Add point' },
     ],
   },
   {

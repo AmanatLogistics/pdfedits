@@ -6,6 +6,8 @@ export const UPLOAD_DIR = 'public/uploads'
 export const UPLOAD_NAME = /^[a-z0-9][a-z0-9-]{0,80}\.(jpg|jpeg|png|webp|gif)$/
 
 const REQUIRED = ['meta', 'theme', 'company', 'sections', 'hero', 'records']
+// Web addresses, or files on this website such as /uploads/photo.jpg or /partners/logo.png.
+const SAFE_LINK = /^(https:\/\/|\/(?!\/)(?!.*\.\.)[\w\-./%]+$)/
 
 export const versionOf = (text) => crypto.createHash('sha256').update(text).digest('hex').slice(0, 16)
 
@@ -29,9 +31,9 @@ export function validateContent(content) {
   const walk = (v, path) => {
     if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${path}[${i}]`))
     else if (v && typeof v === 'object') Object.entries(v).forEach(([k, x]) => walk(x, path ? `${path}.${k}` : k))
-    else if (typeof v === 'string' && /(^|\.)(src|fallback|creditUrl|logo|shareImage|link|mapEmbedUrl)$/.test(path) && v && !/^(https:\/\/|\/uploads\/)/.test(v)) bad.push(path)
+    else if (typeof v === 'string' && /(^|\.)(src|fallback|creditUrl|logo|logoOnLight|shareImage|link|mapEmbedUrl)$/.test(path) && v && !SAFE_LINK.test(v)) bad.push(path)
   }
   walk(content, '')
-  if (bad.length) throw new HttpError(400, `These links must start with https:// or be uploaded images: ${bad.join(', ')}`)
+  if (bad.length) throw new HttpError(400, `These links must start with https:// or be files on this website: ${bad.join(', ')}`)
   return text
 }

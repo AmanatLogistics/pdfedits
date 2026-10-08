@@ -18,7 +18,7 @@ function photoCredits(content) {
 }
 
 export default function Footer({ content, pages }) {
-  const { company, footer } = content
+  const { company, footer, partner } = content
   const credits = photoCredits(content)
   return (
     <footer className="footer" id="footer">
@@ -26,6 +26,14 @@ export default function Footer({ content, pages }) {
         <div className="footer__about">
           <Logo company={company} light />
           {footer.about && <p>{footer.about}</p>}
+          {partner?.inFooter && partner?.logo && (
+            <div className="footer__partner">
+              <span>{label(content, 'footerPartner')}</span>
+              {partner.link
+                ? <a href={partner.link} target="_blank" rel="noreferrer"><img src={partner.logo} alt={partner.name} width="64" height="62" loading="lazy" /></a>
+                : <img src={partner.logo} alt={partner.name} width="64" height="62" loading="lazy" />}
+            </div>
+          )}
         </div>
         <div>
           <h3>{label(content, 'footerCompany')}</h3>
