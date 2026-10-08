@@ -365,8 +365,8 @@
           "alt": "Amanat Logistics logo"
         },
         "text": "Road and air freight, customs clearance and export documents for our dry fruit and fresh fruit shipments.",
-        "since": "2020",
-        "link": "",
+        "since": "2025",
+        "link": "https://www.amanatlogistics.com/",
         "stats": [
           {
             "label": "Dried figs",
@@ -381,11 +381,6 @@
           {
             "label": "Pomegranates",
             "value": 650,
-            "unit": "Tons"
-          },
-          {
-            "label": "Almonds",
-            "value": 400,
             "unit": "Tons"
           }
         ]
