@@ -19,7 +19,7 @@
     "tagline": "Dry & Fresh Fruit Traders",
     "monogram": "FF",
     "logo": "",
-    "since": 2014,
+    "since": 2025,
     "email": "info@faizfayez.com",
     "partnershipEmail": "partners@faizfayez.com",
     "phone": "+93 70 000 0000",
@@ -759,15 +759,6 @@
         }
       },
       {
-        "title": "Grapes",
-        "tag": "Fresh fruit",
-        "season": "Jul – Oct",
-        "image": {
-          "src": "https://images.pexels.com/photos/33453926/pexels-photo-33453926.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "A cluster of fresh green grapes with leaves"
-        }
-      },
-      {
         "title": "Raisins",
         "tag": "Dry fruit",
         "season": "All year",
@@ -824,21 +815,15 @@
     "items": [
       {
         "image": {
-          "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Dried_Figs_(1).jpg/960px-Dried_Figs_(1).jpg",
-          "fallback": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Dried_Figs_(1).jpg",
-          "alt": "A pile of dried figs",
-          "credit": "Dried figs by Chefallen, CC BY-SA 3.0",
-          "creditUrl": "https://commons.wikimedia.org/wiki/File:Dried_Figs_(1).jpg"
+          "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_x1e6MnUz0y6JuKn0hF0AyRBOAIt_ZYERVieXt0AkkslojIDQG0tT8_w&s=10",
+          "alt": "A pile of dried figs"
         },
         "caption": "Dried figs"
       },
       {
         "image": {
-          "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Figs,_khari_baoli_market.jpg/960px-Figs,_khari_baoli_market.jpg",
-          "fallback": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Figs,_khari_baoli_market.jpg",
-          "alt": "Dried figs for sale at Khari Baoli dry fruit market, Delhi",
-          "credit": "Figs at Khari Baoli by Manjit Singh, CC BY-SA 4.0",
-          "creditUrl": "https://commons.wikimedia.org/wiki/File:Figs,_khari_baoli_market.jpg"
+          "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4sprg931y44U1uQUYHiph2qhbP7VC6aEy-qdbWSLsmQ&s=10",
+          "alt": "Dried figs for sale at Khari Baoli dry fruit market, Delhi"
         },
         "caption": "Dried figs at the dry fruit market"
       },
@@ -901,11 +886,11 @@
     ],
     "badgeText": "years in the fruit trade",
     "image": {
-      "src": "https://images.pexels.com/photos/5332498/pexels-photo-5332498.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "src": "https://orgfarm.store/cdn/shop/files/IMG_9878-copy-1.jpg?v=1721301997&width=1214",
       "alt": "Dried fruits on trays at a market stall"
     },
     "image2": {
-      "src": "https://images.pexels.com/photos/15733306/pexels-photo-15733306.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "src": "/uploads/whatsapp-image-2026-05-21-at-4-18-52-pm-1-muz76966.jpg",
       "alt": "A truck loaded with sacks"
     }
   },
