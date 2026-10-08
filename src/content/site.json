@@ -19,7 +19,7 @@
     "tagline": "Dry & Fresh Fruit Traders",
     "monogram": "FF",
     "logo": "",
-    "since": 2014,
+    "since": 2025,
     "email": "info@faizfayez.com",
     "partnershipEmail": "partners@faizfayez.com",
     "phone": "+93 70 000 0000",
@@ -53,11 +53,6 @@
     {
       "id": "destinations",
       "label": "Shipping",
-      "visible": true
-    },
-    {
-      "id": "partner",
-      "label": "Logistics partner",
       "visible": true
     },
     {
@@ -726,6 +721,46 @@
     "text": "Recent loads that left our Kandahar warehouse, with the tons in each one.",
     "count": 6
   },
+  "partners": {
+    "title": "Shipped with Amanat Logistics",
+    "text": "Our logistics partner Amanat Logistics carries our consignments from Kandahar to buyers abroad.",
+    "example": true,
+    "items": [
+      {
+        "name": "Amanat Logistics",
+        "role": "Freight & customs partner",
+        "logo": {
+          "src": "/partners/amanat-logistics.png",
+          "alt": "Amanat Logistics logo"
+        },
+        "text": "Road and air freight, customs clearance and export documents for our dry fruit and fresh fruit shipments.",
+        "since": "2020",
+        "link": "",
+        "stats": [
+          {
+            "label": "Dried figs",
+            "value": 1200,
+            "unit": "Tons"
+          },
+          {
+            "label": "Raisins",
+            "value": 850,
+            "unit": "Tons"
+          },
+          {
+            "label": "Pomegranates",
+            "value": 650,
+            "unit": "Tons"
+          },
+          {
+            "label": "Almonds",
+            "value": 400,
+            "unit": "Tons"
+          }
+        ]
+      }
+    ]
+  },
   "destinations": {
     "eyebrow": "Shipping",
     "title": "How our goods travel",
@@ -749,37 +784,6 @@
       }
     ]
   },
-  "partner": {
-    "eyebrow": "Logistics partner",
-    "title": "Shipping together with Amanat Logistics",
-    "text": "Our consignments move with Amanat Logistics: trucking, customs clearance and freight forwarding handled by one trusted team, from our Kandahar warehouse to the buyer’s door.",
-    "name": "Amanat Logistics",
-    "logo": "/partners/amanat-logistics-white.png",
-    "logoOnLight": "/partners/amanat-logistics.png",
-    "color": "#7e2e47",
-    "link": "",
-    "stats": [
-      {
-        "value": "9,240",
-        "label": "Tons shipped together"
-      },
-      {
-        "value": "260+",
-        "label": "Consignments delivered"
-      },
-      {
-        "value": "Since 2019",
-        "label": "Working together"
-      }
-    ],
-    "points": [
-      "Trucking and freight forwarding",
-      "Customs clearance and export papers",
-      "Tracking until delivery"
-    ],
-    "showOnHome": true,
-    "inFooter": true
-  },
   "products": {
     "eyebrow": "What we trade",
     "title": "Kandahar’s finest, graded and packed",
@@ -792,15 +796,6 @@
         "image": {
           "src": "https://images.pexels.com/photos/14650515/pexels-photo-14650515.jpeg?auto=compress&cs=tinysrgb&w=800",
           "alt": "A pile of fresh red pomegranates"
-        }
-      },
-      {
-        "title": "Grapes",
-        "tag": "Fresh fruit",
-        "season": "Jul – Oct",
-        "image": {
-          "src": "https://images.pexels.com/photos/33453926/pexels-photo-33453926.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "A cluster of fresh green grapes with leaves"
         }
       },
       {
@@ -850,15 +845,6 @@
           "src": "https://images.pexels.com/photos/634650/pexels-photo-634650.jpeg?auto=compress&cs=tinysrgb&w=800",
           "alt": "Pistachios in their shells"
         }
-      },
-      {
-        "title": "Mangoes",
-        "tag": "Imported",
-        "season": "May – Aug",
-        "image": {
-          "src": "https://images.pexels.com/photos/918643/pexels-photo-918643.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "Ripe mangoes"
-        }
       }
     ]
   },
@@ -869,21 +855,15 @@
     "items": [
       {
         "image": {
-          "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Dried_Figs_(1).jpg/960px-Dried_Figs_(1).jpg",
-          "fallback": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Dried_Figs_(1).jpg",
-          "alt": "A pile of dried figs",
-          "credit": "Dried figs by Chefallen, CC BY-SA 3.0",
-          "creditUrl": "https://commons.wikimedia.org/wiki/File:Dried_Figs_(1).jpg"
+          "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_x1e6MnUz0y6JuKn0hF0AyRBOAIt_ZYERVieXt0AkkslojIDQG0tT8_w&s=10",
+          "alt": "A pile of dried figs"
         },
         "caption": "Dried figs"
       },
       {
         "image": {
-          "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Figs,_khari_baoli_market.jpg/960px-Figs,_khari_baoli_market.jpg",
-          "fallback": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Figs,_khari_baoli_market.jpg",
-          "alt": "Dried figs for sale at Khari Baoli dry fruit market, Delhi",
-          "credit": "Figs at Khari Baoli by Manjit Singh, CC BY-SA 4.0",
-          "creditUrl": "https://commons.wikimedia.org/wiki/File:Figs,_khari_baoli_market.jpg"
+          "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4sprg931y44U1uQUYHiph2qhbP7VC6aEy-qdbWSLsmQ&s=10",
+          "alt": "Dried figs for sale at Khari Baoli dry fruit market, Delhi"
         },
         "caption": "Dried figs at the dry fruit market"
       },
@@ -946,11 +926,11 @@
     ],
     "badgeText": "years in the fruit trade",
     "image": {
-      "src": "https://images.pexels.com/photos/5332498/pexels-photo-5332498.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "src": "https://orgfarm.store/cdn/shop/files/IMG_9878-copy-1.jpg?v=1721301997&width=1214",
       "alt": "Dried fruits on trays at a market stall"
     },
     "image2": {
-      "src": "https://images.pexels.com/photos/15733306/pexels-photo-15733306.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "src": "/uploads/whatsapp-image-2026-05-21-at-4-18-52-pm-1-muz76966.jpg",
       "alt": "A truck loaded with sacks"
     }
   },

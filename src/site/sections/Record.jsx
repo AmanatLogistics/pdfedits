@@ -2,6 +2,7 @@ import { useState } from 'preact/hooks'
 import { ArrowDownLeft, ArrowUpRight, CalendarBlank, Globe, Package, TrendUp, Info } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
 import Photo from '../Photo.jsx'
+import Partners from './Partners.jsx'
 import { thumbOf } from '../images.js'
 import { useCountUp } from '../hooks.js'
 import { fmtDate, fmtNum, unitOf, yearsSince } from '../trade.js'
@@ -138,6 +139,7 @@ export default function Record({ content, trade, tone, more }) {
             </dl>
           </div>
         </div>
+        <Partners content={content} thumbs={thumbs} />
         {trade.latest && <p className="record__updated">{T('lastUpdated')} {fmtDate(trade.latest)} · <span suppressHydrationWarning>{years}+</span> {L.years?.toLowerCase()}</p>}
       </div>
     </section>

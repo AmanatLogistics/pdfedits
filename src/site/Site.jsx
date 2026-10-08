@@ -17,7 +17,6 @@ import Certifications from './sections/Certifications.jsx'
 import Testimonials from './sections/Testimonials.jsx'
 import Faq from './sections/Faq.jsx'
 import Contact from './sections/Contact.jsx'
-import Partner from './sections/Partner.jsx'
 import CtaBand from './sections/CtaBand.jsx'
 import Explore from './home/Explore.jsx'
 import Reasons from './home/Reasons.jsx'
@@ -27,7 +26,7 @@ import WhatsAppButton from './sections/WhatsAppButton.jsx'
 import ToTop from './sections/ToTop.jsx'
 
 const SECTIONS = {
-  record: Record, shipments: Shipments, products: Products, gallery: Gallery, destinations: Destinations, partner: Partner, about: About,
+  record: Record, shipments: Shipments, products: Products, gallery: Gallery, destinations: Destinations, about: About,
   certifications: Certifications, testimonials: Testimonials, faq: Faq, contact: Contact,
 }
 // Sections with their own dark background; the rest alternate white and grey.
@@ -44,7 +43,6 @@ function hasContent(id, c, trade) {
   if (id === 'certifications') return c.certifications?.items?.length > 0
   if (id === 'testimonials') return c.testimonials?.items?.length > 0
   if (id === 'faq') return c.faq?.items?.length > 0
-  if (id === 'partner') return !!c.partner?.name
   return !!c[id]
 }
 
@@ -114,7 +112,6 @@ export default function Site({ content, page = 'home', moved = false }) {
               next={home.explore?.visible !== false ? 'explore' : home.reasons?.visible !== false ? 'why' : home.steps?.visible !== false ? 'how' : 'cta'} />
             {home.explore?.visible !== false && <Explore content={content} trade={trade} pages={pages} />}
             {home.reasons?.visible !== false && <Reasons content={content} />}
-            {content.partner?.showOnHome && content.sections.some((s) => s.id === 'partner' && s.visible) && <Partner content={content} tone="white" />}
             {home.steps?.visible !== false && <Steps content={content} contactHref={contactPath} />}
           </>
         )}

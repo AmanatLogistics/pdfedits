@@ -155,10 +155,10 @@ function usePhotoStatus(src) {
   return [state.src === src ? state.status : '', (status) => setState({ src, status })]
 }
 
-function Thumb({ src, empty, busy, contain, dark, onStatus }) {
+function Thumb({ src, empty, busy, contain, onStatus }) {
   const { resolveImage } = useContext(AdminContext)
   return (
-    <div className={`img__thumb ${dark ? 'img__thumb--dark' : ''}`}>
+    <div className="img__thumb">
       {src ? <img src={resolveImage(src)} alt="" style={contain ? { objectFit: 'contain' } : undefined}
         onLoad={(e) => onStatus(e.currentTarget.naturalWidth < 800 && !contain ? `small:${e.currentTarget.naturalWidth}` : 'ok')}
         onError={() => onStatus('error')} /> : <span>{empty}</span>}
@@ -202,13 +202,13 @@ export function ImageInput({ label, help, value, onChange }) {
 }
 
 // A single image address (logo, share picture).
-export function ImageSrcInput({ label, help, value, onChange, dark }) {
+export function ImageSrcInput({ label, help, value, onChange }) {
   const up = useUpload((path) => onChange(path))
   const [status, setStatus] = usePhotoStatus(value)
   return (
     <Field label={label} help={help}>
       <div className="img img--small">
-        <div className="img__left"><Thumb src={value} empty="None" busy={up.busy} contain dark={dark} onStatus={setStatus} /></div>
+        <div className="img__left"><Thumb src={value} empty="None" busy={up.busy} contain onStatus={setStatus} /></div>
         <div className="img__side">
           <div className="img__buttons">
             <button type="button" className="b b--soft" onClick={up.pick} disabled={up.busy}><ImagePlus size={16} /> {value ? 'Upload a new one' : 'Upload'}</button>
@@ -318,7 +318,7 @@ export function FieldFor({ field, value, onChange }) {
     case 'select': return <Select {...common} options={field.options} />
     case 'color': return <ColorInput {...common} />
     case 'image': return <ImageInput {...common} />
-    case 'imageSrc': return <ImageSrcInput {...common} dark={field.dark} />
+    case 'imageSrc': return <ImageSrcInput {...common} />
     case 'stringList': return <StringList {...common} addLabel={field.addLabel} />
     case 'list': return <ListInput field={field} value={value} onChange={onChange} />
     default: return <TextInput {...common} counter={field.counter} maxLength={field.maxLength} required={field.required} />

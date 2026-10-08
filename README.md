@@ -10,10 +10,10 @@ without touching code.
 
 | Page | Address | What it shows |
 |---|---|---|
-| Home | `/` | Top banner with the total shipped, a card for each page, why buyers choose you, the Amanat Logistics partnership, and how ordering works |
-| Track Record | `/track-record` | Totals, tons shipped per year, by product and by transport, and recent shipments |
+| Home | `/` | Top banner with the total shipped, a card for each page, why buyers choose you, and how ordering works |
+| Track Record | `/track-record` | Totals, tons shipped per year, by product and by transport, partners (e.g. Amanat Logistics) with the tons shipped together, and recent shipments |
 | Products | `/products` | Product photos with tons shipped and season, and the photo gallery |
-| Shipping | `/shipping` | The route map from Kandahar, the air, road and sea options, and the logistics partnership with Amanat Logistics |
+| Shipping | `/shipping` | The route map from Kandahar and the air, road and sea options |
 | About | `/about` | About the company, certifications, testimonials, and questions & answers |
 | Contact | `/contact` | Inquiry form, partnership banner, emails, phone and WhatsApp |
 
@@ -38,11 +38,9 @@ by Google, and shows the right title and picture when the link is shared on What
   Date, Product, Country, Export/Import, Tons, Orders, Transport. Rows can be searched,
   filtered by year and **downloaded as a CSV** file for Excel. Totals from before the
   records can be added in **Totals from before these records**.
+- **Track record** page also holds the **partners** (such as Amanat Logistics) with the amounts shipped together per product
 - **Products**, **Company & contact** (name, logo, emails, phone, WhatsApp, address, hours)
 - **Home page**: the page cards (photo, text, highlight), why choose us, and how ordering works
-- **Logistics partner**: the Amanat Logistics partnership (logo, colour, figures such as tons
-  shipped together, what they handle, website link), and whether it also shows on the home page
-  and in the footer
 - **Pages & menu**: each page’s menu name, banner title, text and photo; which pages are in the
   top menu; and which sections are shown, in what order
 - Every section’s **texts, photos and lists**: top banner, track record (including the unit

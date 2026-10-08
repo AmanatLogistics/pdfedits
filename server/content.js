@@ -31,7 +31,7 @@ export function validateContent(content) {
   const walk = (v, path) => {
     if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${path}[${i}]`))
     else if (v && typeof v === 'object') Object.entries(v).forEach(([k, x]) => walk(x, path ? `${path}.${k}` : k))
-    else if (typeof v === 'string' && /(^|\.)(src|fallback|creditUrl|logo|logoOnLight|shareImage|link|mapEmbedUrl)$/.test(path) && v && !SAFE_LINK.test(v)) bad.push(path)
+    else if (typeof v === 'string' && /(^|\.)(src|fallback|creditUrl|logo|shareImage|link|mapEmbedUrl)$/.test(path) && v && !SAFE_LINK.test(v)) bad.push(path)
   }
   walk(content, '')
   if (bad.length) throw new HttpError(400, `These links must start with https:// or be files on this website: ${bad.join(', ')}`)

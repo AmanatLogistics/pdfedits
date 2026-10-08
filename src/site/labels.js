@@ -34,13 +34,21 @@ export const LABEL_GROUPS = [
     },
   },
   {
+    title: 'Partners',
+    items: {
+      partnerTotal: ['Shipped together', 'First figure on a partner, the total of all its figures'],
+      partnerSince: ['Partners since', 'Before the year on a partner'],
+      partnerVisit: ['Visit website', 'Link to a partner’s website'],
+      partnerSampleNote: ['These are example figures. Replace them with your real shipments in the admin panel under Partners.', 'Shown while the partner figures are marked as examples'],
+    },
+  },
+  {
     title: 'Shipping',
     items: {
       topDestinations: ['Top destinations', 'Shown when you ship to several countries'],
       howTravelled: ['How it travelled', 'Shown when you ship to one country'],
       exportsFrom: ['Exports from', 'Map legend, followed by your home city'],
       importsTo: ['Imports to', 'Map legend, followed by your home city'],
-      partnerVisit: ['Visit', 'Partner website button, before the partner’s name'],
       air: ['Air', 'Transport name'],
       road: ['Road', 'Transport name'],
       sea: ['Sea', 'Transport name'],
@@ -80,7 +88,6 @@ export const LABEL_GROUPS = [
     items: {
       footerCompany: ['Company', 'Heading of the page links'],
       footerContact: ['Get in touch', 'Heading of the contact details'],
-      footerPartner: ['Logistics partner', 'Above the partner logo'],
       photos: ['Photos', 'Before the photo credits'],
     },
   },
