@@ -1,12 +1,14 @@
 import { useState } from 'preact/hooks'
-import { ArrowDownLeft, ArrowUpRight, CalendarBlank, Globe, Package, TrendUp, Info } from '../ph.jsx'
+import { ArrowDownLeft, ArrowUpRight, CalendarBlank, Globe, Info, Leaf, Package, Scales, TrendUp } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
 import Photo from '../Photo.jsx'
 import Partners from './Partners.jsx'
 import { thumbOf } from '../images.js'
 import { useCountUp } from '../hooks.js'
-import { fmtDate, fmtNum, unitOf, yearsSince } from '../trade.js'
+import { fmtDate, fmtNum, unitFor, unitOf, yearsSince } from '../trade.js'
 import { freightName, label } from '../labels.js'
+
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1)
 
 function niceTop(max) {
   if (max <= 0) return 1
@@ -27,6 +29,7 @@ function Kpi({ label, value, unit, suffix, icon, tone, i }) {
 
 function YearChart({ trade, unit, T }) {
   const years = trade.byYear
+  const imports = trade.imported > 0
   const [hover, setHover] = useState(null)
   const top = niceTop(Math.max(...years.map((y) => y.exported + y.imported)))
   const shown = years[hover ?? years.length - 1]
@@ -34,8 +37,8 @@ function YearChart({ trade, unit, T }) {
     <div className="ychart">
       <div className="ychart__readout" aria-live="polite">
         <strong>{shown.year}{shown.partial ? ` (${T('soFar')})` : ''}</strong>
-        <span><i className="swatch swatch--export" /> {fmtNum(shown.exported)} {unit} {T('exported')}</span>
-        <span><i className="swatch swatch--import" /> {fmtNum(shown.imported)} {unit} {T('imported')}</span>
+        <span><i className="swatch swatch--export" /> {fmtNum(shown.exported)} {unitFor(shown.exported, unit)} {T('exported')}</span>
+        {imports && <span><i className="swatch swatch--import" /> {fmtNum(shown.imported)} {unitFor(shown.imported, unit)} {T('imported')}</span>}
       </div>
       <div className="ychart__plot" onMouseLeave={() => setHover(null)}>
         <div className="ychart__grid" aria-hidden="true">
@@ -47,7 +50,7 @@ function YearChart({ trade, unit, T }) {
             return (
               <div key={y.year} tabIndex={0} style={{ '--i': i }} className={`ychart__col ${(hover ?? years.length - 1) === i ? 'is-on' : ''} ${y.partial ? 'is-partial' : ''}`}
                 onMouseEnter={() => setHover(i)} onFocus={() => setHover(i)} onBlur={() => setHover(null)}
-                aria-label={`${y.year}${y.partial ? ` ${T('soFar')}` : ''}: ${fmtNum(y.exported)} ${unit} ${T('exported')}, ${fmtNum(y.imported)} ${unit} ${T('imported')}`}>
+                aria-label={`${y.year}${y.partial ? ` ${T('soFar')}` : ''}: ${fmtNum(y.exported)} ${unitFor(y.exported, unit)} ${T('exported')}, ${fmtNum(y.imported)} ${unitFor(y.imported, unit)} ${T('imported')}`}>
                 <div className="ychart__stack" style={{ height: `${(total / top) * 100}%` }}>
                   <span className="ychart__total">{fmtNum(total)}</span>
                   {y.imported > 0 && <span className="ychart__seg ychart__seg--import" style={{ flexGrow: y.imported }} />}
@@ -82,7 +85,7 @@ function Breakdown({ rows, unit, thumbs, limit = 6 }) {
             ? <Photo image={{ src: thumbs[r.name], alt: '' }} className="bars__thumb" plain width="36" height="36" />
             : <span className="bars__thumb bars__thumb--icon" aria-hidden="true"><Package size={18} weight="duotone" /></span>)}
           <div className="bars__main">
-            <div className="bars__row"><span className="bars__name">{r.name}</span><span className="bars__val">{fmtNum(r.tonnes)} {unit} <small>{r.share < 0.005 ? '<1' : Math.round(r.share * 100)}%</small></span></div>
+            <div className="bars__row"><span className="bars__name">{r.name}</span><span className="bars__val">{fmtNum(r.tonnes)} {unitFor(r.tonnes, unit)} <small>{r.share < 0.005 ? '<1' : Math.round(r.share * 100)}%</small></span></div>
             <span className="bars__track"><span style={{ width: `${Math.max(2, (r.tonnes / max) * 100)}%` }} /></span>
           </div>
         </li>
@@ -103,6 +106,9 @@ export default function Record({ content, trade, tone, more }) {
   const best = trade.byYear.filter((y) => !y.partial).reduce((a, y) => (!a || y.exported + y.imported > a.exported + a.imported ? y : a), null)
   const T = (k) => label(content, k)
   const transport = trade.byTransport.map((t) => ({ ...t, name: freightName(content, t.name) }))
+  const average = trade.orders ? trade.shipped / trade.orders : 0
+  // Without any imports, "exported" equals "shipped", so show orders and products instead.
+  const imports = trade.imported > 0
   return (
     <section className={`section section--${tone}`} id="record">
       <div className="container">
@@ -110,8 +116,17 @@ export default function Record({ content, trade, tone, more }) {
         {content.sampleData && <p className="sample-note"><Info size={18} weight="duotone" /> {T('sampleNote')}</p>}
         <div className="kpis">
           <Kpi i={0} tone="main" label={L.shipped} value={trade.shipped} unit={unit} icon={<Package size={26} weight="duotone" />} />
-          <Kpi i={1} label={L.exported} value={trade.exported} icon={<ArrowUpRight size={22} weight="bold" />} tone="export" />
-          <Kpi i={2} label={L.imported} value={trade.imported} icon={<ArrowDownLeft size={22} weight="bold" />} tone="import" />
+          {imports ? (
+            <>
+              <Kpi i={1} label={L.exported} value={trade.exported} icon={<ArrowUpRight size={22} weight="bold" />} tone="export" />
+              <Kpi i={2} label={L.imported} value={trade.imported} icon={<ArrowDownLeft size={22} weight="bold" />} tone="import" />
+            </>
+          ) : (
+            <>
+              <Kpi i={1} label={T('productsTraded')} value={trade.byProduct.length} icon={<Leaf size={22} weight="duotone" />} tone="export" />
+              <Kpi i={2} label={T('averageOrder')} value={average} unit={unitFor(average, unit)} icon={<Scales size={22} weight="duotone" />} tone="import" />
+            </>
+          )}
           <Kpi i={3} label={L.orders} value={trade.orders} icon={<TrendUp size={22} weight="duotone" />} />
           {many
             ? <Kpi i={4} label={L.countries} value={trade.countries} icon={<Globe size={22} weight="duotone" />} />
@@ -121,7 +136,7 @@ export default function Record({ content, trade, tone, more }) {
           <div className="card card--chart reveal">
             <div className="card__head">
               <h3>{R.chartTitle}</h3>
-              <span className="legend"><span><i className="swatch swatch--export" /> Exported</span><span><i className="swatch swatch--import" /> Imported</span></span>
+              {imports && <span className="legend"><span><i className="swatch swatch--export" /> {cap(T('exported'))}</span><span><i className="swatch swatch--import" /> {cap(T('imported'))}</span></span>}
             </div>
             <YearChart trade={trade} unit={unit} T={T} />
           </div>
@@ -133,8 +148,8 @@ export default function Record({ content, trade, tone, more }) {
             <div className="card__head"><h3>{many ? R.countriesTitle : R.transportTitle || 'By transport'}</h3></div>
             <Breakdown rows={many ? trade.byCountry : transport} unit={unit} />
             <dl className="facts">
-              <div><dt>{T('averageOrder')}</dt><dd>{fmtNum(trade.orders ? trade.shipped / trade.orders : 0)} {unit}</dd></div>
-              {best && <div><dt>{T('biggestYear')}</dt><dd>{best.year} · {fmtNum(best.exported + best.imported)} {unit}</dd></div>}
+              <div><dt>{T('averageOrder')}</dt><dd>{fmtNum(average)} {unitFor(average, unit)}</dd></div>
+              {best && <div><dt>{T('biggestYear')}</dt><dd>{best.year} · {fmtNum(best.exported + best.imported)} {unitFor(best.exported + best.imported, unit)}</dd></div>}
               <div><dt>{T('productsTraded')}</dt><dd>{trade.byProduct.length}</dd></div>
             </dl>
           </div>

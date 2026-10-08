@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Faiz Fayez LTD | Afghan Dry Fruits & Fresh Fruits, Kandahar",
-    "description": "Faiz Fayez LTD exports Kandahar pomegranates, grapes, raisins, dried figs, almonds and apricots, with every consignment on the record. See the tons we have shipped and request a quote.",
+    "description": "Faiz Fayez LTD exports Kandahar pomegranates, raisins, dried figs, almonds and apricots, with every consignment on the record. See the tons we have shipped and request a quote.",
     "siteUrl": "",
     "shareImage": ""
   },
@@ -86,7 +86,7 @@
       "label": "Track Record",
       "inNav": true,
       "title": "Our track record",
-      "text": "Every ton we have shipped since 2014: totals, yearly volumes, products and the latest consignments.",
+      "text": "Every ton we have shipped since 2025: totals, yearly volumes, products and the latest consignments.",
       "image": {
         "src": "https://images.pexels.com/photos/15733306/pexels-photo-15733306.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "alt": "A truck loaded with sacks"
@@ -116,7 +116,7 @@
       "label": "About",
       "inNav": true,
       "title": "About Faiz Fayez LTD",
-      "text": "A Kandahar trading house supplying dry fruits and fresh fruits since 2014.",
+      "text": "A Kandahar trading house supplying dry fruits and fresh fruits since 2025.",
       "image": {
         "src": "https://images.pexels.com/photos/18523341/pexels-photo-18523341.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "alt": "Fresh red pomegranates piled at a market"
@@ -134,9 +134,9 @@
     }
   },
   "hero": {
-    "eyebrow": "Kandahar, Afghanistan · Since 2014",
+    "eyebrow": "Kandahar, Afghanistan · Since 2025",
     "title": "Afghan dry fruits and fresh fruits, shipped from Kandahar",
-    "text": "We export Kandahar’s pomegranates, grapes, raisins, dried figs and almonds, graded, packed and documented in Kandahar and delivered on schedule.",
+    "text": "We export Kandahar’s pomegranates, raisins, dried figs and almonds, graded, packed and documented in Kandahar and delivered on schedule.",
     "primaryButton": "Request a Quote",
     "secondaryButton": "Become a Partner",
     "trustPoints": [
@@ -148,7 +148,7 @@
       "src": "https://images.pexels.com/photos/25067701/pexels-photo-25067701.jpeg?auto=compress&cs=tinysrgb&w=1600",
       "alt": "Sacks of nuts and dried fruit at a bazaar"
     },
-    "cardTitle": "Total shipped since 2014"
+    "cardTitle": ""
   },
   "home": {
     "explore": {
@@ -159,7 +159,7 @@
       "cards": {
         "track-record": {
           "title": "",
-          "text": "Every ton shipped since 2014, year by year, product by product.",
+          "text": "Every ton shipped since 2025, year by year, product by product.",
           "stat": "",
           "image": {
             "src": "https://images.pexels.com/photos/15733306/pexels-photo-15733306.jpeg?auto=compress&cs=tinysrgb&w=900",
@@ -168,7 +168,7 @@
         },
         "products": {
           "title": "",
-          "text": "Pomegranates, grapes, raisins, dried figs, almonds and more.",
+          "text": "Pomegranates, raisins, dried figs, almonds and more.",
           "stat": "",
           "image": {
             "src": "https://images.pexels.com/photos/14650515/pexels-photo-14650515.jpeg?auto=compress&cs=tinysrgb&w=900",
@@ -356,12 +356,25 @@
     "title": "Shipped with Amanat Logistics",
     "text": "Our logistics partner Amanat Logistics carries our consignments from Kandahar to buyers abroad.",
     "example": true,
+    "show": {
+      "hero": true,
+      "home": true,
+      "shipping": true,
+      "about": true,
+      "footer": true
+    },
+    "band": {
+      "eyebrow": "Our logistics partner",
+      "title": "In partnership with Amanat Logistics",
+      "text": "Amanat Logistics moves our consignments from Kandahar to our buyers: road, air and sea freight, customs clearance and export papers, handled together from the warehouse to delivery.",
+      "button": "See what we shipped together"
+    },
     "items": [
       {
         "name": "Amanat Logistics",
         "role": "Freight & customs partner",
         "logo": {
-          "src": "",
+          "src": "/partners/amanat-logistics.png",
           "alt": "Amanat Logistics logo"
         },
         "text": "Road and air freight, customs clearance and export documents for our dry fruit and fresh fruit shipments.",
@@ -396,7 +409,7 @@
       {
         "icon": "air",
         "title": "Air cargo",
-        "text": "Fresh pomegranates and grapes flown from Kandahar and Kabul so they arrive in peak condition."
+        "text": "Fresh pomegranates flown from Kandahar and Kabul so they arrive in peak condition."
       },
       {
         "icon": "road",

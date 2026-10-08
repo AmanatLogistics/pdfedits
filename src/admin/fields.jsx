@@ -174,14 +174,14 @@ function PhotoStatus({ status }) {
 }
 
 // An image with alt text: { src, alt } (plus an optional credit for photos that need one).
-export function ImageInput({ label, help, value, onChange }) {
+export function ImageInput({ label, help, value, onChange, contain = false }) {
   const img = value && typeof value === 'object' ? value : { src: '', alt: '' }
   const up = useUpload((path, file) => onChange(newPhoto(img, { src: path, alt: img.alt || file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ') })))
   const [status, setStatus] = usePhotoStatus(img.src)
   return (
     <Field label={label} help={help}>
       <div className="img">
-        <div className="img__left"><Thumb src={img.src} empty="No photo" busy={up.busy} onStatus={setStatus} /></div>
+        <div className="img__left"><Thumb src={img.src} empty={contain ? 'No logo' : 'No photo'} busy={up.busy} contain={contain} onStatus={setStatus} /></div>
         <div className="img__side">
           <div className="img__buttons">
             <button type="button" className="b b--soft" onClick={up.pick} disabled={up.busy}><ImagePlus size={16} /> {img.src ? 'Upload a new photo' : 'Upload a photo'}</button>
@@ -317,7 +317,7 @@ export function FieldFor({ field, value, onChange }) {
     case 'toggle': return <Toggle {...common} />
     case 'select': return <Select {...common} options={field.options} />
     case 'color': return <ColorInput {...common} />
-    case 'image': return <ImageInput {...common} />
+    case 'image': return <ImageInput {...common} contain={field.contain} />
     case 'imageSrc': return <ImageSrcInput {...common} />
     case 'stringList': return <StringList {...common} addLabel={field.addLabel} />
     case 'list': return <ListInput field={field} value={value} onChange={onChange} />

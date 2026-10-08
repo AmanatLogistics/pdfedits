@@ -2,7 +2,7 @@ import { useMemo, useState } from 'preact/hooks'
 import { ArrowUpRight, CalendarBlank, Package } from '../ph.jsx'
 import SectionHead from '../SectionHead.jsx'
 import Photo from '../Photo.jsx'
-import { fmtNum, unitOf } from '../trade.js'
+import { fmtNum, unitFor, unitOf } from '../trade.js'
 import { label } from '../labels.js'
 
 export default function Products({ content, trade, tone, onAsk, more }) {
@@ -14,7 +14,7 @@ export default function Products({ content, trade, tone, onAsk, more }) {
   const amount = (name) => {
     const t = traded[name]
     if (!t?.tonnes) return null
-    return `${fmtNum(t.tonnes)} ${unit} ${label(content, t.imported > t.exported ? 'imported' : 'shipped')}`
+    return `${fmtNum(t.tonnes)} ${unitFor(t.tonnes, unit)} ${label(content, t.imported > t.exported ? 'imported' : 'shipped')}`
   }
   const [filter, setFilter] = useState('')
   const items = filter ? products.items.filter((p) => p.tag === filter) : products.items

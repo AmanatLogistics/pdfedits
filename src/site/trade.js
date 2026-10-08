@@ -69,6 +69,9 @@ export function tradeSummary(content) {
 // The unit every figure is shown in, e.g. "Tons".
 export const unitOf = (content) => content.record?.unit || 'Tons'
 
+// "1 Ton" rather than "1 Tons".
+export const unitFor = (n, unit) => (Math.round(num(n)) === 1 && /[a-z]s$/i.test(unit || '') ? unit.slice(0, -1) : unit)
+
 export const yearsSince = (since) => Math.max(1, new Date().getFullYear() - Number(since || 0))
 
 export const fmtNum = (n) => Math.round(num(n)).toLocaleString('en-US')

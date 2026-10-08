@@ -21,6 +21,8 @@ export default [
       ...reactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
+      // The website uses plain Preact, which sets SVG attributes exactly as written.
+      'react/no-unknown-property': ['error', { ignore: ['font-size', 'text-anchor', 'stroke-width', 'stroke-opacity', 'vector-effect'] }],
     },
   },
   {

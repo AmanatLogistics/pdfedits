@@ -9,7 +9,7 @@ export function normalizeImageLink(input) {
   let text = String(input || '').trim().replace(/^["'<(]+|[">)']+$/g, '')
   if (!text) return { src: '' }
   if (/^data:/i.test(text)) return { error: 'This is a copied picture, not a link. Save it to your computer and use Upload instead.' }
-  if (/^\/uploads\//.test(text)) return { src: text }
+  if (/^\/(?!\/)/.test(text)) return { src: text } // a file on this website, e.g. /uploads/photo.jpg
   if (/^\/\//.test(text)) text = `https:${text}`
   if (!/^[a-z]+:\/\//i.test(text)) text = `https://${text}`
 
@@ -42,6 +42,11 @@ export function normalizeImageLink(input) {
     return { src: `https://unsplash.com/photos/${unsplash[1]}/download?force=true&w=1600`, note: 'Unsplash page link converted to the photo. If it does not show, use “Copy image address” on the photo instead.' }
   }
   if (host === 'unsplash.com' || host === 'pexels.com') return { error: `This is a link to a page, not to one photo. ${PAGE_HELP}` }
+
+  // Google's own small preview of a search result: it works, but looks blurry when shown large.
+  if (/^encrypted-tbn\d*\.gstatic\.com$/.test(host)) {
+    return { src: url.toString(), note: 'This is Google’s small preview, so it will look blurry. For a sharp photo, click the picture in Google Images, wait for the large version, then right-click it and choose “Copy image address”.' }
+  }
 
   return { src: url.toString(), note }
 }

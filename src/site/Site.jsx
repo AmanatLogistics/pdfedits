@@ -18,6 +18,8 @@ import Testimonials from './sections/Testimonials.jsx'
 import Faq from './sections/Faq.jsx'
 import Contact from './sections/Contact.jsx'
 import CtaBand from './sections/CtaBand.jsx'
+import PartnerBand from './sections/PartnerBand.jsx'
+import { showPartnerIn } from './sections/Partners.jsx'
 import Explore from './home/Explore.jsx'
 import Reasons from './home/Reasons.jsx'
 import Steps from './home/Steps.jsx'
@@ -63,9 +65,12 @@ export default function Site({ content, page = 'home', moved = false }) {
   const sections = useMemo(() => (current
     ? content.sections.filter((s) => s.visible && SECTIONS[s.id] && current.sections.includes(s.id) && hasContent(s.id, content, trade))
     : []), [content, trade, current])
+  // The partnership band follows the page's own sections on the pages chosen in the admin panel.
+  const band = !!current && ['shipping', 'about'].includes(current.id) && showPartnerIn(content, current.id)
   const tones = useMemo(() => {
     let light = 0
-    return sections.map((s) => (DARK.has(s.id) ? 'dark' : light++ % 2 === 0 ? 'white' : 'gray'))
+    const list = sections.map((s) => (DARK.has(s.id) ? 'dark' : light++ % 2 === 0 ? 'white' : 'gray'))
+    return [...list, light % 2 === 0 ? 'white' : 'gray']
   }, [sections])
   const hasContact = sections.some((s) => s.id === 'contact')
   const contactPath = pages.find((p) => p.id === 'contact')?.path
@@ -105,12 +110,14 @@ export default function Site({ content, page = 'home', moved = false }) {
                   onPartner={() => goToContact({ partnership: true })} />
               )
             })}
+            {band && <PartnerBand content={content} tone={tones[sections.length]} />}
           </>
         ) : (
           <>
             <Hero content={content} trade={trade} contactHref={contactPath} onPartner={() => goToContact({ partnership: true })}
-              next={home.explore?.visible !== false ? 'explore' : home.reasons?.visible !== false ? 'why' : home.steps?.visible !== false ? 'how' : 'cta'} />
+              next={home.explore?.visible !== false ? 'explore' : showPartnerIn(content, 'home') ? 'partnership' : home.reasons?.visible !== false ? 'why' : home.steps?.visible !== false ? 'how' : 'cta'} />
             {home.explore?.visible !== false && <Explore content={content} trade={trade} pages={pages} />}
+            {showPartnerIn(content, 'home') && <PartnerBand content={content} tone={home.explore?.visible !== false ? 'gray' : 'white'} />}
             {home.reasons?.visible !== false && <Reasons content={content} />}
             {home.steps?.visible !== false && <Steps content={content} contactHref={contactPath} />}
           </>

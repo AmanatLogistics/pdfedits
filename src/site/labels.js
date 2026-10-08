@@ -36,9 +36,11 @@ export const LABEL_GROUPS = [
   {
     title: 'Partners',
     items: {
+      partnerWith: ['Logistics partner', 'Before the partner’s name in the top banner and the footer'],
       partnerTotal: ['Shipped together', 'First figure on a partner, the total of all its figures'],
       partnerSince: ['Partners since', 'Before the year on a partner'],
       partnerVisit: ['Visit website', 'Link to a partner’s website'],
+      partnerExampleShort: ['Example figures, to be replaced with the real amounts.', 'Small note under the partner figures on the home page while they are marked as examples'],
       partnerSampleNote: ['These are example figures. Replace them with your real shipments in the admin panel under Partners.', 'Shown while the partner figures are marked as examples'],
     },
   },

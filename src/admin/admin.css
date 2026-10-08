@@ -58,8 +58,8 @@ code { padding: 1px 6px; border-radius: 5px; background: #f1ece5; font-size: 13p
 .color { display: flex; gap: 8px; }
 .color input[type='color'] { width: 44px; height: 40px; padding: 3px; border: 1px solid #d9d2c8; border-radius: 8px; background: #fff; cursor: pointer; }
 
-.toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; font-weight: 600; color: var(--a-ink); }
-.toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.toggle { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; font-weight: 600; color: var(--a-ink); }
+.toggle input { position: absolute; top: 0; left: 0; margin: 0; opacity: 0; width: 1px; height: 1px; }
 .toggle__track { position: relative; width: 38px; height: 22px; flex: none; border-radius: 999px; background: #d6cfc5; transition: background .2s; }
 .toggle__track span { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .2); transition: transform .2s; }
 .toggle input:checked + .toggle__track { background: var(--a-ok); }
