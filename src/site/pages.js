@@ -3,7 +3,7 @@
 // for each page come from `content.pages`.
 
 export const PAGES = [
-  { id: 'track-record', path: '/track-record', sections: ['record', 'partners', 'shipments'] },
+  { id: 'track-record', path: '/track-record', sections: ['record', 'shipments'] },
   { id: 'products', path: '/products', sections: ['products', 'gallery'] },
   { id: 'shipping', path: '/shipping', sections: ['destinations'] },
   { id: 'about', path: '/about', sections: ['about', 'certifications', 'testimonials', 'faq'] },

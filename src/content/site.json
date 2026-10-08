@@ -36,11 +36,6 @@
       "visible": true
     },
     {
-      "id": "partners",
-      "label": "Partners",
-      "visible": true
-    },
-    {
       "id": "shipments",
       "label": "Shipments",
       "visible": true
@@ -727,10 +722,8 @@
     "count": 6
   },
   "partners": {
-    "eyebrow": "Our logistics partner",
-    "title": "Shipped together with Amanat Logistics",
-    "text": "Amanat Logistics moves our consignments from Kandahar to buyers abroad. Here is what we have shipped together so far.",
-    "onHome": true,
+    "title": "Shipped with Amanat Logistics",
+    "text": "Our logistics partner Amanat Logistics carries our consignments from Kandahar to buyers abroad.",
     "example": true,
     "items": [
       {

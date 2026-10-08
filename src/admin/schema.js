@@ -1,5 +1,5 @@
 import {
-  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Handshake, Hash, House, Image, Images, LayoutDashboard, Mail, Megaphone,
+  Building2, CircleHelp, Database, FileSpreadsheet, Files, Globe2, Hash, House, Image, Images, LayoutDashboard, Mail, Megaphone,
   MessageSquareQuote, Palette, PanelBottom, PanelTop, Search, ShieldCheck, Sparkles, Truck, Type,
 } from 'lucide-react'
 import { FONT_OPTIONS } from '../site/theme.js'
@@ -134,26 +134,10 @@ export const PAGES = [
       { path: 'statLabels.orders', type: 'text', label: 'Name for orders' },
       { path: 'statLabels.years', type: 'text', label: 'Name for years in trade' },
       { path: 'statLabels.countries', type: 'text', label: 'Name for countries' },
-    ],
-  },
-  {
-    id: 'shipments', group: 'Website sections', title: 'Recent shipments', icon: Truck, preview: 'shipments',
-    intro: 'Shows your newest trade records that have a month (for example 2026-09). Add them in Trade records.',
-    fields: [
-      show('shipments'),
-      ...heading('shipments'),
-      { path: 'shipments.count', type: 'number', label: 'How many to show on the home page' },
-      { path: 'shipments.pageCount', type: 'number', label: 'How many to show on the Track Record page' },
-    ],
-  },
-  {
-    id: 'partners', group: 'Website sections', title: 'Partners', icon: Handshake, preview: 'partners',
-    intro: 'Companies you work with, such as your logistics partner, and how much you have shipped together. Shown on the Track Record page, and on the home page if you switch that on.',
-    fields: [
-      show('partners'),
-      { path: 'partners.onHome', type: 'toggle', label: 'Also show on the home page' },
-      { path: 'partners.example', type: 'toggle', label: 'These are example figures', help: 'Shows a small “example figures” note on the website. Switch it off once the figures are real.' },
-      ...heading('partners'),
+      { type: 'heading', label: 'Partners', help: 'Companies you ship with, such as Amanat Logistics, and how much you have shipped together. Shown under the trade figures.' },
+      { path: 'partners.title', type: 'text', label: 'Partners title' },
+      { path: 'partners.text', type: 'textarea', label: 'Partners text', rows: 2 },
+      { path: 'partners.example', type: 'toggle', label: 'The partner figures are examples', help: 'Shows a small “example figures” note. Switch it off once the figures are real.' },
       {
         path: 'partners.items', type: 'list', label: 'Partners', itemLabel: 'Partner', titleKey: 'name',
         newItem: { name: 'New partner', role: '', logo: { src: '', alt: '' }, text: '', since: '', link: '', stats: [] },
@@ -175,6 +159,16 @@ export const PAGES = [
           },
         ],
       },
+    ],
+  },
+  {
+    id: 'shipments', group: 'Website sections', title: 'Recent shipments', icon: Truck, preview: 'shipments',
+    intro: 'Shows your newest trade records that have a month (for example 2026-09). Add them in Trade records.',
+    fields: [
+      show('shipments'),
+      ...heading('shipments'),
+      { path: 'shipments.count', type: 'number', label: 'How many to show on the home page' },
+      { path: 'shipments.pageCount', type: 'number', label: 'How many to show on the Track Record page' },
     ],
   },
   {

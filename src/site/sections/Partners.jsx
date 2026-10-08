@@ -1,23 +1,26 @@
 import { ArrowUpRight, Handshake, Info } from '../ph.jsx'
-import SectionHead from '../SectionHead.jsx'
 import { useCountUp } from '../hooks.js'
+import Photo from '../Photo.jsx'
 import { fmtNum } from '../trade.js'
 import { label } from '../labels.js'
 
 const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0)
 
-function Stat({ value, unit, name, main, i }) {
+function Stat({ value, unit, name, thumb, main, i }) {
   const [ref, shown] = useCountUp(value)
   return (
     <li className={`pstat reveal ${main ? 'pstat--main' : ''}`} style={{ '--i': i }} ref={ref}>
-      <strong className="pstat__value" suppressHydrationWarning>{fmtNum(shown)}{unit && <small> {unit}</small>}</strong>
-      <span className="pstat__label">{name}</span>
+      {thumb && <Photo image={{ src: thumb, alt: '' }} className="pstat__thumb" plain width="52" height="52" />}
+      <span className="pstat__body">
+        <strong className="pstat__value" suppressHydrationWarning>{fmtNum(shown)}{unit && <small> {unit}</small>}</strong>
+        <span className="pstat__label">{name}</span>
+      </span>
     </li>
   )
 }
 
 // One partner: who they are, and what was shipped together.
-function Partner({ content, p }) {
+function Partner({ content, p, thumbs }) {
   const stats = (p.stats || []).filter((s) => s.label && num(s.value) > 0)
   // When every figure uses the same unit, lead with the combined total.
   const units = new Set(stats.map((s) => String(s.unit || '').trim().toLowerCase()))
@@ -43,26 +46,28 @@ function Partner({ content, p }) {
       {stats.length > 0 && (
         <ul className={`pstats ${total ? 'pstats--total' : ''}`}>
           {total > 0 && <Stat main value={total} unit={stats[0].unit} name={label(content, 'partnerTotal')} i={0} />}
-          {stats.map((s, i) => <Stat key={i} value={num(s.value)} unit={s.unit} name={s.label} i={i + 1} />)}
+          {stats.map((s, i) => <Stat key={i} value={num(s.value)} unit={s.unit} name={s.label} thumb={thumbs?.[s.label]} i={i + 1} />)}
         </ul>
       )}
     </article>
   )
 }
 
-export default function Partners({ content, tone }) {
+// Partners and the amounts shipped with them, shown inside the track record.
+export default function Partners({ content, thumbs }) {
   const c = content.partners || {}
   const items = (c.items || []).filter((p) => p.name)
   if (!items.length) return null
   return (
-    <section className={`section section--${tone}`} id="partners">
-      <div className="container">
-        <SectionHead eyebrow={c.eyebrow} title={c.title} text={c.text} align="split" />
-        {c.example && <p className="sample-note"><Info size={18} weight="duotone" /> {label(content, 'partnerSampleNote')}</p>}
-        <div className="partners">
-          {items.map((p, i) => <Partner key={i} content={content} p={p} />)}
+    <div className="partners">
+      {(c.title || c.text) && (
+        <div className="partners__head reveal">
+          {c.title && <h3>{c.title}</h3>}
+          {c.text && <p>{c.text}</p>}
         </div>
-      </div>
-    </section>
+      )}
+      {c.example && !content.sampleData && <p className="sample-note"><Info size={18} weight="duotone" /> {label(content, 'partnerSampleNote')}</p>}
+      {items.map((p, i) => <Partner key={i} content={content} p={p} thumbs={thumbs} />)}
+    </div>
   )
 }

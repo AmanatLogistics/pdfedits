@@ -14,7 +14,6 @@ import Gallery from './sections/Gallery.jsx'
 import Destinations from './sections/Destinations.jsx'
 import About from './sections/About.jsx'
 import Certifications from './sections/Certifications.jsx'
-import Partners from './sections/Partners.jsx'
 import Testimonials from './sections/Testimonials.jsx'
 import Faq from './sections/Faq.jsx'
 import Contact from './sections/Contact.jsx'
@@ -27,7 +26,7 @@ import WhatsAppButton from './sections/WhatsAppButton.jsx'
 import ToTop from './sections/ToTop.jsx'
 
 const SECTIONS = {
-  record: Record, partners: Partners, shipments: Shipments, products: Products, gallery: Gallery, destinations: Destinations, about: About,
+  record: Record, shipments: Shipments, products: Products, gallery: Gallery, destinations: Destinations, about: About,
   certifications: Certifications, testimonials: Testimonials, faq: Faq, contact: Contact,
 }
 // Sections with their own dark background; the rest alternate white and grey.
@@ -41,7 +40,6 @@ function hasContent(id, c, trade) {
   if (id === 'destinations') return trade.byCountry.length > 0 || c.destinations?.routes?.length > 0
   if (id === 'products') return c.products?.items?.length > 0
   if (id === 'gallery') return c.gallery?.items?.some((g) => g.image?.src)
-  if (id === 'partners') return c.partners?.items?.some((p) => p.name)
   if (id === 'certifications') return c.certifications?.items?.length > 0
   if (id === 'testimonials') return c.testimonials?.items?.length > 0
   if (id === 'faq') return c.faq?.items?.length > 0
@@ -113,7 +111,6 @@ export default function Site({ content, page = 'home', moved = false }) {
             <Hero content={content} trade={trade} contactHref={contactPath} onPartner={() => goToContact({ partnership: true })}
               next={home.explore?.visible !== false ? 'explore' : home.reasons?.visible !== false ? 'why' : home.steps?.visible !== false ? 'how' : 'cta'} />
             {home.explore?.visible !== false && <Explore content={content} trade={trade} pages={pages} />}
-            {content.partners?.onHome && content.sections.some((s) => s.id === 'partners' && s.visible) && <Partners content={content} tone="gray" />}
             {home.reasons?.visible !== false && <Reasons content={content} />}
             {home.steps?.visible !== false && <Steps content={content} contactHref={contactPath} />}
           </>
