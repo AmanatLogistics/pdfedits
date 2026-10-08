@@ -355,7 +355,7 @@
   "partners": {
     "title": "Shipped with Amanat Logistics",
     "text": "Our logistics partner Amanat Logistics carries our consignments from Kandahar to buyers abroad.",
-    "example": false,
+    "example": true,
     "items": [
       {
         "name": "Amanat Logistics",
