@@ -28,7 +28,7 @@
     "hours": "Sat – Thu, 8:00 am – 6:00 pm (AFT)",
     "mapEmbedUrl": ""
   },
-  "sampleData": true,
+  "sampleData": false,
   "sections": [
     {
       "id": "record",
