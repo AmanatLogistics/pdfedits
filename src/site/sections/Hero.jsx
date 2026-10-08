@@ -26,10 +26,13 @@ function Big({ value }) {
 
 export default function Hero({ content, trade, contactHref = '#contact', onPartner, next }) {
   const { hero, statLabels: L, company } = content
-  // The trend line covers full years only, so the label does too.
+  // The trend line covers full years only, so the label does too. With fewer
+  // than two full years it follows the newest year month by month.
   const full = trade.byYear.filter((y) => !y.partial)
-  const first = full[0]?.year
-  const last = full[full.length - 1]?.year
+  const months = full.length < 2 && trade.byMonth.length > 1 ? trade.byMonth : null
+  const trend = months || full
+  const first = months ? months[0].name : full[0]?.year
+  const last = months ? `${months[months.length - 1].name} ${months[0].year}` : full[full.length - 1]?.year
   const unit = unitOf(content)
   const many = trade.countries > 1
   // Without imports, "exported" would only repeat the total above it.
@@ -56,8 +59,7 @@ export default function Hero({ content, trade, contactHref = '#contact', onPartn
           {partner && (
             <a className="hero__partner" href="/track-record#partners">
               {partner.logo?.src && <img src={partner.logo.src} alt="" />}
-              <span>{label(content, 'partnerWith')}</span>
-              <strong>{partner.name}</strong>
+              <span className="hero__partner-text"><small>{label(content, 'partnerWith')}</small><strong>{partner.name}</strong></span>
               <ArrowRight size={15} weight="bold" />
             </a>
           )}
@@ -66,8 +68,8 @@ export default function Hero({ content, trade, contactHref = '#contact', onPartn
           <aside className="hero-card" aria-label="Trade record summary">
             <p className="hero-card__label">{hero.cardTitle || `Total shipped since ${company.since}`}</p>
             <div className="hero-card__total"><Big value={trade.shipped} /><span>{unit}</span></div>
-            <Sparkline years={full} />
-            {first && <p className="hero-card__range">{first === last ? first : `${first} – ${last}`}{trade.growth && trade.growth.pct > 0 && <span><TrendUp size={15} weight="bold" /> +{trade.growth.pct}% in {trade.growth.to}</span>}</p>}
+            <Sparkline years={trend} />
+            {first && <p className="hero-card__range">{first === last ? first : `${first} – ${last}`}{!months && trade.growth && trade.growth.pct > 0 && <span><TrendUp size={15} weight="bold" /> +{trade.growth.pct}% in {trade.growth.to}</span>}</p>}
             <dl className="hero-card__stats">
               {trade.imported > 0 ? (
                 <>

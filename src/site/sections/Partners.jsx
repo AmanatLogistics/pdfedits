@@ -27,10 +27,10 @@ export function PartnerLogo({ p, className = 'partner__logo', iconClass = 'partn
     : <span className={iconClass}><Handshake size={size} weight="duotone" /></span>
 }
 
-function Stat({ value, unit, name, thumb, main, i }) {
+function Stat({ value, unit, name, thumb, main, wide, i }) {
   const [ref, shown] = useCountUp(value)
   return (
-    <li className={`pstat reveal ${main ? 'pstat--main' : ''}`} style={{ '--i': i }} ref={ref}>
+    <li className={`pstat reveal ${main ? 'pstat--main' : ''} ${wide ? 'pstat--wide' : ''}`} style={{ '--i': i }} ref={ref}>
       {thumb && <Photo image={{ src: thumb, alt: '' }} className="pstat__thumb" plain width="52" height="52" />}
       <span className="pstat__body">
         <strong className="pstat__value" suppressHydrationWarning>{fmtNum(shown)}{unit && <small> {unitFor(value, unit)}</small>}</strong>
@@ -63,7 +63,8 @@ function Partner({ content, p, thumbs }) {
       {stats.length > 0 && (
         <ul className={`pstats ${total ? 'pstats--total' : ''}`}>
           {total > 0 && <Stat main value={total} unit={stats[0].unit} name={label(content, 'partnerTotal')} i={0} />}
-          {stats.map((s, i) => <Stat key={i} value={num(s.value)} unit={s.unit} name={s.label} thumb={thumbs?.[s.label]} i={i + 1} />)}
+          {/* An odd figure out at the end spans the row instead of leaving a gap. */}
+          {stats.map((s, i) => <Stat key={i} value={num(s.value)} unit={s.unit} name={s.label} thumb={thumbs?.[s.label]} wide={i === stats.length - 1 && i % 2 === 0} i={i + 1} />)}
         </ul>
       )}
     </article>

@@ -115,6 +115,23 @@ test('trade figures are worked out from the records', async () => {
   assert.deepEqual(t.byTransport.map((g) => [g.name, g.tonnes]), [['road', 1470]])
 })
 
+test('the newest year is also worked out month by month', async () => {
+  const { tradeSummary } = await import('../src/site/trade.js')
+  const t = tradeSummary({
+    records: [
+      { date: '2026-03', product: 'Figs', country: 'India', direction: 'export', tonnes: 60, orders: 5 },
+      { date: '2026-03', product: 'Raisins', country: 'India', direction: 'export', tonnes: 5, orders: 1 },
+      { date: '2026-08', product: 'Figs', country: 'India', direction: 'import', tonnes: 20, orders: 1 },
+      { date: '2025', product: 'Figs', country: 'India', direction: 'export', tonnes: 900, orders: 9 },
+    ],
+  })
+  assert.equal(t.byMonth.length, 8)
+  assert.deepEqual(t.byMonth.map((m) => m.name), ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'])
+  assert.deepEqual([t.byMonth[2].exported, t.byMonth[7].imported, t.byMonth[0].exported], [65, 20, 0])
+  // Yearly totals only, no months: no monthly figures.
+  assert.equal(tradeSummary({ records: [{ date: '2025', product: 'Figs', country: 'India', tonnes: 5 }] }).byMonth.length, 0)
+})
+
 test('one ton is written in the singular', async () => {
   const { unitFor } = await import('../src/site/trade.js')
   assert.equal(unitFor(1, 'Tons'), 'Ton')

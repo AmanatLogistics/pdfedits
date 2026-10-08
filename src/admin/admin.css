@@ -54,17 +54,18 @@ code { padding: 1px 6px; border-radius: 5px; background: #f1ece5; font-size: 13p
 .input:focus { outline: none; border-color: var(--a-accent); box-shadow: 0 0 0 3px rgba(201, 150, 43, .2); }
 .input.is-invalid { border-color: var(--a-err); }
 .input--area { height: auto; min-height: 76px; padding: 9px 12px; line-height: 1.5; resize: vertical; }
+/* Where supported, text boxes grow with their text so nothing is hidden. */
+@supports (field-sizing: content) { .input--area { field-sizing: content; max-height: 480px; } }
 .input--sm { height: 34px; font-size: 13.5px; }
 .color { display: flex; gap: 8px; }
 .color input[type='color'] { width: 44px; height: 40px; padding: 3px; border: 1px solid #d9d2c8; border-radius: 8px; background: #fff; cursor: pointer; }
 
-.toggle { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; font-weight: 600; color: var(--a-ink); }
-.toggle input { position: absolute; top: 0; left: 0; margin: 0; opacity: 0; width: 1px; height: 1px; }
-.toggle__track { position: relative; width: 38px; height: 22px; flex: none; border-radius: 999px; background: #d6cfc5; transition: background .2s; }
-.toggle__track span { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .2); transition: transform .2s; }
-.toggle input:checked + .toggle__track { background: var(--a-ok); }
-.toggle input:checked + .toggle__track span { transform: translateX(16px); }
-.toggle input:focus-visible + .toggle__track { outline: 2px solid var(--a-accent); outline-offset: 2px; }
+.toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; font-weight: 600; color: var(--a-ink); }
+.toggle__switch { appearance: none; -webkit-appearance: none; width: 38px; height: 22px; flex: none; margin: 0; border-radius: 999px; cursor: pointer;
+  background: radial-gradient(circle, #fff 7.5px, rgba(255, 255, 255, 0) 8.5px) 0 0 / 22px 22px no-repeat, #d6cfc5; transition: background-position .2s, background-color .2s; }
+.toggle__switch:checked { background-color: var(--a-ok); background-position: 16px 0; }
+.toggle__switch:focus { outline: none; }
+.toggle__switch:focus-visible { outline: 2px solid var(--a-accent); outline-offset: 2px; }
 
 .img { display: grid; grid-template-columns: 132px 1fr; gap: 14px; align-items: start; padding: 12px; border: 1px solid var(--a-line); border-radius: var(--a-radius); background: #fff; }
 .img--small { grid-template-columns: 84px 1fr; }
@@ -111,7 +112,8 @@ code { padding: 1px 6px; border-radius: 5px; background: #f1ece5; font-size: 13p
 .setup p { margin: 6px 0; }
 
 /* Layout */
-.admin { display: grid; overflow: hidden; grid-template-columns: 236px minmax(0, 1fr); grid-template-rows: var(--a-top) auto minmax(0, 1fr); grid-template-areas: 'top top' 'notice notice' 'side main'; height: 100vh; }
+/* The admin fills the window and only its own panels scroll, so nothing can push the whole screen up. */
+.admin { position: fixed; inset: 0; display: grid; overflow: hidden; overflow: clip; grid-template-columns: 236px minmax(0, 1fr); grid-template-rows: var(--a-top) auto minmax(0, 1fr); grid-template-areas: 'top top' 'notice notice' 'side main'; }
 .admin.with-preview { grid-template-columns: 236px minmax(420px, 560px) minmax(0, 1fr); grid-template-areas: 'top top top' 'notice notice notice' 'side main preview'; }
 .topbar-a { grid-area: top; display: flex; align-items: center; gap: 14px; padding: 0 16px; background: #fff; border-bottom: 1px solid var(--a-line); z-index: 5; }
 .topbar-a__brand { display: flex; align-items: center; gap: 10px; }
@@ -195,11 +197,17 @@ code { padding: 1px 6px; border-radius: 5px; background: #f1ece5; font-size: 13p
   .topbar-a__menu { display: inline-grid; }
   .topbar-a { gap: 8px; padding: 0 10px; }
   .topbar-a__brand strong, .pill, .hide-sm { display: none; }
-  .side { position: fixed; top: var(--a-top); left: 0; bottom: 0; width: 260px; z-index: 30; transform: translateX(-100%); transition: transform .25s; box-shadow: 10px 0 30px -10px rgba(0, 0, 0, .3); }
-  .side.is-open { transform: none; }
+  .side { position: fixed; top: var(--a-top); left: 0; bottom: 0; width: min(280px, 86vw); z-index: 30; transform: translateX(-100%); visibility: hidden; transition: transform .25s, visibility .25s; }
+  .side.is-open { transform: none; visibility: visible; box-shadow: 10px 0 30px -10px rgba(0, 0, 0, .3); }
+  .topbar-a__actions { gap: 2px; }
+  .topbar-a .b--ghost { padding: 0 9px; }
+  /* No room for the status label: a dot on Publish shows unpublished changes. */
+  .b--dirty { position: relative; }
+  .b--dirty::after { content: ''; position: absolute; top: -3px; right: -3px; width: 10px; height: 10px; border-radius: 50%; background: #e0a526; border: 2px solid #fff; }
   .editor { padding: 20px 16px 60px; }
   .img { grid-template-columns: 96px 1fr; }
 }
+@media (max-width: 380px) { .topbar-a__brand { display: none; } }
 
 /* ---------- Dashboard ---------- */
 .callout { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: var(--a-radius); font-size: 14.5px; }
@@ -232,7 +240,7 @@ code { padding: 1px 6px; border-radius: 5px; background: #f1ece5; font-size: 13p
 /* ---------- Trade records ---------- */
 .records { display: grid; gap: 14px; container-type: inline-size; }
 .totals { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-.totals strong { font-size: 17px; }
+.totals strong { font-size: 17px; white-space: nowrap; }
 .records__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .records__search { position: relative; flex: 1 1 180px; }
 .records__search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--a-muted); }
@@ -270,6 +278,10 @@ code { padding: 1px 6px; border-radius: 5px; background: #f1ece5; font-size: 13p
   .rc--orders { grid-column: 3 / span 2; }
   .rc--transport { grid-column: 5 / span 3; }
   .totals { grid-template-columns: repeat(3, 1fr); }
+}
+@container (max-width: 420px) {
+  .totals { grid-template-columns: 1fr 1fr; }
+  .totals > :first-child { grid-column: 1 / -1; }
 }
 .history { padding: 16px; border-radius: var(--a-radius); background: #fff; border: 1px solid var(--a-line); }
 .history h3 { font-size: 15px; margin-bottom: 4px; }

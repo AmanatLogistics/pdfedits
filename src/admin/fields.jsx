@@ -54,9 +54,10 @@ export function Toggle({ label, help, value, onChange }) {
   const id = useId()
   return (
     <div className="f f--toggle">
+      {/* The checkbox itself is drawn as the switch: nothing hidden that the
+          browser could scroll to when it gets focus. */}
       <label className="toggle" htmlFor={id}>
-        <input id={id} type="checkbox" checked={!!value} onChange={(e) => onChange(e.target.checked)} />
-        <span className="toggle__track" aria-hidden="true"><span /></span>
+        <input id={id} className="toggle__switch" type="checkbox" role="switch" checked={!!value} onChange={(e) => onChange(e.target.checked)} />
         <span className="toggle__label">{label}</span>
       </label>
       {help && <p className="f__help">{help}</p>}
