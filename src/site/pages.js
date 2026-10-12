@@ -1,3 +1,5 @@
+import { pageSeo } from './seo.js'
+
 // The website's pages. The home page shows every section; each other page
 // shows a group of them under its own banner. Texts, photos and menu names
 // for each page come from `content.pages`.
@@ -25,8 +27,4 @@ export function pageForPath(pathname) {
 export const pageOfSection = (sectionId) => PAGES.find((p) => p.sections.includes(sectionId))
 
 // The browser-tab title for a page (the same as the prerendered pages use).
-export function titleFor(content, pageId) {
-  const p = content.pages?.[pageId]
-  if (pageId === 'home' || !p) return content.meta?.title || content.company?.name || ''
-  return `${p.title || p.label} | ${content.company?.name || ''}`
-}
+export const titleFor = (content, pageId) => pageSeo(content, pageId).title

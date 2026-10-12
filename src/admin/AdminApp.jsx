@@ -6,6 +6,7 @@ import {
 import { PAGES } from './schema.js'
 import { PAGES as SITE_PAGES, PAGE_NAMES, pageOfSection } from '../site/pages.js'
 import { LABEL_GROUPS } from '../site/labels.js'
+import { pageSeo } from '../site/seo.js'
 import { Emblem } from '../site/Logo.jsx'
 import Dashboard from './Dashboard.jsx'
 import RecordsEditor from './RecordsEditor.jsx'
@@ -197,14 +198,20 @@ function BackupEditor({ content, setContent }) {
 
 function SeoPreview({ content }) {
   const url = (content.meta?.siteUrl || 'https://www.yourwebsite.com').replace(/^https?:\/\//, '').replace(/\/$/, '')
+  const rows = [['home', ''], ...SITE_PAGES.map((p) => [p.id, p.path])]
   return (
     <div className="serp">
-      <p className="serp__label">Google preview</p>
-      <div className="serp__box">
-        <span className="serp__url">{url}</span>
-        <span className="serp__title">{content.meta?.title || content.company?.name}</span>
-        <span className="serp__desc">{content.meta?.description}</span>
-      </div>
+      <p className="serp__label">How the pages look in Google</p>
+      {rows.map(([id, path]) => {
+        const seo = pageSeo(content, id)
+        return (
+          <div className="serp__box" key={id}>
+            <span className="serp__url">{url}{path && ` › ${path.slice(1)}`}</span>
+            <span className="serp__title">{seo.title.length > 62 ? `${seo.title.slice(0, 60)}…` : seo.title}</span>
+            <span className="serp__desc">{seo.description.length > 162 ? `${seo.description.slice(0, 160)}…` : seo.description}</span>
+          </div>
+        )
+      })}
     </div>
   )
 }

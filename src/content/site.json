@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Faiz Fayez LTD | Afghan Dry Fruits & Fresh Fruits, Kandahar",
-    "description": "Faiz Fayez LTD exports Kandahar pomegranates, raisins, dried figs, almonds and apricots, with every consignment on the record. See the tons we have shipped and request a quote.",
+    "title": "Afghan Dry Fruits & Dried Figs Exporter | Faiz Fayez LTD",
+    "description": "Faiz Fayez LTD exports Afghan dry fruits from Kandahar: dried figs, raisins, almonds, pistachios, dried apricots and pomegranates. Wholesale, graded, on time.",
     "siteUrl": "",
     "shareImage": ""
   },
@@ -90,17 +90,21 @@
       "image": {
         "src": "https://images.pexels.com/photos/15733306/pexels-photo-15733306.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "alt": "A truck loaded with sacks"
-      }
+      },
+      "seoTitle": "Dry Fruit Export Record: Tons Shipped | Faiz Fayez LTD",
+      "seoDescription": "Every ton of Afghan dry fruits and fresh fruit Faiz Fayez LTD has shipped from Kandahar: yearly volumes, products and the latest consignments."
     },
     "products": {
       "label": "Products",
       "inNav": true,
-      "title": "Our products",
+      "title": "Afghan dry fruits & dried figs",
       "text": "Afghan dry fruits all year round and fresh fruit in season, sorted and graded in Kandahar.",
       "image": {
         "src": "https://images.pexels.com/photos/5332498/pexels-photo-5332498.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "alt": "Dried fruits on trays at a market stall"
-      }
+      },
+      "seoTitle": "Dried Figs, Raisins, Almonds & Afghan Dry Fruits Wholesale",
+      "seoDescription": "Wholesale Afghan dry fruits from Kandahar: dried figs, raisins, almonds, pistachios and dried apricots, plus fresh pomegranates. Graded, packed, export ready."
     },
     "shipping": {
       "label": "Shipping",
@@ -110,7 +114,9 @@
       "image": {
         "src": "https://images.pexels.com/photos/17358983/pexels-photo-17358983.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "alt": "Bags of cargo loaded on a truck"
-      }
+      },
+      "seoTitle": "Dry Fruit Shipping from Afghanistan by Air, Road & Sea",
+      "seoDescription": "How Faiz Fayez LTD ships dried figs, raisins, almonds and other Afghan dry fruits from Kandahar by air, road and sea, with customs and export papers handled."
     },
     "about": {
       "label": "About",
@@ -120,7 +126,9 @@
       "image": {
         "src": "https://images.pexels.com/photos/18523341/pexels-photo-18523341.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "alt": "Fresh red pomegranates piled at a market"
-      }
+      },
+      "seoTitle": "About Faiz Fayez LTD: Afghan Dry Fruit Traders in Kandahar",
+      "seoDescription": "Faiz Fayez LTD buys dry fruits from growers across southern Afghanistan and exports graded, checked dried figs, raisins, nuts and fresh fruit to buyers abroad."
     },
     "contact": {
       "label": "Contact",
@@ -130,7 +138,9 @@
       "image": {
         "src": "https://images.pexels.com/photos/14650515/pexels-photo-14650515.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "alt": "A pile of fresh red pomegranates"
-      }
+      },
+      "seoTitle": "Buy Afghan Dry Fruits Wholesale – Get a Quote | Faiz Fayez",
+      "seoDescription": "Request a price for wholesale dried figs, raisins, almonds, pistachios or dried apricots from Kandahar. Faiz Fayez LTD replies within one working day."
     }
   },
   "hero": {
@@ -434,7 +444,7 @@
         "season": "Sep – Jan",
         "image": {
           "src": "https://images.pexels.com/photos/14650515/pexels-photo-14650515.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "A pile of fresh red pomegranates"
+          "alt": "Fresh Kandahar pomegranates for export"
         }
       },
       {
@@ -443,7 +453,7 @@
         "season": "All year",
         "image": {
           "src": "https://images.pexels.com/photos/6085951/pexels-photo-6085951.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "Close-up of raisins"
+          "alt": "Afghan raisins, dry fruit from Kandahar"
         }
       },
       {
@@ -453,7 +463,7 @@
         "image": {
           "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Dried_Figs_(1).jpg/960px-Dried_Figs_(1).jpg",
           "fallback": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Dried_Figs_(1).jpg",
-          "alt": "A pile of dried figs",
+          "alt": "Afghan dried figs from Kandahar",
           "credit": "Dried figs by Chefallen, CC BY-SA 3.0",
           "creditUrl": "https://commons.wikimedia.org/wiki/File:Dried_Figs_(1).jpg"
         }
@@ -464,7 +474,7 @@
         "season": "All year",
         "image": {
           "src": "https://images.pexels.com/photos/57042/pexels-photo-57042.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "Almonds in a white bowl"
+          "alt": "Afghan almonds, wholesale dry fruit"
         }
       },
       {
@@ -473,7 +483,7 @@
         "season": "All year",
         "image": {
           "src": "https://images.pexels.com/photos/29060107/pexels-photo-29060107.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "Dried apricots at a market"
+          "alt": "Afghan dried apricots at a Kandahar market"
         }
       },
       {
@@ -482,7 +492,7 @@
         "season": "All year",
         "image": {
           "src": "https://images.pexels.com/photos/634650/pexels-photo-634650.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "alt": "Pistachios in their shells"
+          "alt": "Afghan pistachios in their shells"
         }
       }
     ]

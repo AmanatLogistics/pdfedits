@@ -189,3 +189,23 @@ test('photos from resizing hosts get a range of sizes', async () => {
   assert.equal(responsiveSet('https://example.com/a.jpg'), null)
   assert.match(thumbOf('https://images.pexels.com/photos/1/pexels-photo-1.jpeg?w=800', 96), /w=96/)
 })
+
+test('each page gets its own Google title, description and structured data', async () => {
+  const { pageSeo, structuredData } = await import('../src/site/seo.js')
+  const content = {
+    company: { name: 'Faiz Fayez LTD', address: 'Kandahar, Afghanistan', email: 'a@b.c' },
+    meta: { title: 'Home title', description: 'Home text' },
+    pages: { products: { title: 'Our products', text: 'Banner', seoTitle: 'Dried figs wholesale' }, about: { title: 'About us', text: 'About text' } },
+    products: { items: [{ title: 'Dried figs', image: { src: '/a.jpg', alt: 'Figs' } }] },
+    faq: { items: [{ q: 'Minimum order?', a: 'One ton.' }] },
+    sections: [{ id: 'faq', visible: true }],
+  }
+  assert.deepEqual(pageSeo(content, 'home'), { title: 'Home title', description: 'Home text' })
+  assert.deepEqual(pageSeo(content, 'products'), { title: 'Dried figs wholesale', description: 'Banner' })
+  assert.equal(pageSeo(content, 'about').title, 'About us | Faiz Fayez LTD')
+  const types = (id) => structuredData(content, id, 'https://x.com').map((d) => d['@type'])
+  assert.deepEqual(types('home'), ['Organization', 'WebSite'])
+  assert.deepEqual(types('products'), ['ItemList', 'BreadcrumbList'])
+  assert.deepEqual(types('about'), ['FAQPage', 'BreadcrumbList'])
+  assert.equal(structuredData(content, 'products', 'https://x.com')[0].itemListElement[0].item.image, 'https://x.com/a.jpg')
+})
