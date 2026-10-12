@@ -6,11 +6,11 @@
     "shareImage": ""
   },
   "theme": {
-    "primary": "#6b3a1a",
-    "accent": "#c9962b",
-    "dark": "#1b120b",
-    "exportColor": "#9c4f16",
-    "importColor": "#e0a526",
+    "primary": "#404040",
+    "accent": "#b4ad9c",
+    "dark": "#303030",
+    "exportColor": "#00ff7b",
+    "importColor": "#bb3dff",
     "headingFont": "Manrope",
     "bodyFont": "Manrope"
   },
