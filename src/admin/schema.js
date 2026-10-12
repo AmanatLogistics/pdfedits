@@ -360,6 +360,12 @@ export const PAGES = [
       { path: 'meta.description', type: 'textarea', label: 'Description', help: 'Shown under the title in Google. About 150–160 characters.', counter: 160 },
       { path: 'meta.siteUrl', type: 'url', label: 'Website address', help: 'Your final domain, e.g. https://www.faizfayez.com. Used for link previews and the sitemap.' },
       { path: 'meta.shareImage', type: 'imageSrc', label: 'Share picture', help: 'Shown when the link is shared. Leave empty to use the top banner photo.' },
+      { path: 'meta.googleVerification', type: 'text', label: 'Google Search Console code', help: 'Optional. In Google Search Console choose “HTML tag” and paste only the code inside content="…". This proves the website is yours so you can see how it ranks.' },
+      ...['products', 'track-record', 'shipping', 'about', 'contact'].flatMap((id) => [
+        { type: 'heading', label: `Google: ${PAGE_NAMES[id]} page`, help: 'Leave empty to use the page’s banner title and text.' },
+        { path: `pages.${id}.seoTitle`, type: 'text', label: 'Title in Google', counter: 60 },
+        { path: `pages.${id}.seoDescription`, type: 'textarea', label: 'Description in Google', counter: 160, rows: 3 },
+      ]),
     ],
     seoPreview: true,
   },

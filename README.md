@@ -50,6 +50,11 @@ by Google, and shows the right title and picture when the link is shared on What
   closing banner and footer
 - **Buttons & small texts**: every button, form label and small heading on the website
 - **Colours & fonts**, **Google & sharing**, and **Backup** (download or restore all content)
+- **Google & sharing** also holds each page's own title and description in Google (with a
+  preview of every result) and the Google Search Console code. Each page carries structured
+  data for Google: the company (home), the product list (Products), the questions and answers
+  (About) and breadcrumbs; the sitemap lists every page. Without a website address set there,
+  the address Vercel publishes the site at is used.
 
 Changes show in a **live preview** (desktop and phone) as you type; links in the preview move between pages. Nothing goes live until
 you press **Publish**. Unpublished edits are kept in your browser if you close the tab.

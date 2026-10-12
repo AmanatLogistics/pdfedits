@@ -3,7 +3,8 @@ import { useEffect, useState } from 'preact/hooks'
 import { inject } from '@vercel/analytics'
 import '@fontsource-variable/manrope'
 import Site from './site/Site.jsx'
-import { pageForPath, titleFor } from './site/pages.js'
+import { pageForPath } from './site/pages.js'
+import { pageSeo } from './site/seo.js'
 import { interceptLinks, onNavigate } from './site/router.js'
 import { scrollToForm } from './site/hooks.js'
 import initialContent from './content/site.json'
@@ -75,9 +76,11 @@ function LiveSite() {
   }, [])
   useEffect(() => {
     if (!moved) return
-    document.title = titleFor(initialContent, page)
-    const p = initialContent.pages?.[page]
-    document.querySelector('meta[name="description"]')?.setAttribute('content', (page !== 'home' && p?.text) || initialContent.meta?.description || '')
+    const seo = pageSeo(initialContent, page)
+    document.title = seo.title
+    let meta = document.querySelector('meta[name="description"]')
+    if (!meta) document.head.append(meta = Object.assign(document.createElement('meta'), { name: 'description' }))
+    meta.setAttribute('content', seo.description)
   }, [page, moved])
   return <Site content={initialContent} page={page} moved={moved} />
 }
