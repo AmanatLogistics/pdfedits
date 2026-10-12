@@ -20,5 +20,5 @@ const stack = (f) => `'${f}'${f === BUILT_IN_FONT ? '' : `,'${BUILT_IN_FONT} Var
 export function themeCss(theme = {}) {
   const head = safeFont(theme.headingFont, BUILT_IN_FONT)
   const body = safeFont(theme.bodyFont, BUILT_IN_FONT)
-  return `:root{--primary:${safeColor(theme.primary, '#6b3a1a')};--accent:${safeColor(theme.accent, '#c9962b')};--dark:${safeColor(theme.dark, '#1b120b')};--export:${safeColor(theme.exportColor, '#9c4f16')};--import:${safeColor(theme.importColor, '#e0a526')};--font-head:${stack(head)};--font-body:${stack(body)}}`
+  return `:root{--primary:${safeColor(theme.primary, '#1f4d3b')};--accent:${safeColor(theme.accent, '#e2a72e')};--dark:${safeColor(theme.dark, '#0f2018')};--export:${safeColor(theme.exportColor, '#2e7d5b')};--import:${safeColor(theme.importColor, '#e2a72e')};--font-head:${stack(head)};--font-body:${stack(body)}}`
 }

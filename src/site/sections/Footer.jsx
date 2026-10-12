@@ -3,6 +3,7 @@ import Logo from '../Logo.jsx'
 import { telHref } from '../hooks.js'
 import { label } from '../labels.js'
 import { livePartners, showPartnerIn } from './Partners.jsx'
+import { productPath } from '../pages.js'
 
 // Photos used under a licence that asks for a credit carry one (image.credit).
 function photoCredits(content) {
@@ -21,6 +22,7 @@ function photoCredits(content) {
 export default function Footer({ content, pages }) {
   const { company, footer } = content
   const credits = photoCredits(content)
+  const products = pages.some((p) => p.id === 'products') ? (content.products?.items || []).filter((p) => p.title) : []
   return (
     <footer className="footer" id="footer">
       <div className="container footer__grid">
@@ -39,6 +41,12 @@ export default function Footer({ content, pages }) {
           <a href="/">{label(content, 'home')}</a>
           {pages.map((p) => <a key={p.id} href={p.path}>{p.label}</a>)}
         </div>
+        {products.length > 0 && (
+          <div>
+            <h3>{label(content, 'footerProducts')}</h3>
+            {products.map((p) => <a key={p.title} href={productPath(p.title)}>{p.title}</a>)}
+          </div>
+        )}
         <div>
           <h3>{label(content, 'footerContact')}</h3>
           {company.email && <a href={`mailto:${company.email}`}><EnvelopeSimple size={17} weight="duotone" /> {company.email}</a>}

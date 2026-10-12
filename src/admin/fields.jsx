@@ -85,7 +85,7 @@ export function ColorInput({ label, help, value, onChange }) {
     <Field label={label} help={help} htmlFor={id}>
       <div className="color">
         <input type="color" aria-label={`${label} picker`} value={valid ? value : '#000000'} onChange={(e) => onChange(e.target.value)} />
-        <input id={id} className={`input ${valid ? '' : 'is-invalid'}`} value={value ?? ''} onChange={(e) => onChange(e.target.value)} placeholder="#6b3a1a" maxLength={7} />
+        <input id={id} className={`input ${valid ? '' : 'is-invalid'}`} value={value ?? ''} onChange={(e) => onChange(e.target.value)} placeholder="#1f4d3b" maxLength={7} />
       </div>
     </Field>
   )
@@ -294,7 +294,7 @@ export function ListInput({ field, value, onChange }) {
               {isOpen && (
                 <div className={`list__body ${field.compact ? 'list__body--row' : ''}`}>
                   {field.fields.map((sub) => (
-                    <FieldFor key={sub.key} field={sub} value={item?.[sub.key]} onChange={(v) => update(i, sub.key, v)} />
+                    <FieldFor key={sub.key || sub.label} field={sub} value={item?.[sub.key]} onChange={(v) => update(i, sub.key, v)} />
                   ))}
                 </div>
               )}

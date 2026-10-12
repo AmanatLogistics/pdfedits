@@ -17,6 +17,10 @@
       "destination": "/products/index.html"
     },
     {
+      "source": "/products/:slug",
+      "destination": "/products/:slug/index.html"
+    },
+    {
       "source": "/shipping",
       "destination": "/shipping/index.html"
     },

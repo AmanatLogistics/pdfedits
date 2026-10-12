@@ -5,7 +5,7 @@ import { PAGES } from './pages.js'
 
 const PATHS = new Set(['/', ...PAGES.map((p) => p.path)])
 const clean = (pathname) => `/${String(pathname || '').replace(/\/index\.html$/, '').replace(/^\/+|\/+$/g, '')}`
-export const isPagePath = (pathname) => PATHS.has(clean(pathname))
+export const isPagePath = (pathname) => PATHS.has(clean(pathname)) || /^\/products\/[\w-]+$/.test(clean(pathname))
 
 const listeners = new Set()
 export const onNavigate = (fn) => {

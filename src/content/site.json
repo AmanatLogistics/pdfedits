@@ -6,11 +6,11 @@
     "shareImage": ""
   },
   "theme": {
-    "primary": "#404040",
-    "accent": "#b4ad9c",
-    "dark": "#303030",
-    "exportColor": "#00ff7b",
-    "importColor": "#bb3dff",
+    "primary": "#1f4d3b",
+    "accent": "#e2a72e",
+    "dark": "#0f2018",
+    "exportColor": "#2e7d5b",
+    "importColor": "#e2a72e",
     "headingFont": "Manrope",
     "bodyFont": "Manrope"
   },
@@ -445,7 +445,20 @@
         "image": {
           "src": "https://images.pexels.com/photos/14650515/pexels-photo-14650515.jpeg?auto=compress&cs=tinysrgb&w=800",
           "alt": "Fresh Kandahar pomegranates for export"
-        }
+        },
+        "heading": "Kandahar pomegranates",
+        "summary": "Fresh Kandahar pomegranates in season, packed and shipped quickly.",
+        "description": "Kandahar pomegranates are famous for their deep red seeds and sweet-sour taste. In season we buy them straight from the orchards and send them quickly by air or road so they arrive fresh.\n\nEach consignment is sorted and packed in Kandahar, with the phytosanitary and export papers arranged.",
+        "origin": "Kandahar, Afghanistan",
+        "grades": "Sorted by size and colour",
+        "packing": "Cartons, bags or boxes to the buyer’s requirement",
+        "points": [
+          "Bought straight from the orchards in season",
+          "Fast air and road freight to keep them fresh",
+          "Export and phytosanitary papers arranged"
+        ],
+        "seoTitle": "Kandahar Pomegranates – Fresh Afghan Fruit Exporter",
+        "seoDescription": "Fresh Kandahar pomegranates exported in season by Faiz Fayez LTD: bought from the orchards, sorted, packed and sent by air or road with export papers."
       },
       {
         "title": "Raisins",
@@ -454,7 +467,20 @@
         "image": {
           "src": "https://images.pexels.com/photos/6085951/pexels-photo-6085951.jpeg?auto=compress&cs=tinysrgb&w=800",
           "alt": "Afghan raisins, dry fruit from Kandahar"
-        }
+        },
+        "heading": "Afghan raisins",
+        "summary": "Green, red and black raisins from Kandahar’s vineyards, cleaned and graded.",
+        "description": "Kandahar is known for its grapes, and its raisins are among the best known Afghan dry fruits. We buy them from growers and processors in the region and ship them cleaned, sorted and graded.\n\nTell us the type, grade and quantity you need and we will send photos or samples of the lot with our price.",
+        "origin": "Kandahar, Afghanistan",
+        "grades": "Green, red and black raisins in several grades",
+        "packing": "Cartons, bags or boxes to the buyer’s requirement",
+        "points": [
+          "Cleaned and sorted before packing",
+          "Several types and grades available",
+          "Samples or photos before shipping"
+        ],
+        "seoTitle": "Afghan Raisins Wholesale – Green, Red & Black | Faiz Fayez",
+        "seoDescription": "Wholesale Afghan raisins from Kandahar: green, red and black raisins, cleaned, sorted and graded, shipped by road, air or sea with export papers."
       },
       {
         "title": "Dried figs",
@@ -466,7 +492,20 @@
           "alt": "Afghan dried figs from Kandahar",
           "credit": "Dried figs by Chefallen, CC BY-SA 3.0",
           "creditUrl": "https://commons.wikimedia.org/wiki/File:Dried_Figs_(1).jpg"
-        }
+        },
+        "heading": "Afghan dried figs",
+        "summary": "Sun-dried figs from Kandahar, sorted, graded and packed for export.",
+        "description": "Our dried figs come from orchards in Kandahar and the surrounding provinces, where the dry summers let the fruit dry naturally in the sun. They are soft, sweet and naturally golden to light brown.\n\nEvery lot is cleaned, sorted by size and checked for moisture and colour in Kandahar before it is packed. We send photos or samples of the lot before it ships, and arrange the export papers and freight.",
+        "origin": "Kandahar, Afghanistan",
+        "grades": "Sorted by size and quality, to the buyer’s specification",
+        "packing": "Cartons, bags or boxes to the buyer’s requirement",
+        "points": [
+          "Naturally sun-dried, no added sugar",
+          "Sorted, graded and checked before packing",
+          "Samples or photos of the lot before shipping"
+        ],
+        "seoTitle": "Afghan Dried Figs – Wholesale Supplier from Kandahar",
+        "seoDescription": "Buy Afghan dried figs wholesale from Faiz Fayez LTD in Kandahar: sun-dried, sorted and graded, packed to your requirement and shipped with export papers."
       },
       {
         "title": "Almonds",
@@ -475,7 +514,20 @@
         "image": {
           "src": "https://images.pexels.com/photos/57042/pexels-photo-57042.jpeg?auto=compress&cs=tinysrgb&w=800",
           "alt": "Afghan almonds, wholesale dry fruit"
-        }
+        },
+        "heading": "Afghan almonds",
+        "summary": "Afghan almonds, in shell or shelled, sorted and packed for wholesale buyers.",
+        "description": "Afghan almonds are known for their sweet, rich taste. We supply them in shell or shelled, sorted and packed to the buyer’s requirement.\n\nSend us the variety, size and quantity you need and we will confirm availability and price.",
+        "origin": "Afghanistan",
+        "grades": "In shell or shelled, sorted by size",
+        "packing": "Cartons, bags or boxes to the buyer’s requirement",
+        "points": [
+          "In shell or shelled",
+          "Sorted and checked before packing",
+          "Samples or photos before shipping"
+        ],
+        "seoTitle": "Afghan Almonds Wholesale Supplier | Faiz Fayez LTD",
+        "seoDescription": "Afghan almonds wholesale from Faiz Fayez LTD, Kandahar: in shell or shelled, sorted and packed to your requirement and shipped with export papers."
       },
       {
         "title": "Dried apricots",
@@ -484,7 +536,20 @@
         "image": {
           "src": "https://images.pexels.com/photos/29060107/pexels-photo-29060107.jpeg?auto=compress&cs=tinysrgb&w=800",
           "alt": "Afghan dried apricots at a Kandahar market"
-        }
+        },
+        "heading": "Afghan dried apricots",
+        "summary": "Naturally dried Afghan apricots, sorted and packed for export.",
+        "description": "Afghan apricots are dried in the sun after the summer harvest. We buy them from growers and processors, then sort and pack them for export.\n\nAsk us for the type and grade you need; we send photos or samples of the lot before it ships.",
+        "origin": "Afghanistan",
+        "grades": "Sorted by size and colour",
+        "packing": "Cartons, bags or boxes to the buyer’s requirement",
+        "points": [
+          "Naturally sun-dried",
+          "Sorted and checked before packing",
+          "Samples or photos before shipping"
+        ],
+        "seoTitle": "Afghan Dried Apricots Wholesale | Faiz Fayez LTD",
+        "seoDescription": "Afghan dried apricots wholesale from Kandahar: naturally sun-dried, sorted and packed for export by Faiz Fayez LTD, with samples before shipping."
       },
       {
         "title": "Pistachios",
@@ -493,7 +558,20 @@
         "image": {
           "src": "https://images.pexels.com/photos/634650/pexels-photo-634650.jpeg?auto=compress&cs=tinysrgb&w=800",
           "alt": "Afghan pistachios in their shells"
-        }
+        },
+        "heading": "Afghan pistachios",
+        "summary": "Afghan pistachios in their shells, sorted and packed for export.",
+        "description": "Afghan pistachios are prized for their flavour. We supply them in shell, sorted and packed to the buyer’s requirement.\n\nTell us the quantity and grade you need and we will confirm availability and price.",
+        "origin": "Afghanistan",
+        "grades": "In shell, sorted by size",
+        "packing": "Cartons, bags or boxes to the buyer’s requirement",
+        "points": [
+          "In shell, sorted by size",
+          "Checked before packing",
+          "Samples or photos before shipping"
+        ],
+        "seoTitle": "Afghan Pistachios Wholesale Exporter | Faiz Fayez LTD",
+        "seoDescription": "Afghan pistachios wholesale from Faiz Fayez LTD in Kandahar: in shell, sorted and packed for export, shipped by road, air or sea with export papers."
       }
     ]
   },

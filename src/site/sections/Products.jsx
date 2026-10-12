@@ -4,8 +4,9 @@ import SectionHead from '../SectionHead.jsx'
 import Photo from '../Photo.jsx'
 import { fmtNum, unitFor, unitOf } from '../trade.js'
 import { label } from '../labels.js'
+import { productPath } from '../pages.js'
 
-export default function Products({ content, trade, tone, onAsk, more }) {
+export default function Products({ content, trade, tone, more }) {
   const { products } = content
   const unit = unitOf(content)
   const tags = useMemo(() => [...new Set(products.items.map((p) => p.tag).filter(Boolean))], [products.items])
@@ -34,20 +35,20 @@ export default function Products({ content, trade, tone, onAsk, more }) {
         )}
         <div className={`products products--${cols}`}>
           {items.map((p, i) => (
-            <button type="button" className="product reveal" style={{ '--i': i % cols }} key={p.title} onClick={() => onAsk(p.title)}>
+            <a className="product reveal" style={{ '--i': i % cols }} key={p.title} href={productPath(p.title)}>
               <span className="product__media">
                 <Photo image={p.image} className="product__img" sizes="(max-width: 700px) 50vw, (max-width: 1020px) 33vw, 300px" />
                 {p.tag && <span className="product__tag">{p.tag}</span>}
               </span>
               <span className="product__body">
-                <span className="product__title">{p.title}</span>
+                <h3 className="product__title">{p.title}</h3>
                 <span className="product__meta">
                   {amount(p.title) && <span><Package size={16} weight="duotone" /> {amount(p.title)}</span>}
                   {p.season && <span><CalendarBlank size={16} weight="duotone" /> {p.season}</span>}
                 </span>
-                <span className="product__cta">{label(content, 'askPrice')} <ArrowUpRight size={15} weight="bold" /></span>
+                <span className="product__cta">{label(content, 'productDetails')} <ArrowUpRight size={15} weight="bold" /></span>
               </span>
-            </button>
+            </a>
           ))}
         </div>
       </div>
