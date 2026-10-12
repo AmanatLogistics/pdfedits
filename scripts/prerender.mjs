@@ -11,6 +11,7 @@ const { render, livePages } = await import(pathToFileURL(path.join(root, 'dist-s
 const { fontsHref } = await import(pathToFileURL(path.join(root, 'src/site/theme.js')).href)
 const { responsiveSet } = await import(pathToFileURL(path.join(root, 'src/site/images.js')).href)
 const { pageSeo, structuredData, baseUrl } = await import(pathToFileURL(path.join(root, 'src/site/seo.js')).href)
+const { productPath, productSlug, PRODUCT_PAGE } = await import(pathToFileURL(path.join(root, 'src/site/pages.js')).href)
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
 // The address set in the admin panel, or else the one Vercel publishes the site at.
@@ -37,7 +38,7 @@ function headFor({ id, title, description, url, heroSrc, imageAlt }) {
     `<meta name="description" content="${esc(description)}" />`,
     '<meta name="robots" content="index, follow, max-image-preview:large" />',
     content.meta?.googleVerification && `<meta name="google-site-verification" content="${esc(content.meta.googleVerification)}" />`,
-    `<meta name="theme-color" content="${esc(content.theme?.dark || '#1e130b')}" />`,
+    `<meta name="theme-color" content="${esc(content.theme?.dark || '#0f2018')}" />`,
     `<meta property="og:type" content="website" />`,
     '<meta property="og:locale" content="en_US" />',
     `<meta property="og:site_name" content="${esc(content.company?.name)}" />`,
@@ -83,11 +84,21 @@ for (const p of pages) {
   const kb = writePage({ id: p.id, url: p.path, heroSrc: p.image?.src, imageAlt: p.image?.alt })
   sizes.push(`${p.path} (${kb} KB)`)
 }
+// Each product's own page, when the products page is shown.
+const productUrls = []
+if (pages.some((p) => p.id === 'products')) {
+  for (const item of (content.products?.items || []).filter((x) => x.title && productSlug(x.title))) {
+    const url = productPath(item.title)
+    writePage({ id: `${PRODUCT_PAGE}${productSlug(item.title)}`, url, heroSrc: item.image?.src, imageAlt: item.image?.alt })
+    productUrls.push(url)
+  }
+  sizes.push(`${productUrls.length} product pages`)
+}
 
 writeFileSync(path.join(root, 'dist/robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin\n${siteUrl ? `\nSitemap: ${siteUrl}/sitemap.xml\n` : ''}`)
 if (siteUrl) {
   const today = new Date().toISOString().slice(0, 10)
-  const urls = ['/', ...pages.map((p) => p.path)].map((u) => `<url><loc>${esc(siteUrl + u)}</loc><lastmod>${today}</lastmod><priority>${u === '/' ? '1.0' : '0.8'}</priority></url>`).join('')
+  const urls = ['/', ...pages.map((p) => p.path), ...productUrls].map((u) => `<url><loc>${esc(siteUrl + u)}</loc><lastmod>${today}</lastmod><priority>${u === '/' ? '1.0' : u.startsWith('/products/') ? '0.9' : '0.8'}</priority></url>`).join('')
   writeFileSync(path.join(root, 'dist/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>\n`)
 }
 rmSync(path.join(root, 'dist-ssr'), { recursive: true, force: true })

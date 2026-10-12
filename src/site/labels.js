@@ -47,6 +47,22 @@ export const LABEL_GROUPS = [
     },
   },
   {
+    title: 'Product pages',
+    items: {
+      productDetails: ['Details & price', 'On each product card, opens the product’s own page'],
+      about: ['About our', 'Heading on a product page, before the product name'],
+      origin: ['Origin', 'Product facts'],
+      season: ['Season', 'Product facts'],
+      category: ['Type', 'Product facts'],
+      grades: ['Grades & sizes', 'Product facts'],
+      packing: ['Packing', 'Product facts'],
+      shippedSoFar: ['Shipped so far', 'Product facts'],
+      moreProducts: ['More from Kandahar', 'Above the other products on a product page'],
+      allProductsLink: ['All products', 'Link to the products page'],
+      footerProducts: ['Our products', 'Footer heading of the product links'],
+    },
+  },
+  {
     title: 'Shipping',
     items: {
       topDestinations: ['Top destinations', 'Shown when you ship to several countries'],

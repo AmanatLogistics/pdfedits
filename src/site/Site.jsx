@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'preact/hooks'
 import { fontsHref, themeCss } from './theme.js'
 import { scrollToForm, useReveal } from './hooks.js'
 import { tradeSummary } from './trade.js'
-import { PAGES } from './pages.js'
+import { PAGES, findProduct } from './pages.js'
 import { navigate } from './router.js'
 import Header from './sections/Header.jsx'
 import Hero from './sections/Hero.jsx'
@@ -19,6 +19,7 @@ import Faq from './sections/Faq.jsx'
 import Contact from './sections/Contact.jsx'
 import CtaBand from './sections/CtaBand.jsx'
 import PartnerBand from './sections/PartnerBand.jsx'
+import ProductPage from './sections/ProductPage.jsx'
 import { showPartnerIn } from './sections/Partners.jsx'
 import Explore from './home/Explore.jsx'
 import Reasons from './home/Reasons.jsx'
@@ -60,7 +61,10 @@ export default function Site({ content, page = 'home', moved = false }) {
   const [request, setRequest] = useState(null)
   const trade = useMemo(() => tradeSummary(content), [content])
   const pages = useMemo(() => livePages(content, trade), [content, trade])
-  const current = page === 'home' ? null : pages.find((p) => p.id === page) || null
+  // A product's own page; an unknown product address shows the products page.
+  const product = findProduct(content, page)
+  const pageId = product ? 'products' : page.startsWith('product:') ? 'products' : page
+  const current = product ? null : pageId === 'home' ? null : pages.find((p) => p.id === pageId) || null
   // The home page has its own overview sections; every other section lives on its own page.
   const sections = useMemo(() => (current
     ? content.sections.filter((s) => s.visible && SECTIONS[s.id] && current.sections.includes(s.id) && hasContent(s.id, content, trade))
@@ -96,9 +100,11 @@ export default function Site({ content, page = 'home', moved = false }) {
     <>
       <style dangerouslySetInnerHTML={{ __html: themeCss(content.theme) }} />
       {href && <link rel="stylesheet" href={href} />}
-      <Header content={content} pages={pages} current={page} />
+      <Header content={content} pages={pages} current={pageId} />
       <main key={page} className={moved ? 'page-in' : undefined}>
-        {current ? (
+        {product ? (
+          <ProductPage content={content} trade={trade} product={product} onAsk={(name) => goToContact({ product: name })} />
+        ) : current ? (
           <>
             <PageHero content={content} page={current} trade={trade} />
             {sections.map((s, i) => {

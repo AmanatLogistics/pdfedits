@@ -2,11 +2,21 @@
 // description (editable per page in the admin panel) and the structured data
 // that tells Google what the business is, what it sells and its FAQ.
 
+import { findProduct, productPath } from './pages.js'
+
 const clean = (s) => String(s ?? '').replace(/\s+/g, ' ').trim()
 
 // The Google headline and description for a page.
 export function pageSeo(content, pageId) {
   const company = content.company?.name || ''
+  const product = findProduct(content, pageId)
+  if (product) {
+    const name = clean(product.heading || product.title)
+    return {
+      title: clean(product.seoTitle) || `${name.charAt(0).toUpperCase()}${name.slice(1)} – Wholesale | ${company}`,
+      description: clean(product.seoDescription) || clean(product.summary) || clean(content.meta?.description),
+    }
+  }
   if (pageId === 'home' || !content.pages?.[pageId]) {
     return { title: clean(content.meta?.title) || company, description: clean(content.meta?.description) }
   }
@@ -62,6 +72,7 @@ export function structuredData(content, pageId, siteUrl) {
       itemListElement: products.map((p, i) => ({
         '@type': 'ListItem',
         position: i + 1,
+        url: siteUrl ? `${siteUrl}${productPath(p.title)}` : undefined,
         item: {
           '@type': 'Product',
           name: p.title,
@@ -83,6 +94,33 @@ export function structuredData(content, pageId, siteUrl) {
       '@type': 'FAQPage',
       mainEntity: faq.map((f) => ({ '@type': 'Question', name: clean(f.q), acceptedAnswer: { '@type': 'Answer', text: clean(f.a) } })),
     })
+  }
+
+  const product = findProduct(content, pageId)
+  if (product) {
+    out.push({
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: clean(product.heading || product.title),
+      description: clean(product.description || product.summary) || undefined,
+      image: abs(product.image?.src),
+      category: product.tag || undefined,
+      countryOfOrigin: { '@type': 'Country', name: 'Afghanistan' },
+      brand: { '@type': 'Brand', name: c.name },
+      manufacturer: orgId ? { '@id': orgId } : { '@type': 'Organization', name: c.name },
+      url: siteUrl ? `${siteUrl}${productPath(product.title)}` : undefined,
+    })
+    if (siteUrl) {
+      out.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+          { '@type': 'ListItem', position: 2, name: clean(content.pages?.products?.label || 'Products'), item: `${siteUrl}/products` },
+          { '@type': 'ListItem', position: 3, name: clean(product.title), item: `${siteUrl}${productPath(product.title)}` },
+        ],
+      })
+    }
   }
 
   if (pageId !== 'home' && siteUrl && PAGE_PATHS[pageId]) {

@@ -209,3 +209,16 @@ test('each page gets its own Google title, description and structured data', asy
   assert.deepEqual(types('about'), ['FAQPage', 'BreadcrumbList'])
   assert.equal(structuredData(content, 'products', 'https://x.com')[0].itemListElement[0].item.image, 'https://x.com/a.jpg')
 })
+
+test('each product has its own page address and Google data', async () => {
+  const { pageForPath, productPath, findProduct } = await import('../src/site/pages.js')
+  const { pageSeo, structuredData } = await import('../src/site/seo.js')
+  const content = { company: { name: 'Faiz Fayez LTD' }, meta: {}, pages: {}, products: { items: [{ title: 'Dried figs', heading: 'Afghan dried figs', summary: 'Sun-dried.' }] } }
+  assert.equal(productPath('Dried figs'), '/products/dried-figs')
+  assert.equal(pageForPath('/products/dried-figs/'), 'product:dried-figs')
+  assert.equal(pageForPath('/products'), 'products')
+  assert.equal(findProduct(content, 'product:dried-figs').title, 'Dried figs')
+  assert.equal(findProduct(content, 'product:nothing'), undefined)
+  assert.deepEqual(pageSeo(content, 'product:dried-figs'), { title: 'Afghan dried figs – Wholesale | Faiz Fayez LTD', description: 'Sun-dried.' })
+  assert.deepEqual(structuredData(content, 'product:dried-figs', 'https://x.com').map((d) => d['@type']), ['Product', 'BreadcrumbList'])
+})

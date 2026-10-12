@@ -13,6 +13,7 @@ without touching code.
 | Home | `/` | Top banner with the total shipped, a card for each page, the partnership with Amanat Logistics, why buyers choose you, and how ordering works |
 | Track Record | `/track-record` | Totals, tons shipped per year, by product and by transport, partners (e.g. Amanat Logistics) with the tons shipped together, and recent shipments |
 | Products | `/products` | Product photos with tons shipped and season, and the photo gallery |
+| Each product | `/products/dried-figs`, … | The product's own page: description, origin, grades, packing, tons shipped and a price request button |
 | Shipping | `/shipping` | The route map from Kandahar, the air, road and sea options, and the logistics partnership |
 | About | `/about` | About the company, certifications, testimonials, questions & answers, and the logistics partnership |
 | Contact | `/contact` | Inquiry form, partnership banner, emails, phone and WhatsApp |
