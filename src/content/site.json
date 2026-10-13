@@ -280,7 +280,7 @@
       "direction": "export",
       "tonnes": 1,
       "orders": 3,
-      "transport": "sea"
+      "transport": "air"
     },
     {
       "date": "2026-09",
@@ -288,7 +288,7 @@
       "country": "India",
       "direction": "export",
       "tonnes": 100,
-      "orders": 5,
+      "orders": 4,
       "transport": "air"
     },
     {
@@ -301,49 +301,49 @@
       "transport": "air"
     },
     {
-      "date": "2026-06",
+      "date": "2026-07",
       "product": "Dried apricots",
       "country": "India",
       "direction": "export",
-      "tonnes": 4,
-      "orders": 2,
-      "transport": "road"
-    },
-    {
-      "date": "2026-05",
-      "product": "Raisins",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 5,
-      "orders": 2,
-      "transport": "sea"
-    },
-    {
-      "date": "2026-04",
-      "product": "Pistachios",
-      "country": "India",
-      "direction": "export",
-      "tonnes": 3,
-      "orders": 1,
+      "tonnes": 14,
+      "orders": 5,
       "transport": "air"
     },
     {
-      "date": "2026-03",
+      "date": "2026-07",
+      "product": "Raisins",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 8,
+      "orders": 3,
+      "transport": "air"
+    },
+    {
+      "date": "2026-06",
+      "product": "Pistachios",
+      "country": "India",
+      "direction": "export",
+      "tonnes": 12,
+      "orders": 4,
+      "transport": "air"
+    },
+    {
+      "date": "2026-06",
       "product": "Dried figs",
       "country": "India",
       "direction": "export",
       "tonnes": 60,
       "orders": 5,
-      "transport": "sea"
+      "transport": "air"
     },
     {
-      "date": "2026-02",
+      "date": "2026-04",
       "product": "Raisins",
       "country": "India",
       "direction": "export",
       "tonnes": 5,
-      "orders": 3,
-      "transport": "road"
+      "orders": 2,
+      "transport": "air"
     }
   ],
   "record": {
