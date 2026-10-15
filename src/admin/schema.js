@@ -102,6 +102,9 @@ export const PAGES = [
     id: 'home', group: 'Start here', title: 'Home page', icon: House, preview: 'explore', sitePage: 'home',
     intro: 'The home page is an overview: the top banner, a card for each page, why buyers choose you and how ordering works. The detailed sections live on their own pages.',
     fields: [
+      { type: 'heading', label: 'Our dry fruits', help: 'The products in short, each linking to its own page. Its text is also what Google reads first, so name your products and where they come from.' },
+      { path: 'home.products.visible', type: 'toggle', label: 'Show the products on the home page' },
+      ...heading('home.products'),
       { type: 'heading', label: 'Page cards', help: 'One card for each page, linking to it.' },
       { path: 'home.explore.visible', type: 'toggle', label: 'Show the page cards' },
       ...heading('home.explore'),
@@ -372,6 +375,7 @@ export const PAGES = [
       { path: 'meta.siteUrl', type: 'url', label: 'Website address', help: 'Your final domain, e.g. https://www.faizfayez.com. Used for link previews and the sitemap.' },
       { path: 'meta.shareImage', type: 'imageSrc', label: 'Share picture', help: 'Shown when the link is shared. Leave empty to use the top banner photo.' },
       { path: 'meta.googleVerification', type: 'text', label: 'Google Search Console code', help: 'Optional. In Google Search Console choose “HTML tag” and paste only the code inside content="…". This proves the website is yours so you can see how it ranks.' },
+      { path: 'meta.bingVerification', type: 'text', label: 'Bing Webmaster code', help: 'Optional. In Bing Webmaster Tools choose “HTML Meta Tag” and paste only the code inside content="…". Bing also powers Yahoo and DuckDuckGo results.' },
       ...['products', 'track-record', 'shipping', 'about', 'contact'].flatMap((id) => [
         { type: 'heading', label: `Google: ${PAGE_NAMES[id]} page`, help: 'Leave empty to use the page’s banner title and text.' },
         { path: `pages.${id}.seoTitle`, type: 'text', label: 'Title in Google', counter: 60 },

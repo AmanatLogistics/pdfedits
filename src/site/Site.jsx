@@ -24,6 +24,7 @@ import { showPartnerIn } from './sections/Partners.jsx'
 import Explore from './home/Explore.jsx'
 import Reasons from './home/Reasons.jsx'
 import Steps from './home/Steps.jsx'
+import DryFruits from './home/DryFruits.jsx'
 import Footer from './sections/Footer.jsx'
 import WhatsAppButton from './sections/WhatsAppButton.jsx'
 import ToTop from './sections/ToTop.jsx'
@@ -79,6 +80,8 @@ export default function Site({ content, page = 'home', moved = false }) {
   const hasContact = sections.some((s) => s.id === 'contact')
   const contactPath = pages.find((p) => p.id === 'contact')?.path
   const home = content.home || {}
+  // The products in short on the home page, when the products page is shown.
+  const fruits = home.products?.visible !== false && pages.some((p) => p.id === 'products') && content.products?.items?.some((p) => p.title)
 
   // "Ask for a price" and "Become a partner" open the inquiry form: on this
   // page if it has one, otherwise on the contact page.
@@ -121,9 +124,10 @@ export default function Site({ content, page = 'home', moved = false }) {
         ) : (
           <>
             <Hero content={content} trade={trade} contactHref={contactPath} onPartner={() => goToContact({ partnership: true })}
-              next={home.explore?.visible !== false ? 'explore' : showPartnerIn(content, 'home') ? 'partnership' : home.reasons?.visible !== false ? 'why' : home.steps?.visible !== false ? 'how' : 'cta'} />
+              next={home.explore?.visible !== false ? 'explore' : fruits ? 'dry-fruits' : showPartnerIn(content, 'home') ? 'partnership' : home.reasons?.visible !== false ? 'why' : home.steps?.visible !== false ? 'how' : 'cta'} />
             {home.explore?.visible !== false && <Explore content={content} trade={trade} pages={pages} />}
-            {showPartnerIn(content, 'home') && <PartnerBand content={content} tone={home.explore?.visible !== false ? 'gray' : 'white'} />}
+            {fruits && <DryFruits content={content} trade={trade} tone={home.explore?.visible !== false ? 'gray' : 'white'} />}
+            {showPartnerIn(content, 'home') && <PartnerBand content={content} tone={(home.explore?.visible !== false) !== fruits ? 'gray' : 'white'} />}
             {home.reasons?.visible !== false && <Reasons content={content} />}
             {home.steps?.visible !== false && <Steps content={content} contactHref={contactPath} />}
           </>

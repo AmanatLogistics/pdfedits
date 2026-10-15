@@ -146,7 +146,7 @@
   },
   "hero": {
     "eyebrow": "Kandahar, Afghanistan · Since 2025",
-    "title": "Afghan Fruit Exports, From Kandahar to the World",
+    "title": "Afghan Dry Fruits & Fresh Fruit, From Kandahar to the World",
     "text": "Faiz Fayez Ltd bring Afghanistan’s finest fresh and dried fruits to international markets, including premium pomegranates, raisins, dried figs and almonds. Every shipment is carefully graded, packed and prepared for export, with coordinated air cargo and freight arrangements to reach buyers worldwide.",
     "primaryButton": "Request a Quote",
     "secondaryButton": "Become a Partner",
@@ -157,7 +157,7 @@
     ],
     "image": {
       "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ2hrVZIzDnBbhy_aPps4uO8GnVSwv_RqTue_nVzbwj8bo1pqLcWJaTFE&s=10",
-      "alt": "Airplane"
+      "alt": "Air cargo plane carrying Afghan dry fruit exports from Kandahar"
     },
     "cardTitle": ""
   },
@@ -192,7 +192,7 @@
           "stat": "",
           "image": {
             "src": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
-            "alt": "wearhouse"
+            "alt": "Warehouse with dry fruit cargo ready for export"
           }
         },
         "about": {
@@ -205,6 +205,12 @@
           }
         }
       }
+    },
+    "products": {
+      "visible": true,
+      "eyebrow": "Our dry fruits",
+      "title": "Afghan dry fruits, wholesale from Kandahar",
+      "text": "Faiz Fayez LTD supplies wholesale Afghan dry fruits: sun-dried figs, raisins, almonds, pistachios and dried apricots, plus fresh Kandahar pomegranates in season. Every lot is sorted, graded and packed in Kandahar and shipped by air, road or sea with the export papers arranged."
     },
     "reasons": {
       "visible": true,

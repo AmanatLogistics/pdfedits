@@ -196,6 +196,35 @@ function BackupEditor({ content, setContent }) {
   )
 }
 
+// What is still missing for search engines, in plain words.
+function SeoChecklist({ content }) {
+  const m = content.meta || {}
+  const products = (content.products?.items || []).filter((p) => p.title)
+  const blurry = (src) => /encrypted-tbn\d*\.gstatic\.com/.test(src || '')
+  const checks = [
+    [!!m.siteUrl, 'Your own website address', 'Connect a domain such as faizfayezltd.com in Vercel, then enter it under “Website address”. A free vercel.app address ranks much lower.'],
+    [!!m.googleVerification, 'Google Search Console', 'Add the site at search.google.com/search-console, paste its code under “Google Search Console code”, publish, then submit sitemap.xml. Without this Google may take weeks to find the site.'],
+    [!!m.bingVerification, 'Bing Webmaster Tools', 'Add the site at bing.com/webmasters (you can import it from Google Search Console) and paste its code under “Bing Webmaster code”. Bing also feeds Yahoo and DuckDuckGo.'],
+    [!blurry(content.hero?.image?.src) && !blurry(m.shareImage), 'A sharp top banner photo', 'The top banner photo is a small Google preview, which looks blurry and is used when the site is shared. Upload the photo or use “Copy image address” on the full-size picture.'],
+    [products.every((p) => String(p.description || '').length > 120), 'A description on every product page', 'Products & photos → open each product → write a few sentences under “Description”. Pages with real text rank better.'],
+    [String(m.title || '').length > 0 && String(m.title).length <= 60 && String(m.description || '').length >= 70 && String(m.description).length <= 160, 'Home title and description length', 'Keep the title under 60 characters and the description between 70 and 160.'],
+  ]
+  const done = checks.filter((c) => c[0]).length
+  return (
+    <div className="seocheck">
+      <p className="serp__label">Search engine checklist · {done} of {checks.length} done</p>
+      <ul>
+        {checks.map(([ok, title, help]) => (
+          <li key={title} className={ok ? 'is-ok' : 'is-todo'}>
+            {ok ? <CheckCircle2 size={18} /> : <AlertTriangle size={18} />}
+            <span><strong>{title}</strong>{!ok && <small>{help}</small>}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 function SeoPreview({ content }) {
   const url = (content.meta?.siteUrl || 'https://www.yourwebsite.com').replace(/^https?:\/\//, '').replace(/\/$/, '')
   const rows = [['home', ''], ...SITE_PAGES.map((p) => [p.id, p.path])]
@@ -492,6 +521,7 @@ export default function AdminApp() {
               }
               return <FieldFor key={field.path || `h${i}`} field={field} value={getAt(content, field.path)} onChange={(v) => setContent((c) => setAt(c, field.path, v))} />
             })}
+            {page.seoPreview && <SeoChecklist content={content} />}
             {page.seoPreview && <SeoPreview content={content} />}
           </div>
         </main>

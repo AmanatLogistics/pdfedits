@@ -312,3 +312,13 @@ code { padding: 1px 6px; border-radius: 5px; background: #f1ece5; font-size: 13p
 .f__group h2 { font-size: 16px; }
 .sections__page { margin-left: 6px; font-size: 12.5px; font-weight: 600; color: var(--a-muted); }
 .labels__group + .labels__group { margin-top: 26px; }
+.seocheck { margin-bottom: 14px; padding: 16px; border-radius: var(--a-radius); background: #fff; border: 1px solid var(--a-line); }
+.seocheck ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.seocheck li { display: flex; gap: 10px; align-items: flex-start; }
+.seocheck li > svg { flex: none; margin-top: 1px; }
+.seocheck .is-ok > svg { color: var(--a-ok); }
+.seocheck .is-todo > svg { color: var(--a-warn); }
+.seocheck span { display: grid; gap: 2px; }
+.seocheck strong { color: var(--a-ink); font-weight: 650; }
+.seocheck .is-ok strong { color: var(--a-muted); font-weight: 600; }
+.seocheck small { font-size: 13px; color: var(--a-text); line-height: 1.5; }
