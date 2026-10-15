@@ -3,6 +3,7 @@
 // previews (WhatsApp, LinkedIn, …) get the right title, text and picture.
 import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
+import { createHash } from 'node:crypto'
 import { pathToFileURL } from 'node:url'
 
 const root = process.cwd()
@@ -38,6 +39,7 @@ function headFor({ id, title, description, url, heroSrc, imageAlt }) {
     `<meta name="description" content="${esc(description)}" />`,
     '<meta name="robots" content="index, follow, max-image-preview:large" />',
     content.meta?.googleVerification && `<meta name="google-site-verification" content="${esc(content.meta.googleVerification)}" />`,
+    content.meta?.bingVerification && `<meta name="msvalidate.01" content="${esc(content.meta.bingVerification)}" />`,
     `<meta name="theme-color" content="${esc(content.theme?.dark || '#0f2018')}" />`,
     `<meta property="og:type" content="website" />`,
     '<meta property="og:locale" content="en_US" />',
@@ -96,10 +98,42 @@ if (pages.some((p) => p.id === 'products')) {
 }
 
 writeFileSync(path.join(root, 'dist/robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin\n${siteUrl ? `\nSitemap: ${siteUrl}/sitemap.xml\n` : ''}`)
+const allUrls = ['/', ...pages.map((p) => p.path), ...productUrls]
 if (siteUrl) {
   const today = new Date().toISOString().slice(0, 10)
-  const urls = ['/', ...pages.map((p) => p.path), ...productUrls].map((u) => `<url><loc>${esc(siteUrl + u)}</loc><lastmod>${today}</lastmod><priority>${u === '/' ? '1.0' : u.startsWith('/products/') ? '0.9' : '0.8'}</priority></url>`).join('')
-  writeFileSync(path.join(root, 'dist/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>\n`)
+  // Each page lists its main photo, so the photos can show in image search.
+  const photoOf = Object.fromEntries([
+    ['/', content.hero?.image],
+    ...pages.map((p) => [p.path, p.image]),
+    ...(content.products?.items || []).filter((x) => x.title).map((x) => [productPath(x.title), x.image]),
+  ])
+  const urls = allUrls.map((u) => {
+    const img = photoOf[u]?.src && absolute(photoOf[u].src)
+    const imgTag = img ? `<image:image><image:loc>${esc(img)}</image:loc></image:image>` : ''
+    return `<url><loc>${esc(siteUrl + u)}</loc><lastmod>${today}</lastmod><priority>${u === '/' ? '1.0' : u.startsWith('/products/') ? '0.9' : '0.8'}</priority>${imgTag}</url>`
+  }).join('')
+  writeFileSync(path.join(root, 'dist/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${urls}</urlset>\n`)
+}
+
+// IndexNow: on each live deployment, tell Bing, Yandex and other search engines
+// which pages exist, so they visit the changes straight away. The key file
+// proves the site is ours; it is the same on every build.
+if (siteUrl) {
+  const key = createHash('sha256').update(`indexnow:${siteUrl}`).digest('hex').slice(0, 32)
+  writeFileSync(path.join(root, 'dist', `${key}.txt`), key)
+  if (process.env.VERCEL_ENV === 'production') {
+    try {
+      const res = await fetch('https://api.indexnow.org/indexnow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({ host: new URL(siteUrl).host, key, keyLocation: `${siteUrl}/${key}.txt`, urlList: allUrls.map((u) => siteUrl + u) }),
+        signal: AbortSignal.timeout(8000),
+      })
+      sizes.push(`IndexNow ${res.status}`)
+    } catch (e) {
+      sizes.push(`IndexNow skipped (${e.message})`)
+    }
+  }
 }
 rmSync(path.join(root, 'dist-ssr'), { recursive: true, force: true })
 console.log(`Prerendered ${sizes.join(', ')}`)

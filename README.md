@@ -55,7 +55,10 @@ by Google, and shows the right title and picture when the link is shared on What
   preview of every result) and the Google Search Console code. Each page carries structured
   data for Google: the company (home), the product list (Products), the questions and answers
   (About) and breadcrumbs; the sitemap lists every page. Without a website address set there,
-  the address Vercel publishes the site at is used.
+  the address Vercel publishes the site at is used. A checklist there shows what is still missing
+  (own domain, Google Search Console, Bing Webmaster Tools, a sharp banner photo, product texts).
+  On every live deployment the build also notifies Bing and other IndexNow search engines of all
+  pages, and the sitemap lists each page's main photo for image search.
 
 Changes show in a **live preview** (desktop and phone) as you type; links in the preview move between pages. Nothing goes live until
 you press **Publish**. Unpublished edits are kept in your browser if you close the tab.
