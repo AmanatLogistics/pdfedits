@@ -225,3 +225,10 @@ test('each product has its own page address and Google data', async () => {
   assert.deepEqual(pageSeo(content, 'product:dried-figs'), { title: 'Afghan dried figs – Wholesale | Faiz Fayez LTD', description: 'Sun-dried.' })
   assert.deepEqual(structuredData(content, 'product:dried-figs', 'https://x.com').map((d) => d['@type']), ['Product', 'BreadcrumbList'])
 })
+
+test('the sitemap always has the site address', async () => {
+  const { baseUrl, DEFAULT_SITE_URL } = await import('../src/site/seo.js')
+  assert.equal(baseUrl({ meta: { siteUrl: 'https://example.com/' } }), 'https://example.com')
+  assert.equal(baseUrl({ meta: {} }, 'https://from-vercel.app'), 'https://from-vercel.app')
+  assert.equal(baseUrl({ meta: {} }), DEFAULT_SITE_URL)
+})
