@@ -133,9 +133,11 @@ if (siteUrl) {
 
 // IndexNow: on each live deployment, tell Bing, Yandex and other search engines
 // which pages exist, so they visit the changes straight away. The key file
-// proves the site is ours; it is the same on every build.
+// proves the site is ours: the key from Bing Webmaster Tools set in the admin
+// panel, or else one made from the site address (the same on every build).
 if (siteUrl) {
-  const key = createHash('sha256').update(`indexnow:${siteUrl}`).digest('hex').slice(0, 32)
+  const ownKey = String(content.meta?.indexNowKey || '').trim()
+  const key = /^[a-zA-Z0-9-]{8,128}$/.test(ownKey) ? ownKey : createHash('sha256').update(`indexnow:${siteUrl}`).digest('hex').slice(0, 32)
   writeFileSync(path.join(root, 'dist', `${key}.txt`), key)
   if (process.env.VERCEL_ENV === 'production') {
     try {
