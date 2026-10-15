@@ -28,7 +28,7 @@ export default function Header({ content, pages, current }) {
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
   }, [open])
 
-  const nav = pages.filter((p) => p.inNav !== false && p.id !== 'contact')
+  const nav = pages.filter((p) => p.inNav !== false)
   const contact = pages.find((p) => p.id === 'contact')
   return (
     <header className={`header ${solid || open ? 'header--solid' : ''}`}>

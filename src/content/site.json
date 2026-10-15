@@ -26,7 +26,8 @@
     "whatsapp": "93700008417",
     "address": "Office #3, 1st Floor, ACCI building, Aino Mena, Kandahar – Afghanistan",
     "hours": "Sat – Thu, 8:00 am – 6:00 pm (AFT)",
-    "mapEmbedUrl": ""
+    "mapEmbedUrl": "",
+    "showMap": true
   },
   "sampleData": false,
   "sections": [
@@ -131,7 +132,7 @@
       "seoDescription": "Faiz Fayez LTD buys dry fruits from growers across southern Afghanistan and exports graded, checked dried figs, raisins, nuts and fresh fruit to buyers abroad."
     },
     "contact": {
-      "label": "Contact",
+      "label": "Contact Us",
       "inNav": true,
       "title": "Contact us",
       "text": "Request a quote, order samples or talk to us about a partnership.",
