@@ -56,7 +56,7 @@ export default function Footer({ content, pages }) {
         </div>
       </div>
       <div className="container footer__bottom">
-        <span suppressHydrationWarning>© {new Date().getFullYear()} {company.name}. {footer.copyright}</span>
+        <span suppressHydrationWarning>© {new Date().getFullYear()} {company.name}. {footer.copyright} <a className="footer__sitemap" href="/sitemap.xml">{label(content, 'sitemap')}</a></span>
         {credits.length > 0 && (
           <span className="footer__credits">{label(content, 'photos')}: {credits.map(([text, url], i) => (
             <span key={text}>{i > 0 && ' · '}{url ? <a href={url} target="_blank" rel="noreferrer">{text}</a> : text}</span>

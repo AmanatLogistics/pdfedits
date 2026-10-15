@@ -109,6 +109,7 @@ export const LABEL_GROUPS = [
       footerCompany: ['Company', 'Heading of the page links'],
       footerContact: ['Get in touch', 'Heading of the contact details'],
       photos: ['Photos', 'Before the photo credits'],
+      sitemap: ['Sitemap', 'Link to the list of all pages, at the bottom of the footer'],
     },
   },
 ]

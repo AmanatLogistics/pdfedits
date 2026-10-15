@@ -28,7 +28,10 @@ export function pageSeo(content, pageId) {
 }
 
 // The address the website is published at, without a trailing slash.
-export const baseUrl = (content, fallback = '') => String(content.meta?.siteUrl || fallback || '').replace(/\/+$/, '')
+// The company's domain, used when no other address is known, so the sitemap
+// and canonical links are never left out.
+export const DEFAULT_SITE_URL = 'https://faizfayezltd.com'
+export const baseUrl = (content, fallback = '') => String(content.meta?.siteUrl || fallback || DEFAULT_SITE_URL).replace(/\/+$/, '')
 
 const PAGE_PATHS = { 'track-record': '/track-record', products: '/products', shipping: '/shipping', about: '/about', contact: '/contact' }
 

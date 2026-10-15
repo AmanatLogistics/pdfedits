@@ -69,6 +69,7 @@ function headFor({ id, title, description, url, heroSrc, imageAlt }) {
     fonts && '<link rel="preconnect" href="https://fonts.googleapis.com" />',
     fonts && '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />',
     fonts && `<link rel="stylesheet" href="${esc(fonts)}" />`,
+    '<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />',
     ...ld.map((d) => `<script type="application/ld+json">${JSON.stringify(d).replace(/</g, '\\u003c')}</script>`),
     clarity,
   ].filter(Boolean).join('\n    ')
@@ -121,7 +122,13 @@ if (siteUrl) {
     const imgTag = img ? `<image:image><image:loc>${esc(img)}</image:loc></image:image>` : ''
     return `<url><loc>${esc(siteUrl + u)}</loc><lastmod>${today}</lastmod><priority>${u === '/' ? '1.0' : u.startsWith('/products/') ? '0.9' : '0.8'}</priority>${imgTag}</url>`
   }).join('')
-  writeFileSync(path.join(root, 'dist/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${urls}</urlset>\n`)
+  // The stylesheet only makes the file readable in a browser; search engines ignore it.
+  writeFileSync(path.join(root, 'dist/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${urls}</urlset>\n`)
+}
+
+// Some tools look for a sitemap index; it points to the one sitemap.
+if (siteUrl) {
+  writeFileSync(path.join(root, 'dist/sitemap_index.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><sitemap><loc>${esc(siteUrl)}/sitemap.xml</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></sitemap></sitemapindex>\n`)
 }
 
 // IndexNow: on each live deployment, tell Bing, Yandex and other search engines
