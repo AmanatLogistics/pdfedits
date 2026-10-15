@@ -1,6 +1,7 @@
 // Tests for the admin API and inquiry form: `npm test`.
 import { test, after } from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import * as mock from './mock-github.mjs'
 
 const port = await mock.ready
@@ -82,7 +83,9 @@ test('inquiries are emailed to the right inbox when email is set up', async () =
     assert.equal(sent.length, 0)
     await call(h.inquiry, 'POST', { name: 'Ravi <b>', email: 'ravi@acme.com', product: 'Almonds', message: '<script>x</script>' })
     await call(h.inquiry, 'POST', { name: 'Sara', email: 's@x.ae', message: 'Distribute', partnership: true })
-    assert.deepEqual(sent.map((s) => s.to[0]), ['info@faizfayez.com', 'partners@faizfayez.com'])
+    // Partnership inquiries go to the partnership email, or the main one when there is none.
+    const { company } = JSON.parse(readFileSync(new URL('../src/content/site.json', import.meta.url), 'utf8'))
+    assert.deepEqual(sent.map((s) => s.to[0]), [company.email, company.partnershipEmail || company.email])
     assert.equal(sent[0].reply_to, 'ravi@acme.com')
     assert.ok(!sent[0].html.includes('<script>') && sent[0].html.includes('Ravi &lt;b&gt;'))
   } finally {

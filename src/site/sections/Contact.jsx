@@ -20,6 +20,14 @@ const Email = ({ address }) => {
   return at > 0 ? <>{address.slice(0, at + 1)}<wbr />{address.slice(at + 1)}</> : address
 }
 
+// The office on a map: the embed link from the admin panel, or else a map
+// found from the address (switch off under Company & contact).
+function mapFor(company) {
+  if (company.mapEmbedUrl && /^https:\/\/(www\.)?google\.[a-z.]+\/maps\/embed/.test(company.mapEmbedUrl)) return company.mapEmbedUrl
+  if (company.showMap === false || !company.address) return ''
+  return `https://maps.google.com/maps?q=${encodeURIComponent(company.address)}&z=15&output=embed`
+}
+
 export default function Contact({ content, tone, request: outside }) {
   const [local, setRequest] = useState(null)
   const request = !outside ? local : !local ? outside : local.at > outside.at ? local : outside
@@ -58,6 +66,7 @@ export default function Contact({ content, tone, request: outside }) {
     }
   }
 
+  const mapSrc = mapFor(company)
   const type = types[Math.min(typeIndex, types.length - 1)]
   const to = type.partnership && company.partnershipEmail ? company.partnershipEmail : company.email
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
@@ -152,8 +161,8 @@ export default function Contact({ content, tone, request: outside }) {
                 <div><h3>{T('hours')}</h3><span>{company.hours}</span></div>
               </div>
             )}
-            {company.mapEmbedUrl && /^https:\/\/(www\.)?google\.[a-z.]+\/maps\/embed/.test(company.mapEmbedUrl) && (
-              <iframe className="contact__map" title="Office location" src={company.mapEmbedUrl} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            {mapSrc && (
+              <iframe className="contact__map" title="Office location" src={mapSrc} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
             )}
           </aside>
 

@@ -37,7 +37,6 @@ export function structuredData(content, pageId, siteUrl) {
   const c = content.company || {}
   const abs = (src) => (!src ? undefined : /^https?:\/\//.test(src) ? src : siteUrl ? `${siteUrl}${src.startsWith('/') ? '' : '/'}${src}` : undefined)
   const orgId = siteUrl ? `${siteUrl}/#organization` : undefined
-  const [city, country] = String(c.address || '').split(',').map((s) => s.trim())
   const products = (content.products?.items || []).filter((p) => p.title)
   const out = []
 
@@ -55,7 +54,12 @@ export function structuredData(content, pageId, siteUrl) {
       email: c.email || undefined,
       telephone: c.phone || undefined,
       foundingDate: c.since ? String(c.since) : undefined,
-      address: c.address ? { '@type': 'PostalAddress', addressLocality: city || c.address, addressCountry: country || undefined } : undefined,
+      address: c.address ? {
+        '@type': 'PostalAddress',
+        streetAddress: c.address,
+        addressLocality: /kandahar/i.test(c.address) ? 'Kandahar' : undefined,
+        addressCountry: /afghanistan/i.test(c.address) ? 'AF' : undefined,
+      } : undefined,
       areaServed: 'Worldwide',
       knowsAbout: ['Dry fruits', 'Dried fruit export', ...products.map((p) => p.title)],
       contactPoint: c.email || c.phone ? [{ '@type': 'ContactPoint', contactType: 'sales', email: c.email || undefined, telephone: c.phone || undefined, availableLanguage: ['English', 'Pashto', 'Dari'] }] : undefined,
