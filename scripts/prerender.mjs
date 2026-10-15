@@ -31,6 +31,14 @@ const template = readFileSync(path.join(root, 'dist/index.html'), 'utf8')
 const cssName = template.match(/<link rel="stylesheet" crossorigin href="\/assets\/(main-[\w-]+\.css)">/)?.[1]
 const css = cssName ? readFileSync(path.join(root, 'dist/assets', cssName), 'utf8') : ''
 
+// Microsoft Clarity (visitor heatmaps and recordings), when a project ID is set
+// in the admin panel. It does not run in the admin panel's preview, so editing
+// the website is not recorded.
+const clarityId = String(content.meta?.clarityId || '').trim()
+const clarity = /^[a-z0-9]{4,32}$/i.test(clarityId)
+  ? `<script>if(!/[?&]preview\\b/.test(location.search)&&window===window.top){(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${clarityId}")}</script>`
+  : ''
+
 function headFor({ id, title, description, url, heroSrc, imageAlt }) {
   const image = absolute(content.meta?.shareImage || heroSrc || content.hero?.image?.src)
   const heroSet = responsiveSet(heroSrc)
@@ -62,6 +70,7 @@ function headFor({ id, title, description, url, heroSrc, imageAlt }) {
     fonts && '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />',
     fonts && `<link rel="stylesheet" href="${esc(fonts)}" />`,
     ...ld.map((d) => `<script type="application/ld+json">${JSON.stringify(d).replace(/</g, '\\u003c')}</script>`),
+    clarity,
   ].filter(Boolean).join('\n    ')
 }
 
