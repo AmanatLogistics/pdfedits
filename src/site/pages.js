@@ -29,7 +29,8 @@ export function pageForPath(pathname) {
   const clean = `/${String(pathname || '').replace(/\/index\.html$/, '').replace(/^\/+|\/+$/g, '')}`
   const product = clean.match(/^\/products\/([\w-]+)$/)
   if (product) return `${PRODUCT_PAGE}${product[1]}`
-  return PAGES.find((p) => p.path === clean)?.id || 'home'
+  if (clean === '/') return 'home'
+  return PAGES.find((p) => p.path === clean)?.id || 'not-found'
 }
 
 // Which page a home-page section links to with its "see more" link.

@@ -40,12 +40,13 @@ const clarity = /^[a-z0-9]{4,32}$/i.test(clarityId)
   : ''
 
 function headFor({ id, title, description, url, heroSrc, imageAlt }) {
+  const missing = id === 'not-found'
   const image = absolute(content.meta?.shareImage || heroSrc || content.hero?.image?.src)
   const heroSet = responsiveSet(heroSrc)
   const ld = structuredData(content, id, siteUrl)
   return [
     `<meta name="description" content="${esc(description)}" />`,
-    '<meta name="robots" content="index, follow, max-image-preview:large" />',
+    missing ? '<meta name="robots" content="noindex, follow" />' : '<meta name="robots" content="index, follow, max-image-preview:large" />',
     content.meta?.googleVerification && `<meta name="google-site-verification" content="${esc(content.meta.googleVerification)}" />`,
     content.meta?.bingVerification && `<meta name="msvalidate.01" content="${esc(content.meta.bingVerification)}" />`,
     `<meta name="theme-color" content="${esc(content.theme?.dark || '#0f2018')}" />`,
@@ -59,8 +60,8 @@ function headFor({ id, title, description, url, heroSrc, imageAlt }) {
     `<meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}" />`,
     `<meta name="twitter:title" content="${esc(title)}" />`,
     `<meta name="twitter:description" content="${esc(description)}" />`,
-    siteUrl && `<link rel="canonical" href="${esc(siteUrl + url)}" />`,
-    siteUrl && `<meta property="og:url" content="${esc(siteUrl + url)}" />`,
+    siteUrl && !missing && `<link rel="canonical" href="${esc(siteUrl + url)}" />`,
+    siteUrl && !missing && `<meta property="og:url" content="${esc(siteUrl + url)}" />`,
     fontFile && `<link rel="preload" href="/assets/${fontFile}" as="font" type="font/woff2" crossorigin />`,
     heroSet && '<link rel="preconnect" href="https://images.pexels.com" />',
     heroSrc && (heroSet
@@ -84,7 +85,7 @@ function writePage({ id, url, heroSrc, imageAlt }) {
     // Put the site's stylesheet inside the page, saving a round trip before
     // anything can be drawn — this matters most on slow mobile connections.
     .replace(/<link rel="stylesheet" crossorigin href="\/assets\/main-[\w-]+\.css">/, (tag) => (css && !css.includes('</style') ? `<style>${css}</style>` : tag))
-  const file = url === '/' ? path.join(root, 'dist/index.html') : path.join(root, 'dist', url, 'index.html')
+  const file = id === 'not-found' ? path.join(root, 'dist/404.html') : url === '/' ? path.join(root, 'dist/index.html') : path.join(root, 'dist', url, 'index.html')
   mkdirSync(path.dirname(file), { recursive: true })
   writeFileSync(file, html)
   return Math.round(html.length / 1024)
@@ -96,6 +97,9 @@ for (const p of pages) {
   const kb = writePage({ id: p.id, url: p.path, heroSrc: p.image?.src, imageAlt: p.image?.alt })
   sizes.push(`${p.path} (${kb} KB)`)
 }
+// Shown for addresses that don't exist (Vercel serves 404.html with a 404 status).
+writePage({ id: 'not-found', url: '/404', heroSrc: content.hero?.image?.src, imageAlt: content.hero?.image?.alt })
+
 // Each product's own page, when the products page is shown.
 const productUrls = []
 if (pages.some((p) => p.id === 'products')) {

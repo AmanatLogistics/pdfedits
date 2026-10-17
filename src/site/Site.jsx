@@ -3,6 +3,7 @@ import { fontsHref, themeCss } from './theme.js'
 import { scrollToForm, useReveal } from './hooks.js'
 import { tradeSummary } from './trade.js'
 import { PAGES, findProduct } from './pages.js'
+import { label } from './labels.js'
 import { navigate } from './router.js'
 import Header from './sections/Header.jsx'
 import Hero from './sections/Hero.jsx'
@@ -62,10 +63,11 @@ export default function Site({ content, page = 'home', moved = false }) {
   const [request, setRequest] = useState(null)
   const trade = useMemo(() => tradeSummary(content), [content])
   const pages = useMemo(() => livePages(content, trade), [content, trade])
-  // A product's own page; an unknown product address shows the products page.
+  // A product's own page, or the "page not found" page for an unknown address.
   const product = findProduct(content, page)
-  const pageId = product ? 'products' : page.startsWith('product:') ? 'products' : page
-  const current = product ? null : pageId === 'home' ? null : pages.find((p) => p.id === pageId) || null
+  const notFound = page === 'not-found' || (page.startsWith('product:') && !product)
+  const pageId = notFound ? '' : product ? 'products' : page
+  const current = product || notFound || pageId === 'home' ? null : pages.find((p) => p.id === pageId) || null
   // The home page has its own overview sections; every other section lives on its own page.
   const sections = useMemo(() => (current
     ? content.sections.filter((s) => s.visible && SECTIONS[s.id] && current.sections.includes(s.id) && hasContent(s.id, content, trade))
@@ -105,7 +107,13 @@ export default function Site({ content, page = 'home', moved = false }) {
       {href && <link rel="stylesheet" href={href} />}
       <Header content={content} pages={pages} current={pageId} />
       <main key={page} className={moved ? 'page-in' : undefined}>
-        {product ? (
+        {notFound ? (
+          <>
+            <PageHero content={content} trade={trade} stat={<a href="/">{label(content, 'home')} →</a>}
+              page={{ label: label(content, 'notFoundTitle'), title: label(content, 'notFoundTitle'), text: label(content, 'notFoundText'), image: content.hero?.image }} />
+            <DryFruits content={content} trade={trade} tone="white" />
+          </>
+        ) : product ? (
           <ProductPage content={content} trade={trade} product={product} onAsk={(name) => goToContact({ product: name })} />
         ) : current ? (
           <>

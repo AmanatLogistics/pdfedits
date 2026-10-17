@@ -7,6 +7,7 @@ import { thumbOf } from '../images.js'
 import { useCountUp } from '../hooks.js'
 import { fmtDate, fmtNum, unitFor, unitOf, yearsSince } from '../trade.js'
 import { freightName, label } from '../labels.js'
+import { productPath } from '../pages.js'
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1)
 
@@ -73,7 +74,7 @@ function VolumeChart({ rows, imports, unit, T, caption }) {
   )
 }
 
-function Breakdown({ rows, unit, thumbs, limit = 6 }) {
+function Breakdown({ rows, unit, thumbs, links, limit = 6 }) {
   const shown = rows.slice(0, limit)
   const rest = rows.slice(limit)
   const max = shown[0]?.tonnes || 1
@@ -86,7 +87,7 @@ function Breakdown({ rows, unit, thumbs, limit = 6 }) {
             ? <Photo image={{ src: thumbs[r.name], alt: '' }} className="bars__thumb" plain width="36" height="36" />
             : <span className="bars__thumb bars__thumb--icon" aria-hidden="true"><Package size={18} weight="duotone" /></span>)}
           <div className="bars__main">
-            <div className="bars__row"><span className="bars__name">{r.name}</span><span className="bars__val">{fmtNum(r.tonnes)} {unitFor(r.tonnes, unit)} <small>{r.share < 0.005 ? '<1' : Math.round(r.share * 100)}%</small></span></div>
+            <div className="bars__row">{links?.[r.name] ? <a className="bars__name" href={links[r.name]}>{r.name}</a> : <span className="bars__name">{r.name}</span>}<span className="bars__val">{fmtNum(r.tonnes)} {unitFor(r.tonnes, unit)} <small>{r.share < 0.005 ? '<1' : Math.round(r.share * 100)}%</small></span></div>
             <span className="bars__track"><span style={{ width: `${Math.max(2, (r.tonnes / max) * 100)}%` }} /></span>
           </div>
         </li>
@@ -101,6 +102,8 @@ export default function Record({ content, trade, tone, more }) {
   if (!trade.byYear.length) return null
   const unit = unitOf(content)
   const thumbs = Object.fromEntries((products?.items || []).map((p) => [p.title, thumbOf(p.image?.src, 96)]))
+  // Products with their own page link to it.
+  const productLinks = Object.fromEntries((products?.items || []).filter((p) => p.title).map((p) => [p.title, productPath(p.title)]))
   const years = yearsSince(company.since)
   // With a single destination, a country list says nothing; show how the goods travelled instead.
   const many = trade.countries > 1
@@ -150,7 +153,7 @@ export default function Record({ content, trade, tone, more }) {
           </div>
           <div className="card reveal">
             <div className="card__head"><h3>{R.productsTitle}</h3></div>
-            <Breakdown rows={trade.byProduct} unit={unit} thumbs={thumbs} />
+            <Breakdown rows={trade.byProduct} unit={unit} thumbs={thumbs} links={productLinks} />
           </div>
           <div className="card reveal">
             <div className="card__head"><h3>{many ? R.countriesTitle : R.transportTitle || 'By transport'}</h3></div>
