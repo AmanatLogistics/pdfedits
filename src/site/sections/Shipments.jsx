@@ -21,7 +21,7 @@ export default function Shipments({ content, trade, tone, full, more }) {
     <section className={`section section--${tone}`} id="shipments">
       <div className="container">
         <SectionHead eyebrow={S.eyebrow} title={S.title} text={S.text} align="split" more={more} />
-        <ol className="ships">
+        <ol className={`ships ${list.length % 4 === 0 || list.length % 4 === 3 ? 'ships--4' : ''}`}>
           {list.map((r, i) => {
             const T = TRANSPORT[r.transport] ?? TRANSPORT.road
             const isImport = r.direction === 'import'

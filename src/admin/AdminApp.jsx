@@ -7,6 +7,8 @@ import { PAGES } from './schema.js'
 import { PAGES as SITE_PAGES, PAGE_NAMES, pageOfSection } from '../site/pages.js'
 import { LABEL_GROUPS } from '../site/labels.js'
 import { pageSeo } from '../site/seo.js'
+import { fmtNum, tradeSummary, unitOf } from '../site/trade.js'
+import { livePartners, partnerFigures } from '../site/sections/Partners.jsx'
 import { Emblem } from '../site/Logo.jsx'
 import Dashboard from './Dashboard.jsx'
 import RecordsEditor from './RecordsEditor.jsx'
@@ -218,6 +220,34 @@ function SeoChecklist({ content }) {
           <li key={title} className={ok ? 'is-ok' : 'is-todo'}>
             {ok ? <CheckCircle2 size={18} /> : <AlertTriangle size={18} />}
             <span><strong>{title}</strong>{!ok && <small>{help}</small>}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+// Partner figures larger than everything in the trade records make buyers
+// doubt both, so point it out while editing the partnership.
+function PartnerCheck({ content }) {
+  if (content.partners?.example) return null
+  const shipped = tradeSummary(content).shipped
+  const unit = unitOf(content)
+  const big = livePartners(content).map((p) => {
+    const { stats, total } = partnerFigures(p)
+    return { name: p.name, amount: Math.max(total, ...stats.map((s) => Number(s.value) || 0)) }
+  }).filter((p) => shipped > 0 && p.amount > shipped)
+  if (!big.length) return null
+  return (
+    <div className="seocheck seocheck--warn" role="note">
+      <ul>
+        {big.map((p) => (
+          <li key={p.name} className="is-todo">
+            <AlertTriangle size={18} />
+            <span>
+              <strong>{p.name}: {fmtNum(p.amount)} {unit}, but the trade records add up to {fmtNum(shipped)} {unit}</strong>
+              <small>Buyers see both numbers on the website. If the partner figures are right, add the missing shipments under “Trade records”; otherwise correct the figures below, or switch on “The partner figures are examples”.</small>
+            </span>
           </li>
         ))}
       </ul>
@@ -508,6 +538,7 @@ export default function AdminApp() {
             {page.special === 'pages' && <PagesEditor content={content} setContent={setContent} setPreviewPage={setPagePreview} />}
             {page.special === 'backup' && <BackupEditor content={content} setContent={setContent} />}
             {page.special === 'labels' && <LabelsEditor content={content} setContent={setContent} />}
+            {page.id === 'partnership' && <PartnerCheck content={content} />}
             {page.fields?.map((field, i) => {
               if (field.type === 'sectionToggle') {
                 const idx = sectionIndex(field.section)

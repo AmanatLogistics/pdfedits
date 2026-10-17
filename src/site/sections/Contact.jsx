@@ -161,9 +161,6 @@ export default function Contact({ content, tone, request: outside }) {
                 <div><h3>{T('hours')}</h3><span>{company.hours}</span></div>
               </div>
             )}
-            {mapSrc && (
-              <iframe className="contact__map" title="Office location" src={mapSrc} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
-            )}
           </aside>
 
           <form className="form reveal" onSubmit={submit} noValidate={false}>
@@ -215,6 +212,10 @@ export default function Contact({ content, tone, request: outside }) {
               </>
             )}
           </form>
+          {/* After the form on phones, under the contact details on wide screens. */}
+          {mapSrc && (
+            <iframe className="contact__map reveal" title="Office location" src={mapSrc} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+          )}
         </div>
       </div>
     </section>
