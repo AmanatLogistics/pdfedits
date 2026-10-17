@@ -42,6 +42,7 @@ export default function Products({ content, trade, tone, more }) {
               </span>
               <span className="product__body">
                 <h3 className="product__title">{p.title}</h3>
+                {p.summary && <span className="product__text">{p.summary}</span>}
                 <span className="product__meta">
                   {amount(p.title) && <span><Package size={16} weight="duotone" /> {amount(p.title)}</span>}
                   {p.season && <span><CalendarBlank size={16} weight="duotone" /> {p.season}</span>}

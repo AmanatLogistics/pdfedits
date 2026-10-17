@@ -322,3 +322,4 @@ code { padding: 1px 6px; border-radius: 5px; background: #f1ece5; font-size: 13p
 .seocheck strong { color: var(--a-ink); font-weight: 650; }
 .seocheck .is-ok strong { color: var(--a-muted); font-weight: 600; }
 .seocheck small { font-size: 13px; color: var(--a-text); line-height: 1.5; }
+.seocheck--warn { margin: 0; background: #fff8ea; border-color: #f0d9a8; }
