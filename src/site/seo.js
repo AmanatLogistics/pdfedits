@@ -17,6 +17,7 @@ export function pageSeo(content, pageId) {
       description: clean(product.seoDescription) || clean(product.summary) || clean(content.meta?.description),
     }
   }
+  if (pageId === 'not-found') return { title: `Page not found | ${company}`, description: clean(content.meta?.description) }
   if (pageId === 'home' || !content.pages?.[pageId]) {
     return { title: clean(content.meta?.title) || company, description: clean(content.meta?.description) }
   }
@@ -52,7 +53,7 @@ export function structuredData(content, pageId, siteUrl) {
       alternateName: c.tagline ? `${c.name} – ${c.tagline}` : undefined,
       description: clean(content.meta?.description) || undefined,
       url: siteUrl || undefined,
-      logo: abs(c.logo) || abs('/favicon.svg'),
+      logo: abs(c.logo) || abs('/icon-512.png'),
       image: abs(content.meta?.shareImage || content.hero?.image?.src),
       email: c.email || undefined,
       telephone: c.phone || undefined,
@@ -66,7 +67,8 @@ export function structuredData(content, pageId, siteUrl) {
       areaServed: 'Worldwide',
       knowsAbout: ['Dry fruits', 'Dried fruit export', ...products.map((p) => p.title)],
       contactPoint: c.email || c.phone ? [{ '@type': 'ContactPoint', contactType: 'sales', email: c.email || undefined, telephone: c.phone || undefined, availableLanguage: ['English', 'Pashto', 'Dari'] }] : undefined,
-      sameAs: [c.whatsapp && `https://wa.me/${String(c.whatsapp).replace(/\D/g, '')}`].filter(Boolean),
+      // The company's pages elsewhere (LinkedIn, Facebook, marketplaces…), set in the admin panel.
+      sameAs: (c.profiles || []).map((u) => String(u || '').trim()).filter((u) => /^https:\/\//.test(u)),
     })
     out.push({ '@context': 'https://schema.org', '@type': 'WebSite', name: c.name, url: siteUrl || undefined, publisher: orgId ? { '@id': orgId } : undefined })
   }
@@ -79,16 +81,8 @@ export function structuredData(content, pageId, siteUrl) {
       itemListElement: products.map((p, i) => ({
         '@type': 'ListItem',
         position: i + 1,
+        name: clean(p.heading || p.title),
         url: siteUrl ? `${siteUrl}${productPath(p.title)}` : undefined,
-        item: {
-          '@type': 'Product',
-          name: p.title,
-          category: p.tag || undefined,
-          image: abs(p.image?.src),
-          description: [p.image?.alt, p.season && `Season: ${p.season}`].filter(Boolean).join('. ') || undefined,
-          countryOfOrigin: 'Afghanistan',
-          brand: { '@type': 'Brand', name: c.name },
-        },
       })),
     })
   }
@@ -103,19 +97,21 @@ export function structuredData(content, pageId, siteUrl) {
     })
   }
 
+  // A product's page is described as a page about that product. (Google's
+  // Product markup needs prices or reviews, which a wholesale exporter's
+  // site doesn't show, and would be reported as an error without them.)
   const product = findProduct(content, pageId)
   if (product) {
     out.push({
       '@context': 'https://schema.org',
-      '@type': 'Product',
+      '@type': 'ItemPage',
       name: clean(product.heading || product.title),
-      description: clean(product.description || product.summary) || undefined,
-      image: abs(product.image?.src),
-      category: product.tag || undefined,
-      countryOfOrigin: { '@type': 'Country', name: 'Afghanistan' },
-      brand: { '@type': 'Brand', name: c.name },
-      manufacturer: orgId ? { '@id': orgId } : { '@type': 'Organization', name: c.name },
+      description: clean(product.seoDescription || product.summary) || undefined,
       url: siteUrl ? `${siteUrl}${productPath(product.title)}` : undefined,
+      primaryImageOfPage: product.image?.src ? { '@type': 'ImageObject', url: abs(product.image.src), caption: clean(product.image.alt) || undefined } : undefined,
+      about: { '@type': 'Thing', name: clean(product.heading || product.title), description: clean(product.description) || undefined },
+      publisher: orgId ? { '@id': orgId } : { '@type': 'Organization', name: c.name },
+      inLanguage: 'en',
     })
     if (siteUrl) {
       out.push({

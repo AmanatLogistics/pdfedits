@@ -41,6 +41,8 @@ function PreviewSite() {
       const a = e.target.closest?.('a[href^="/"]')
       if (!a || a.target === '_blank') return
       const url = new URL(a.href)
+      // Files such as the sitemap open normally.
+      if (/\.\w+$/.test(url.pathname)) return
       e.preventDefault()
       setPage(pageForPath(url.pathname))
       setTimeout(() => scrollToEl(url.hash ? document.querySelector(url.hash) : null), 60)

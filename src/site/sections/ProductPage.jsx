@@ -1,8 +1,8 @@
 import { ArrowRight, ArrowUpRight, CalendarBlank, CheckCircle, MapPin, Package, WhatsappLogo } from '../ph.jsx'
 import PageHero from './PageHero.jsx'
 import Photo from '../Photo.jsx'
-import { fmtNum, unitFor, unitOf } from '../trade.js'
-import { label } from '../labels.js'
+import { fmtDate, fmtNum, unitFor, unitOf } from '../trade.js'
+import { freightName, label } from '../labels.js'
 import { waHref } from '../hooks.js'
 import { productPath } from '../pages.js'
 
@@ -26,6 +26,9 @@ export default function ProductPage({ content, trade, product: p, onAsk }) {
     t?.tonnes > 0 && [T('shippedSoFar'), `${fmtNum(t.tonnes)} ${unitFor(t.tonnes, unit)}`],
   ].filter(Boolean)
   const wa = content.company?.whatsapp
+  // This product's own consignments, newest first.
+  const history = trade.recent.filter((r) => r.product === p.title).slice(0, 8)
+  const hub = content.destinations?.hub || 'Kandahar'
   return (
     <>
       <PageHero content={content} trade={trade}
@@ -60,8 +63,33 @@ export default function ProductPage({ content, trade, product: p, onAsk }) {
           </div>
         </div>
       </section>
+      {history.length > 0 && (
+        <section className="section section--gray" id="product-shipments">
+          <div className="container">
+            <div className="shead shead--split reveal">
+              <div className="shead__main"><p className="eyebrow">{T('trackRecordWord')}</p><h2>{T('productShipments')} {p.title.toLowerCase()}</h2></div>
+              <div className="shead__side"><a className="more-link" href="/track-record">{T('seeRecord')} <ArrowRight size={16} weight="bold" /></a></div>
+            </div>
+            <div className="phist reveal">
+              <table>
+                <thead><tr><th>{T('month')}</th><th>{T('amount')}</th><th>{T('route')}</th><th>{T('transport')}</th></tr></thead>
+                <tbody>
+                  {history.map((r, i) => (
+                    <tr key={i}>
+                      <td>{fmtDate(r.date)}</td>
+                      <td><strong>{fmtNum(r.tonnes)} {unitFor(r.tonnes, unit)}</strong></td>
+                      <td>{r.direction === 'import' ? `${r.country} → ${hub}` : `${hub} → ${r.country}`}</td>
+                      <td>{freightName(content, r.transport || 'road')}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      )}
       {others.length > 0 && (
-        <section className="section section--gray" id="more-products">
+        <section className={`section section--${history.length ? 'white' : 'gray'}`} id="more-products">
           <div className="container">
             <div className="shead shead--split reveal">
               <div className="shead__main"><p className="eyebrow">{T('moreProducts')}</p><h2>{products.title}</h2></div>

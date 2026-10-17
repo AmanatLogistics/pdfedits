@@ -155,6 +155,7 @@ export const PAGES = [
       { path: 'company.whatsapp', type: 'text', label: 'WhatsApp number', help: 'Digits only, with country code. Example: 93701234567' },
       { path: 'company.address', type: 'textarea', label: 'Office address' },
       { path: 'company.hours', type: 'text', label: 'Business hours' },
+      { path: 'company.profiles', type: 'stringList', label: 'Your company pages on other websites', addLabel: 'Add a link', help: 'Optional. Full links (https://…) to your LinkedIn, Facebook, Google Business Profile, Alibaba or other listings. Google uses them to recognise your company.' },
       { path: 'company.showMap', type: 'toggle', label: 'Show a map of the office on the contact page', help: 'The map is found from the office address, unless you paste your own Google Maps link below.' },
       { path: 'company.mapEmbedUrl', type: 'url', label: 'Google Maps embed link', help: 'Optional. In Google Maps choose Share → Embed a map, and paste only the link inside src="…".' },
     ],

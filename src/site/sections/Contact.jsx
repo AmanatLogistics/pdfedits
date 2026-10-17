@@ -110,7 +110,7 @@ export default function Contact({ content, tone, request: outside }) {
           <div className="partner-band reveal">
             <span className="partner-band__icon"><Handshake size={30} weight="duotone" /></span>
             <div>
-              <h3>{contact.partnerTitle}</h3>
+              <h2 className="partner-band__title">{contact.partnerTitle}</h2>
               {contact.partnerText && <p>{contact.partnerText}</p>}
             </div>
             <button type="button" className="btn btn--accent" onClick={() => { setRequest({ partnership: true, at: Date.now() }); scrollToForm() }}>{contact.partnerButton || 'Become a partner'}</button>

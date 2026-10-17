@@ -5,6 +5,7 @@ import { thumbOf } from '../images.js'
 import { TRANSPORT } from '../icons.jsx'
 import { fmtDate, fmtNum, unitFor, unitOf } from '../trade.js'
 import { freightName, label } from '../labels.js'
+import { productPath } from '../pages.js'
 
 
 export default function Shipments({ content, trade, tone, full, more }) {
@@ -15,6 +16,7 @@ export default function Shipments({ content, trade, tone, full, more }) {
   if (!list.length) return null
   const hub = destinations?.hub || 'Kandahar'
   const thumbs = Object.fromEntries((products?.items || []).map((p) => [p.title, thumbOf(p.image?.src, 120)]))
+  const known = new Set((products?.items || []).map((p) => p.title).filter(Boolean))
   return (
     <section className={`section section--${tone}`} id="shipments">
       <div className="container">
@@ -32,7 +34,7 @@ export default function Shipments({ content, trade, tone, full, more }) {
                 <div className="ship__product">
                   <Photo image={{ src: thumbs[r.product], alt: '' }} className="ship__img" plain width="52" height="52" />
                   <div>
-                    <strong>{r.product}</strong>
+                    {known.has(r.product) ? <a className="ship__name" href={productPath(r.product)}>{r.product}</a> : <strong>{r.product}</strong>}
                     <span className="ship__tonnes">{fmtNum(r.tonnes)} {unitFor(r.tonnes, unit)}</span>
                   </div>
                 </div>

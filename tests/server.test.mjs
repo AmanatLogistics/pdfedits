@@ -150,7 +150,9 @@ test('page addresses map to the right page', async () => {
   assert.equal(pageForPath('/products'), 'products')
   assert.equal(pageForPath('/track-record/'), 'track-record')
   assert.equal(pageForPath('/shipping/index.html'), 'shipping')
-  assert.equal(pageForPath('/nope'), 'home')
+  // Unknown addresses show the page-not-found page.
+  assert.equal(pageForPath('/nope'), 'not-found')
+  assert.equal(pageForPath('/index.html'), 'home')
   assert.equal(pageOfSection('faq').path, '/about')
 })
 
@@ -210,7 +212,9 @@ test('each page gets its own Google title, description and structured data', asy
   assert.deepEqual(types('home'), ['Organization', 'WebSite'])
   assert.deepEqual(types('products'), ['ItemList', 'BreadcrumbList'])
   assert.deepEqual(types('about'), ['FAQPage', 'BreadcrumbList'])
-  assert.equal(structuredData(content, 'products', 'https://x.com')[0].itemListElement[0].item.image, 'https://x.com/a.jpg')
+  assert.equal(structuredData(content, 'products', 'https://x.com')[0].itemListElement[0].url, 'https://x.com/products/dried-figs')
+  // No Product markup: Google reports it as an error without prices or reviews.
+  assert.ok(!JSON.stringify(['home', 'products', 'product:dried-figs'].map((id) => structuredData(content, id, 'https://x.com'))).includes('"Product"'))
 })
 
 test('each product has its own page address and Google data', async () => {
@@ -223,7 +227,7 @@ test('each product has its own page address and Google data', async () => {
   assert.equal(findProduct(content, 'product:dried-figs').title, 'Dried figs')
   assert.equal(findProduct(content, 'product:nothing'), undefined)
   assert.deepEqual(pageSeo(content, 'product:dried-figs'), { title: 'Afghan dried figs – Wholesale | Faiz Fayez LTD', description: 'Sun-dried.' })
-  assert.deepEqual(structuredData(content, 'product:dried-figs', 'https://x.com').map((d) => d['@type']), ['Product', 'BreadcrumbList'])
+  assert.deepEqual(structuredData(content, 'product:dried-figs', 'https://x.com').map((d) => d['@type']), ['ItemPage', 'BreadcrumbList'])
 })
 
 test('the sitemap always has the site address', async () => {
